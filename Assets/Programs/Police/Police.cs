@@ -1,32 +1,70 @@
 using UnityEngine;
 using UnityEngine.InputSystem;
+
 public class Police : MonoBehaviour
 {
-    Transform policeTransform ;
-    // Start is called once before the first execution of Update after the MonoBehaviour is created
+    Transform policeTransform;
+    Renderer policeRenderer;
+
+    bool isPoliceSelected = false;
+    Color defaultColor;
+
     void Start()
     {
-       policeTransform  =transform;
+        policeTransform = transform;
+        policeRenderer = GetComponent<Renderer>();
+
+        if (policeRenderer != null)
+        {
+            defaultColor = policeRenderer.material.color;
+        }
     }
 
-    // Update is called once per frame
     void Update()
     {
-        if (Mouse.current.leftButton.wasPressedThisFrame)
+        
+        if (!Mouse.current.leftButton.wasPressedThisFrame)
         {
-            Vector2 mousePos = Mouse.current.position.ReadValue();
+            return;
+        }
 
-            Ray ray = Camera.main.ScreenPointToRay(mousePos);
+        Vector2 mousePos = Mouse.current.position.ReadValue();
+        Ray ray = Camera.main.ScreenPointToRay(mousePos);
+        //範囲外で左クリックした場合は、処理を終了する
+        if (!Physics.Raycast(ray, out RaycastHit hit))
+        {
+            return;
+        }
 
-            if (Physics.Raycast(ray, out RaycastHit hit))
+        if (!isPoliceSelected)
+        {
+            if (hit.collider.CompareTag("Police"))
             {
-                if (hit.collider.CompareTag("Floor"))
+                Debug.Log("Police Point " + hit.point);
+
+                isPoliceSelected = true;
+
+                if (policeRenderer != null)
                 {
-                    Debug.Log(hit.point);
-                    policeTransform.position = new Vector3(hit.point.x, policeTransform.position.y, hit.point.z);
+                    policeRenderer.material.color = Color.white;
                 }
-               
-                //policeTransform.position =new Vector3(hit.point.x, policeTransform.position.y, hit.point.z);
+            }
+        }
+        else
+        {
+            if (hit.collider.CompareTag("Floor"))
+            {
+                Debug.Log("Floor Point " + hit.point);
+
+                policeTransform.position =
+                    new Vector3(hit.point.x, policeTransform.position.y, hit.point.z);
+
+                isPoliceSelected = false;
+
+                if (policeRenderer != null)
+                {
+                    policeRenderer.material.color = defaultColor;
+                }
             }
         }
     }
