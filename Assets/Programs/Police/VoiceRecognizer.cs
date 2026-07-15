@@ -25,6 +25,24 @@ public class VoiceRecognizer : MonoBehaviour
 
         Debug.Log("音声認識を開始しました");
     }
+    private float checkTimer;
+
+    private void Update()
+    {
+        checkTimer += Time.deltaTime;
+
+        if (checkTimer >= 3.0f)
+        {
+            Debug.Log(
+                "音声認識中：" +
+                (keywordRecognizer != null &&
+                 keywordRecognizer.IsRunning)
+            );
+
+            checkTimer = 0.0f;
+        }
+    }
+
 
     private void OnPhraseRecognized(PhraseRecognizedEventArgs args)
     {
