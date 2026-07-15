@@ -6,6 +6,7 @@ TagManager:
   tags:
   - Floor
   - Police
+  - Wall
   layers:
   - Default
   - TransparentFX
