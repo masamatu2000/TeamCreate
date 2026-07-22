@@ -1,6 +1,7 @@
 using System;
 using UnityEngine;
 using UnityEngine.Windows.Speech;
+using UnityEngine.InputSystem;
 /// <summary>
 /// 音声認識を行うクラス
 /// </summary>
@@ -23,6 +24,7 @@ public class VoiceRecognizer : MonoBehaviour
 
     "飲料コーナー",
     "飲み物コーナー",
+    "ドリンクコーナー",
 
     "惣菜コーナー",
     "おかずコーナー",
@@ -37,25 +39,36 @@ public class VoiceRecognizer : MonoBehaviour
 
         keywordRecognizer.OnPhraseRecognized += OnPhraseRecognized;
 
-        keywordRecognizer.Start();
+       // keywordRecognizer.Start();
 
-        Debug.Log("音声認識を開始しました");
+        Debug.Log("スペースを押すと音声認識");
     }
     private float checkTimer;
 
     private void Update()
     {
-        checkTimer += Time.deltaTime;
-
-        if (checkTimer >= 3.0f)
+        if (Keyboard.current == null)
         {
-            Debug.Log(
-                "音声認識中：" +
-                (keywordRecognizer != null &&
-                 keywordRecognizer.IsRunning)
-            );
+            return;
+        }
 
-            checkTimer = 0.0f;
+        // スペースを押した瞬間：認識開始
+        if (Keyboard.current.spaceKey.wasPressedThisFrame)
+        {
+          
+                              keywordRecognizer.Start();
+                Debug.Log("無線開始：話してください");
+            
+        }
+
+        // スペースを離した瞬間：認識停止
+        if (Keyboard.current.spaceKey.wasReleasedThisFrame)
+        {
+            if (keywordRecognizer.IsRunning)
+            {
+                keywordRecognizer.Stop();
+                Debug.Log("無線終了");
+            }
         }
     }
 
