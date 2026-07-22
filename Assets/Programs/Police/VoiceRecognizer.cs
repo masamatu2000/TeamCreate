@@ -1,7 +1,9 @@
 using System;
 using UnityEngine;
 using UnityEngine.Windows.Speech;
-
+/// <summary>
+/// 音声認識を行うクラス
+/// </summary>
 public class VoiceRecognizer : MonoBehaviour
 {
     public event Action<string> OnCommandRecognized;
@@ -10,9 +12,23 @@ public class VoiceRecognizer : MonoBehaviour
 
     private readonly string[] keywords =
     {
-        "魚コーナー",
-        "肉コーナー",
-        "野菜コーナー"
+    "野菜コーナー",
+    "青果コーナー",
+
+    "お菓子コーナー",
+    "菓子コーナー",
+
+    "冷凍食品コーナー",
+    "冷凍コーナー",
+
+    "飲料コーナー",
+    "飲み物コーナー",
+
+    "惣菜コーナー",
+    "おかずコーナー",
+
+    "精肉コーナー",
+    "肉コーナー"
     };
 
     private void Start()
