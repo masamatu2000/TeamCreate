@@ -55,10 +55,13 @@ public class PoliceController : MonoBehaviour
             { "飲料コーナー", drinkCorner },
             { "飲み物コーナー", drinkCorner },
             { "ドリンクコーナー", drinkCorner },
+            { "ドリンク売り場", drinkCorner },
+            {"ジュース売り場", drinkCorner },
 
             // 惣菜
             { "惣菜コーナー", preparedFoodCorner },
             { "おかずコーナー", preparedFoodCorner },
+            {"お弁当コーナー", preparedFoodCorner },
 
             // 精肉
             { "精肉コーナー", meatCorner },

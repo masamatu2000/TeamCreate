@@ -1,4 +1,0 @@
-repository "TeamCreate/TeamCreate@15669037487751@cloud"
-  path "/"
-    br "/main"
-    co "/main"
