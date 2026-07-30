@@ -3,7 +3,7 @@ using UnityEngine;
 using UnityEngine.AI;
 
 /// <summary>
-/// 音声認識の結果に応じて警備員を移動させるクラス
+/// 音声認識の結果に応じて警備員を移動・捕獲させるクラス
 /// </summary>
 public class PoliceController : MonoBehaviour
 {
@@ -22,8 +22,18 @@ public class PoliceController : MonoBehaviour
     [SerializeField] private Transform preparedFoodCorner;
     [SerializeField] private Transform meatCorner;
 
-    // 音声コマンドと移動先を対応させるDictionary
+    [Header("捕獲設定")]
+    [SerializeField]
+    private float catchDistance = 3.0f;
+
+    // 音声コマンドと移動先の対応表
     private Dictionary<string, Transform> destinations;
+
+    // 捕獲命令として扱う言葉
+    private HashSet<string> catchCommands;
+
+    // 捕獲済みかどうか
+    private bool isCatching;
 
     private void Start()
     {
@@ -31,8 +41,25 @@ public class PoliceController : MonoBehaviour
         {
             agent = GetComponent<NavMeshAgent>();
         }
-        //下には、音声コマンドと移動先を対応させるDictionaryを初期化するコードを追加してください。
-        //例えば野菜コーナーのほかに「青果コーナー」も同じ移動先に対応させる場合は、以下のように記述します。
+
+        InitializeMoveCommands();
+        InitializeCatchCommands();
+
+        if (voiceRecognizer != null)
+        {
+            voiceRecognizer.OnCommandRecognized += ExecuteCommand;
+        }
+        else
+        {
+            Debug.LogError("VoiceRecognizerが設定されていません");
+        }
+    }
+
+    /// <summary>
+    /// 移動コマンドを登録する
+    /// </summary>
+    private void InitializeMoveCommands()
+    {
         destinations = new Dictionary<string, Transform>()
         {
             // 鮮魚
@@ -56,50 +83,58 @@ public class PoliceController : MonoBehaviour
             { "飲み物コーナー", drinkCorner },
             { "ドリンクコーナー", drinkCorner },
             { "ドリンク売り場", drinkCorner },
-            {"ジュース売り場", drinkCorner },
+            { "ジュース売り場", drinkCorner },
 
             // 惣菜
             { "惣菜コーナー", preparedFoodCorner },
             { "おかずコーナー", preparedFoodCorner },
-            {"お弁当コーナー", preparedFoodCorner },
+            { "お弁当コーナー", preparedFoodCorner },
 
             // 精肉
             { "精肉コーナー", meatCorner },
             { "肉コーナー", meatCorner }
         };
-
-        if (voiceRecognizer != null)
-        {
-            // VoiceRecognizerから認識結果を受け取る
-            voiceRecognizer.OnCommandRecognized += ExecuteCommand;
-        }
-        else
-        {
-            Debug.LogError(
-                "VoiceRecognizerが設定されていません"
-            );
-        }
     }
 
     /// <summary>
-    /// 認識した言葉に対応する移動先を調べる
+    /// 捕獲コマンドを登録する
+    /// VoiceRecognizerに登録した言葉と同じものを設定する
+    /// </summary>
+    private void InitializeCatchCommands()
+    {
+        catchCommands = new HashSet<string>()
+        {
+            "ほかく",
+            "つかまえろ",
+            "とらえろ",
+            "確保",
+            "逮捕",
+            "行け",
+        };
+    }
+
+    /// <summary>
+    /// VoiceRecognizerから受け取ったコマンドを振り分ける
     /// </summary>
     private void ExecuteCommand(string command)
     {
         Debug.Log("受け取った音声コマンド：" + command);
 
-        if (destinations.TryGetValue(
-            command,
-            out Transform destination))
+        // 移動コマンドか確認する
+        if (destinations.TryGetValue(command, out Transform destination))
         {
             MoveTo(destination);
+            return;
         }
-        else
+
+        // 捕獲コマンドか確認する
+        if (catchCommands.Contains(command))
         {
-            Debug.Log(
-                "対応していない指示です：" + command
-            );
+            ExecuteCatchCommand();
+            return;
         }
+
+        Debug.Log("対応していない指示です：" + command);
     }
 
     /// <summary>
@@ -109,36 +144,121 @@ public class PoliceController : MonoBehaviour
     {
         if (destination == null)
         {
-            Debug.LogError(
-                "移動先が設定されていません"
-            );
-
+            Debug.LogError("移動先が設定されていません");
             return;
         }
 
         if (agent == null)
         {
-            Debug.LogError(
-                "NavMeshAgentが設定されていません"
-            );
-
+            Debug.LogError("NavMeshAgentが設定されていません");
             return;
         }
 
         if (!agent.isOnNavMesh)
         {
-            Debug.LogError(
-                "警備員がNavMesh上にいません"
-            );
-
+            Debug.LogError("警備員がNavMesh上にいません");
             return;
         }
 
         agent.SetDestination(destination.position);
 
-        Debug.Log(
-            destination.name + "へ向かいます"
+        Debug.Log(destination.name + "へ向かいます");
+    }
+
+    /// <summary>
+    /// 捕獲音声を受け取ったときに呼ばれる関数
+    /// </summary>
+    private void ExecuteCatchCommand()
+    {
+        if (isCatching)
+        {
+            Debug.Log("現在、捕獲処理中です");
+            return;
+        }
+
+        Debug.Log("捕獲命令を受け取りました");
+
+        Customer targetCustomer = FindNearestCustomer();
+
+        if (targetCustomer == null)
+        {
+            Debug.Log("捕獲できる距離にお客さんがいません");
+            return;
+        }
+
+        CatchCustomer(targetCustomer);
+    }
+
+    /// <summary>
+    /// 捕獲範囲内にいる最も近いお客さんを探す
+    /// </summary>
+    private Customer FindNearestCustomer()
+    {
+        Collider[] colliders = Physics.OverlapSphere(
+            transform.position,
+            catchDistance
         );
+
+        Customer nearestCustomer = null;
+        float nearestDistance = float.MaxValue;
+
+        foreach (Collider hitCollider in colliders)
+        {
+            // Colliderが子オブジェクトに付いている場合も考慮
+            Customer customer =
+                hitCollider.GetComponentInParent<Customer>();
+
+            if (customer == null)
+            {
+                continue;
+            }
+
+            float distance = Vector3.Distance(
+                transform.position,
+                customer.transform.position
+            );
+
+            if (distance < nearestDistance)
+            {
+                nearestDistance = distance;
+                nearestCustomer = customer;
+            }
+        }
+
+        return nearestCustomer;
+    }
+
+    /// <summary>
+    /// お客さんを捕獲する
+    /// </summary>
+    private void CatchCustomer(Customer customer)
+    {
+        if (customer == null)
+        {
+            return;
+        }
+
+        isCatching = true;
+
+        // 捕獲中は警備員を停止させる
+        if (agent != null && agent.isOnNavMesh)
+        {
+            agent.ResetPath();
+        }
+
+        Debug.Log(customer.name + "を捕獲しました");
+
+        if (customer.IsThief)
+        {
+            Debug.Log("泥棒を捕まえました！");
+            customer.gameObject.SetActive(false);
+        }
+        else
+        {
+            Debug.Log("一般のお客さんを誤って捕まえました！");
+        }
+
+        isCatching = false;
     }
 
     private void OnDestroy()
@@ -147,5 +267,16 @@ public class PoliceController : MonoBehaviour
         {
             voiceRecognizer.OnCommandRecognized -= ExecuteCommand;
         }
+    }
+
+    /// <summary>
+    /// Sceneビューに捕獲範囲を表示する
+    /// </summary>
+    private void OnDrawGizmosSelected()
+    {
+        Gizmos.DrawWireSphere(
+            transform.position,
+            catchDistance
+        );
     }
 }

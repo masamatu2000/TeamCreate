@@ -851,6 +851,7 @@ MonoBehaviour:
   drinkCorner: {fileID: 1085160861}
   preparedFoodCorner: {fileID: 262264544}
   meatCorner: {fileID: 1132839069}
+  catchDistance: 3
 --- !u!114 &557006594
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -863,6 +864,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5c525237afe2c654581d48e74f2604cc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::VoiceRecognizer
+  releaseGraceTime: 1
 --- !u!195 &557006595
 NavMeshAgent:
   m_ObjectHideFlags: 0
@@ -3149,6 +3151,7 @@ SceneRoots:
   - {fileID: 182532850}
   - {fileID: 1085160861}
   - {fileID: 262264544}
+  - {fileID: 882161755}
   - {fileID: 7901653189716700585}
   - {fileID: 68173859}
   - {fileID: 1160201957}
@@ -3164,4 +3167,3 @@ SceneRoots:
   - {fileID: 1925870457}
   - {fileID: 905751922}
   - {fileID: 1132717110}
-  - {fileID: 882161755}
