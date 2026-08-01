@@ -55,7 +55,7 @@ public class VoiceRecognizer : MonoBehaviour
         Debug.Log("音声認識を開始しました");
     }
 
-    private void Update()
+    void Update()
     {
         if (Keyboard.current == null)
         {
