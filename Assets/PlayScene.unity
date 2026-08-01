@@ -907,6 +907,10 @@ MonoBehaviour:
   moveRadius: 10
   minWaitTime: 2
   maxWaitTime: 5
+  clothesColor: 0
+  wearsHat: 0
+  wearsGlasses: 0
+  hasBag: 0
   isThief: 0
 --- !u!195 &557912917
 NavMeshAgent:
@@ -1174,6 +1178,10 @@ MonoBehaviour:
   moveRadius: 10
   minWaitTime: 2
   maxWaitTime: 5
+  clothesColor: 0
+  wearsHat: 0
+  wearsGlasses: 0
+  hasBag: 0
   isThief: 0
 --- !u!195 &686232274
 NavMeshAgent:
@@ -1516,6 +1524,10 @@ MonoBehaviour:
   moveRadius: 10
   minWaitTime: 2
   maxWaitTime: 5
+  clothesColor: 0
+  wearsHat: 0
+  wearsGlasses: 0
+  hasBag: 0
   isThief: 0
 --- !u!195 &931899527
 NavMeshAgent:
@@ -1998,6 +2010,10 @@ MonoBehaviour:
   moveRadius: 10
   minWaitTime: 2
   maxWaitTime: 5
+  clothesColor: 0
+  wearsHat: 0
+  wearsGlasses: 0
+  hasBag: 0
   isThief: 0
 --- !u!195 &1233000034
 NavMeshAgent:
@@ -2021,6 +2037,37 @@ NavMeshAgent:
   m_BaseOffset: 1
   m_WalkableMask: 4294967295
   m_ObstacleAvoidanceType: 4
+--- !u!1 &1269856069
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1269856070}
+  m_Layer: 0
+  m_Name: PlaySceneManager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1269856070
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1269856069}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1296059295 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 1646196348434634917, guid: 163c80800b32e1144940bf52d367b3db, type: 3}
@@ -2041,6 +2088,10 @@ MonoBehaviour:
   moveRadius: 10
   minWaitTime: 2
   maxWaitTime: 5
+  clothesColor: 0
+  wearsHat: 0
+  wearsGlasses: 0
+  hasBag: 0
   isThief: 0
 --- !u!195 &1296059297
 NavMeshAgent:
@@ -2147,6 +2198,10 @@ MonoBehaviour:
   moveRadius: 10
   minWaitTime: 2
   maxWaitTime: 5
+  clothesColor: 0
+  wearsHat: 0
+  wearsGlasses: 0
+  hasBag: 0
   isThief: 0
 --- !u!195 &1480141648
 NavMeshAgent:
@@ -2190,6 +2245,10 @@ MonoBehaviour:
   moveRadius: 10
   minWaitTime: 2
   maxWaitTime: 5
+  clothesColor: 0
+  wearsHat: 0
+  wearsGlasses: 0
+  hasBag: 0
   isThief: 0
 --- !u!195 &1511261037
 NavMeshAgent:
@@ -2233,6 +2292,10 @@ MonoBehaviour:
   moveRadius: 10
   minWaitTime: 2
   maxWaitTime: 5
+  clothesColor: 0
+  wearsHat: 0
+  wearsGlasses: 0
+  hasBag: 0
   isThief: 0
 --- !u!195 &1546807844
 NavMeshAgent:
@@ -2276,6 +2339,10 @@ MonoBehaviour:
   moveRadius: 10
   minWaitTime: 2
   maxWaitTime: 5
+  clothesColor: 0
+  wearsHat: 0
+  wearsGlasses: 0
+  hasBag: 0
   isThief: 0
 --- !u!195 &1580104178
 NavMeshAgent:
@@ -2319,6 +2386,10 @@ MonoBehaviour:
   moveRadius: 10
   minWaitTime: 2
   maxWaitTime: 5
+  clothesColor: 0
+  wearsHat: 0
+  wearsGlasses: 0
+  hasBag: 0
   isThief: 0
 --- !u!195 &1611423641
 NavMeshAgent:
@@ -2362,6 +2433,10 @@ MonoBehaviour:
   moveRadius: 10
   minWaitTime: 2
   maxWaitTime: 5
+  clothesColor: 0
+  wearsHat: 0
+  wearsGlasses: 0
+  hasBag: 0
   isThief: 0
 --- !u!195 &1704201957
 NavMeshAgent:
@@ -2405,6 +2480,10 @@ MonoBehaviour:
   moveRadius: 10
   minWaitTime: 2
   maxWaitTime: 5
+  clothesColor: 0
+  wearsHat: 0
+  wearsGlasses: 0
+  hasBag: 0
   isThief: 0
 --- !u!195 &1707518676
 NavMeshAgent:
@@ -2448,6 +2527,10 @@ MonoBehaviour:
   moveRadius: 10
   minWaitTime: 2
   maxWaitTime: 5
+  clothesColor: 0
+  wearsHat: 0
+  wearsGlasses: 0
+  hasBag: 0
   isThief: 0
 --- !u!195 &1731502364
 NavMeshAgent:
@@ -2491,6 +2574,10 @@ MonoBehaviour:
   moveRadius: 10
   minWaitTime: 2
   maxWaitTime: 5
+  clothesColor: 0
+  wearsHat: 0
+  wearsGlasses: 0
+  hasBag: 0
   isThief: 0
 --- !u!195 &1741360790
 NavMeshAgent:
@@ -2787,6 +2874,10 @@ MonoBehaviour:
   moveRadius: 10
   minWaitTime: 2
   maxWaitTime: 5
+  clothesColor: 0
+  wearsHat: 0
+  wearsGlasses: 0
+  hasBag: 0
   isThief: 0
 --- !u!195 &1979052833
 NavMeshAgent:
@@ -3167,3 +3258,4 @@ SceneRoots:
   - {fileID: 1925870457}
   - {fileID: 905751922}
   - {fileID: 1132717110}
+  - {fileID: 1269856070}

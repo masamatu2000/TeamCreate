@@ -13,28 +13,39 @@ public class Customer : MonoBehaviour
     [SerializeField] private float maxWaitTime = 5.0f;
 
     [Header("‚¨‹q‚³‚ñî•ñ")]
+    
+    [SerializeField] private CustomerColor clothesColor;
+
+    [SerializeField] private bool wearsHat;
+    [SerializeField] private bool wearsGlasses;
+    [SerializeField] private bool hasBag;
     [SerializeField] private bool isThief;
 
+    public bool IsThief => isThief;
+   
+
+    
+    public bool IsCaught { get; private set; }
     private NavMeshAgent agent;
     private Vector3 startPosition;
 
     private float waitTimer;
     private bool isWaiting;
 
-    public bool IsThief => isThief;
+   
 
-    private void Awake()
+     void Awake()
     {
         agent = GetComponent<NavMeshAgent>();
         startPosition = transform.position;
     }
 
-    private void Start()
+     void Start()
     {
         SetNextDestination();
     }
 
-    private void Update()
+     void Update()
     {
         // ˆÚ“®’†‚È‚ç‰½‚à‚µ‚È‚¢
         if (agent.pathPending)
@@ -106,5 +117,59 @@ public class Customer : MonoBehaviour
         isThief = value;
 
         Debug.Log($"{gameObject.name} “D–_İ’èF{isThief}");
+    }
+
+    /// <summary>
+    /// 
+    /// </summary>
+    /// <param name="command"></param>
+    /// <returns></returns>
+    public bool Matches(VoiceCommand command)
+    {
+        if (command.clothesColor != CustomerColor.None &&
+            clothesColor != command.clothesColor)
+        {
+            return false;
+        }
+
+        if (command.requiresHat && !wearsHat)
+        {
+            return false;
+        }
+
+        if (command.requiresGlasses && !wearsGlasses)
+        {
+            return false;
+        }
+
+        if (command.requiresBag && !hasBag)
+        {
+            return false;
+        }
+
+        return true;
+    }
+    /// <summary>
+    /// 
+    /// </summary>
+    public void Catch()
+    {
+        if (IsCaught)
+        {
+            return;
+        }
+
+        IsCaught = true;
+
+        // NavMeshAgent‚ğg‚Á‚Ä‚¢‚é‚È‚ç~‚ß‚é
+        UnityEngine.AI.NavMeshAgent customerAgent =
+            GetComponent<UnityEngine.AI.NavMeshAgent>();
+
+        if (customerAgent != null)
+        {
+            customerAgent.isStopped = true;
+        }
+
+        gameObject.SetActive(false);
     }
 }
