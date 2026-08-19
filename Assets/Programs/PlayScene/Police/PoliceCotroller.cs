@@ -9,6 +9,7 @@ public class PoliceController : MonoBehaviour
 {
     [SerializeField] private VoiceRecognizer voiceRecognizer;
     [SerializeField] private NavMeshAgent agent;
+    [SerializeField] private CaptureConfirmUI confirmUI;
 
     [Header("各コーナーの移動先")]
     [SerializeField] private Transform fishCorner;
@@ -22,70 +23,123 @@ public class PoliceController : MonoBehaviour
     [Header("捕獲設定")]
     [SerializeField] private float catchDistance = 4.0f;
 
+    // 移動後に使う命令
     private VoiceCommand pendingCommand;
+
+    // コーナーへ移動中かどうか
     private bool isMovingToCorner;
+
+    // 確認中のお客さん
+    private Customer confirmCustomer;
+
+    // 「はい」「いいえ」の返事を待っているか
+    private bool isWaitingForConfirmation;
 
     private void Start()
     {
         if (voiceRecognizer != null)
         {
             voiceRecognizer.OnCommandRecognized += ExecuteCommand;
+
+            // 「はい」「いいえ」の認識結果を受け取る
+            voiceRecognizer.OnConfirmationRecognized += ConfirmCapture;
+        }
+        else
+        {
+            Debug.LogError("VoiceRecognizerが設定されていません");
         }
     }
 
     private void Update()
     {
-        if (agent.remainingDistance <= agent.stoppingDistance + 0.2f&&isMovingToCorner)
+        if (agent == null)
+        {
+            return;
+        }
+
+        // コーナーへ移動中で、目的地に到着したか確認
+        if (isMovingToCorner &&
+            agent.remainingDistance <= agent.stoppingDistance + 0.2f)
         {
             isMovingToCorner = false;
 
             Debug.Log("コーナーに到着しました");
 
-            if (pendingCommand.isCaptureCommand)
+            if (pendingCommand != null &&
+                pendingCommand.isCaptureCommand)
             {
                 Debug.Log("お客さんを探します");
+
                 TryCatchCustomer(pendingCommand);
             }
             else
             {
-                Debug.Log("捕獲命令がないため、移動だけで終了します");
+                Debug.Log(
+                    "捕獲命令がないため、移動だけで終了します"
+                );
             }
         }
     }
 
     /// <summary>
-    /// VoiceRecognizerから命令を受け取る
+    /// VoiceRecognizerから通常の音声命令を受け取る
     /// </summary>
     private void ExecuteCommand(VoiceCommand command)
     {
+        if (command == null)
+        {
+            return;
+        }
+
+        // 捕獲確認中は新しい通常命令を受け付けない
+        if (isWaitingForConfirmation)
+        {
+            Debug.Log(
+                "現在捕獲確認中です。「はい」か「いいえ」と話してください"
+            );
+
+            return;
+        }
+
         if (!command.isCaptureCommand)
         {
-            Debug.Log("「捕まえろ」「確保」などの捕獲命令はなし");
+            Debug.Log(
+                "「捕まえろ」「確保」などの捕獲命令はなし"
+            );
         }
 
         pendingCommand = command;
 
-        // コーナーが言われた場合は、まずそこへ移動
+        // コーナーが指定されている場合
         if (command.corner != CornerType.None)
         {
-            Transform destination = GetCornerTransform(command.corner);
+            Transform destination =
+                GetCornerTransform(command.corner);
 
             if (destination == null)
             {
-                Debug.LogError("移動先が設定されていません");
+                Debug.LogError(
+                    "移動先が設定されていません"
+                );
+
                 return;
             }
 
             MoveTo(destination);
+
             return;
         }
 
-        // コーナーが言われなかった場合は、今いる場所の近くを探す
-        Debug.Log("コーナー指定なし：現在地付近のお客さんを探します");
-        if(command.isCaptureCommand)
+        // コーナー指定なしで捕獲命令がある場合
+        if (command.isCaptureCommand)
+        {
             TryCatchCustomer(command);
+        }
     }
 
+    /// <summary>
+    /// CornerTypeに対応するTransformを取得する
+    /// </summary>
     private Transform GetCornerTransform(CornerType corner)
     {
         switch (corner)
@@ -115,35 +169,56 @@ public class PoliceController : MonoBehaviour
         return null;
     }
 
+    /// <summary>
+    /// 指定された場所へ警備員を移動させる
+    /// </summary>
     private void MoveTo(Transform destination)
     {
-        if (agent == null || !agent.isOnNavMesh)
+        if (agent == null ||
+            !agent.isOnNavMesh)
         {
-            Debug.LogError("警備員のNavMeshAgentを確認してください");
+            Debug.LogError(
+                "警備員のNavMeshAgentを確認してください"
+            );
+
             return;
         }
 
-        agent.SetDestination(destination.position);
+        agent.SetDestination(
+            destination.position
+        );
+
         isMovingToCorner = true;
 
-        Debug.Log(destination.name + "へ向かいます");
+        Debug.Log(
+            destination.name +
+            "へ向かいます"
+        );
     }
 
     /// <summary>
-    /// 近くにいるお客さんから、条件に合う一番近い人を探す
-    /// 特徴がない場合は、近くのお客さんをそのまま捕まえる
+    /// 近くにいるお客さんから
+    /// 条件に合う一番近い人を探す
     /// </summary>
-    private void TryCatchCustomer(VoiceCommand command)
+    private void TryCatchCustomer(
+        VoiceCommand command)
     {
         Collider[] hitColliders =
-            Physics.OverlapSphere(transform.position, catchDistance);
+            Physics.OverlapSphere(
+                transform.position,
+                catchDistance
+            );
 
         Customer nearestCustomer = null;
-        float nearestDistance = float.MaxValue;
 
-        HashSet<Customer> checkedCustomers = new HashSet<Customer>();
+        float nearestDistance =
+            float.MaxValue;
 
-        foreach (Collider hitCollider in hitColliders)
+        HashSet<Customer> checkedCustomers =
+            new HashSet<Customer>();
+
+        foreach (Collider hitCollider
+                 in hitColliders)
         {
             Customer customer =
                 hitCollider.GetComponentInParent<Customer>();
@@ -155,48 +230,156 @@ public class PoliceController : MonoBehaviour
                 continue;
             }
 
-            checkedCustomers.Add(customer);
+            checkedCustomers.Add(
+                customer
+            );
 
-            // 色・帽子などが指定されていれば、その条件に合う人だけを候補にする
+            // 指定された特徴に一致するか
             if (!customer.Matches(command))
             {
                 continue;
             }
 
-            float distance = Vector3.Distance(
-                transform.position,
-                customer.transform.position
-            );
+            float distance =
+                Vector3.Distance(
+                    transform.position,
+                    customer.transform.position
+                );
 
             if (distance < nearestDistance)
             {
-                nearestDistance = distance;
-                nearestCustomer = customer;
+                nearestDistance =
+                    distance;
+
+                nearestCustomer =
+                    customer;
             }
         }
 
+        // お客さんが見つからなかった
         if (nearestCustomer == null)
         {
             if (command.HasNoFeature())
             {
-                Debug.Log("近くに捕まえられるお客さんがいません");
+                Debug.Log(
+                    "近くに捕まえられるお客さんがいません"
+                );
             }
             else
             {
-                Debug.Log("指定された特徴のお客さんが近くにいません");
+                Debug.Log(
+                    "指定された特徴のお客さんが近くにいません"
+                );
             }
 
             return;
         }
 
-        CatchCustomer(nearestCustomer);
+        // 確認UIが設定されていない
+        if (confirmUI == null)
+        {
+            Debug.LogError(
+                "CaptureConfirmUIが設定されていません"
+            );
+
+            return;
+        }
+
+        // 捕獲候補のお客さんを保存
+        confirmCustomer =
+            nearestCustomer;
+
+        // 「はい」「いいえ」の返事待ちにする
+        isWaitingForConfirmation =
+            true;
+
+        // 確認画面を表示
+        confirmUI.Show(
+            confirmCustomer
+        );
+
+        Debug.Log(
+            confirmCustomer.name +
+            "を捕まえますか？ 「はい」か「いいえ」と話してください"
+        );
     }
 
-    private void CatchCustomer(Customer customer)
+    /// <summary>
+    /// 「はい」「いいえ」の音声認識結果を受け取る
+    /// </summary>
+    private void ConfirmCapture(
+        bool isYes)
     {
+        // 確認待ち状態ではない場合
+        if (!isWaitingForConfirmation)
+        {
+            return;
+        }
+
+        // お客さんが存在しない場合
+        if (confirmCustomer == null)
+        {
+            Debug.LogWarning(
+                "確認対象のお客さんが存在しません"
+            );
+
+            isWaitingForConfirmation =
+                false;
+
+            confirmUI?.Hide();
+
+            return;
+        }
+
+        if (isYes)
+        {
+            Debug.Log(
+                "捕獲を決定しました"
+            );
+
+            CatchCustomer(
+                confirmCustomer
+            );
+        }
+        else
+        {
+            Debug.Log(
+                confirmCustomer.name +
+                "の捕獲をキャンセルしました"
+            );
+        }
+
+        // 確認画面を閉じる
+        if (confirmUI != null)
+        {
+            confirmUI.Hide();
+        }
+
+        // 確認状態を解除
+        confirmCustomer = null;
+
+        isWaitingForConfirmation =
+            false;
+    }
+
+    /// <summary>
+    /// 実際にお客さんを捕まえる
+    /// </summary>
+    private void CatchCustomer(
+        Customer customer)
+    {
+        if (customer == null)
+        {
+            return;
+        }
+
         Debug.Log(
             customer.name +
-            (customer.IsThief ? " を捕まえた！泥棒です" : " を捕まえた！一般客です")
+            (
+                customer.IsThief
+                    ? " を捕まえた！泥棒です"
+                    : " を捕まえた！一般客です"
+            )
         );
 
         customer.Catch();
@@ -206,13 +389,22 @@ public class PoliceController : MonoBehaviour
     {
         if (voiceRecognizer != null)
         {
-            voiceRecognizer.OnCommandRecognized -= ExecuteCommand;
+            voiceRecognizer.OnCommandRecognized
+                -= ExecuteCommand;
+
+            voiceRecognizer.OnConfirmationRecognized
+                -= ConfirmCapture;
         }
     }
 
     private void OnDrawGizmosSelected()
     {
-        Gizmos.color = Color.yellow;
-        Gizmos.DrawWireSphere(transform.position, catchDistance);
+        Gizmos.color =
+            Color.yellow;
+
+        Gizmos.DrawWireSphere(
+            transform.position,
+            catchDistance
+        );
     }
 }
