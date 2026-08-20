@@ -1,4 +1,3 @@
-using TMPro;
 using UnityEngine;
 
 /// <summary>
@@ -6,11 +5,8 @@ using UnityEngine;
 /// </summary>
 public class CaptureConfirmUI : MonoBehaviour
 {
-    [SerializeField]
-    private GameObject panel;
-
-    [SerializeField]
-    private TMP_Text messageText;
+    [SerializeField] private GameObject panel;
+    [SerializeField] private CustomerPreview customerPreview;
 
     private void Start()
     {
@@ -27,21 +23,17 @@ public class CaptureConfirmUI : MonoBehaviour
     {
         if (customer == null)
         {
-            Debug.LogError(
-                "確認対象のお客さんがnullです"
-            );
-
+            Debug.LogError("確認対象のお客さんがnullです");
             return;
         }
 
-        if (messageText != null)
+        // お客さんの3Dプレビューを表示
+        if (customerPreview != null)
         {
-            messageText.text =
-                customer.name +
-                "\nを捕まえますか？" +
-                "\n\n「はい」または「いいえ」と話してください";
+            customerPreview.Show(customer);
         }
 
+        // 確認画面を表示
         if (panel != null)
         {
             panel.SetActive(true);
@@ -56,6 +48,11 @@ public class CaptureConfirmUI : MonoBehaviour
         if (panel != null)
         {
             panel.SetActive(false);
+        }
+
+        if (customerPreview != null)
+        {
+            customerPreview.Clear();
         }
     }
 }

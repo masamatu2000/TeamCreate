@@ -6,7 +6,9 @@ using UnityEngine.Windows.Speech;
 
 /// <summary>
 /// 音声を認識し、警備員への命令や
-/// 捕獲確認の「はい」「いいえ」を通知するクラス
+/// 捕獲確認の「はい」「いいえ」を通知するクラス。
+///
+/// 音声認識に使用するキーワードはCSVから読み込む。
 /// </summary>
 public class VoiceRecognizer : MonoBehaviour
 {
@@ -22,8 +24,13 @@ public class VoiceRecognizer : MonoBehaviour
     /// </summary>
     public event Action<bool> OnConfirmationRecognized;
 
+    [Header("キーワードCSV")]
+    [SerializeField]
+    private TextAsset keywordCsv;
+
     [Header("スペースを離した後も結果を受け付ける秒数")]
-    [SerializeField] private float releaseGraceTime = 1.0f;
+    [SerializeField]
+    private float releaseGraceTime = 1.0f;
 
     private DictationRecognizer dictationRecognizer;
     private KeywordRecognizer keywordRecognizer;
@@ -32,52 +39,97 @@ public class VoiceRecognizer : MonoBehaviour
     private float radioReleasedTime = -999f;
 
     /// <summary>
-    /// DictationRecognizerが使用できるか
+    /// DictationRecognizerを使用しているか
     /// </summary>
     private bool useDictation = true;
 
+    // =========================================================
+    // CSVから読み込んだキーワード
+    // =========================================================
+
     /// <summary>
-    /// KeywordRecognizerで使用する単語
+    /// KeywordRecognizerに登録する全単語
     /// </summary>
-    private readonly string[] keywords =
-    {
-        // コーナー
-        "鮮魚コーナー",
-        "さかなコーナー",
+    private readonly List<string> allKeywords =
+        new List<string>();
 
-        "野菜コーナー",
-        "青果コーナー",
+    /// <summary>
+    /// コーナー
+    /// キーワード → CornerType
+    /// </summary>
+    private readonly Dictionary<string, CornerType> cornerKeywords =
+        new Dictionary<string, CornerType>();
 
-        "お菓子コーナー",
-        "菓子コーナー",
+    /// <summary>
+    /// 色
+    /// キーワード → CustomerColor
+    /// </summary>
+    private readonly Dictionary<string, CustomerColor> colorKeywords =
+        new Dictionary<string, CustomerColor>();
 
-        "冷凍食品コーナー",
-        "冷凍コーナー",
+    /// <summary>
+    /// 捕獲命令
+    /// </summary>
+    private readonly List<string> captureKeywords =
+        new List<string>();
 
-        "飲料コーナー",
-        "飲み物コーナー",
-        "ドリンクコーナー",
+    /// <summary>
+    /// 帽子
+    /// </summary>
+    private readonly List<string> hatKeywords =
+        new List<string>();
 
-        "惣菜コーナー",
-        "おかずコーナー",
+    /// <summary>
+    /// メガネ
+    /// </summary>
+    private readonly List<string> glassesKeywords =
+        new List<string>();
 
-        "精肉コーナー",
-        "肉コーナー",
+    /// <summary>
+    /// バッグ
+    /// </summary>
+    private readonly List<string> bagKeywords =
+        new List<string>();
 
-        // 捕獲
-        "捕まえろ",
-        "捕まえて",
-        "確保",
+    /// <summary>
+    /// 「はい」
+    /// </summary>
+    private readonly List<string> yesKeywords =
+        new List<string>();
 
-        // 捕獲確認
-        "はい",
-        "いいえ"
-    };
+    /// <summary>
+    /// 「いいえ」
+    /// </summary>
+    private readonly List<string> noKeywords =
+        new List<string>();
+
 
     private void Start()
     {
+        // ========================================
+        // CSV読み込み
+        // ========================================
+
+        LoadKeywordsFromCsv();
+
+        // CSVを正常に読み込めなかった場合
+        if (allKeywords.Count == 0)
+        {
+            Debug.LogError(
+                "音声認識用のキーワードが1つもありません。" +
+                "VoiceRecognizerのkeywordCsvを確認してください。"
+            );
+
+            return;
+        }
+
+        // ========================================
+        // 音声認識開始
+        // ========================================
+
         StartDictationRecognizer();
     }
+
 
     private void Update()
     {
@@ -86,24 +138,405 @@ public class VoiceRecognizer : MonoBehaviour
             return;
         }
 
+        // ========================================
         // スペースを押した瞬間
+        // ========================================
+
         if (Keyboard.current.spaceKey.wasPressedThisFrame)
         {
             isRadioPressed = true;
 
-            Debug.Log("音声入力開始");
+            Debug.Log(
+                "音声入力開始"
+            );
         }
 
+        // ========================================
         // スペースを離した瞬間
+        // ========================================
+
         if (Keyboard.current.spaceKey.wasReleasedThisFrame)
         {
             isRadioPressed = false;
 
             radioReleasedTime = Time.time;
 
-            Debug.Log("音声入力終了");
+            Debug.Log(
+                "音声入力終了"
+            );
         }
     }
+
+
+    // =========================================================
+    // CSV
+    // =========================================================
+
+    /// <summary>
+    /// CSVから音声認識キーワードを読み込む
+    /// </summary>
+    private void LoadKeywordsFromCsv()
+    {
+        if (keywordCsv == null)
+        {
+            Debug.LogError(
+                "VoiceRecognizerにCSVが設定されていません。"
+            );
+
+            return;
+        }
+
+        // 念のため既存データを削除
+        allKeywords.Clear();
+
+        cornerKeywords.Clear();
+        colorKeywords.Clear();
+
+        captureKeywords.Clear();
+
+        hatKeywords.Clear();
+        glassesKeywords.Clear();
+        bagKeywords.Clear();
+
+        yesKeywords.Clear();
+        noKeywords.Clear();
+
+
+        string[] lines =
+            keywordCsv.text.Split(
+                new[]
+                {
+                    '\r',
+                    '\n'
+                },
+                StringSplitOptions.RemoveEmptyEntries
+            );
+
+
+        for (int i = 0; i < lines.Length; i++)
+        {
+            string line =
+                lines[i].Trim();
+
+            if (string.IsNullOrEmpty(line))
+            {
+                continue;
+            }
+
+
+            // ========================================
+            // 1行目のヘッダーを無視
+            // Type,Keyword,Value
+            // ========================================
+
+            if (i == 0 &&
+                line.StartsWith("Type"))
+            {
+                continue;
+            }
+
+
+            string[] columns =
+                line.Split(',');
+
+
+            if (columns.Length < 3)
+            {
+                Debug.LogWarning(
+                    "CSVの形式が正しくありません：" +
+                    line
+                );
+
+                continue;
+            }
+
+
+            string type =
+                columns[0].Trim();
+
+            string keyword =
+                columns[1].Trim();
+
+            string value =
+                columns[2].Trim();
+
+
+            // キーワードが空なら無視
+            if (string.IsNullOrEmpty(keyword))
+            {
+                continue;
+            }
+
+
+            // ========================================
+            // KeywordRecognizer用
+            // ========================================
+
+            if (!allKeywords.Contains(keyword))
+            {
+                allKeywords.Add(keyword);
+            }
+
+
+            // ========================================
+            // 種類ごとに登録
+            // ========================================
+
+            switch (type)
+            {
+                // ------------------------------------
+                // コーナー
+                // ------------------------------------
+
+                case "Corner":
+
+                    AddCornerKeyword(
+                        keyword,
+                        value
+                    );
+
+                    break;
+
+
+                // ------------------------------------
+                // 色
+                // ------------------------------------
+
+                case "Color":
+
+                    AddColorKeyword(
+                        keyword,
+                        value
+                    );
+
+                    break;
+
+
+                // ------------------------------------
+                // 捕獲
+                // ------------------------------------
+
+                case "Capture":
+
+                    if (!captureKeywords.Contains(keyword))
+                    {
+                        captureKeywords.Add(keyword);
+                    }
+
+                    break;
+
+
+                // ------------------------------------
+                // 特徴
+                // ------------------------------------
+
+                case "Feature":
+
+                    AddFeatureKeyword(
+                        keyword,
+                        value
+                    );
+
+                    break;
+
+
+                // ------------------------------------
+                // はい / いいえ
+                // ------------------------------------
+
+                case "Confirmation":
+
+                    AddConfirmationKeyword(
+                        keyword,
+                        value
+                    );
+
+                    break;
+
+
+                default:
+
+                    Debug.LogWarning(
+                        "不明なTypeがあります：" +
+                        type
+                    );
+
+                    break;
+            }
+        }
+
+
+        Debug.Log(
+            "CSV読み込み完了：" +
+            allKeywords.Count +
+            "個の音声キーワードを登録しました。"
+        );
+    }
+
+
+    /// <summary>
+    /// コーナーのキーワードを登録
+    /// </summary>
+    private void AddCornerKeyword(
+        string keyword,
+        string value)
+    {
+        CornerType corner;
+
+
+        if (!Enum.TryParse(
+            value,
+            true,
+            out corner))
+        {
+            Debug.LogWarning(
+                "CornerTypeに存在しない値です：" +
+                value
+            );
+
+            return;
+        }
+
+
+        if (!cornerKeywords.ContainsKey(keyword))
+        {
+            cornerKeywords.Add(
+                keyword,
+                corner
+            );
+        }
+    }
+
+
+    /// <summary>
+    /// 色キーワードを登録
+    /// </summary>
+    private void AddColorKeyword(
+        string keyword,
+        string value)
+    {
+        CustomerColor color;
+
+
+        if (!Enum.TryParse(
+            value,
+            true,
+            out color))
+        {
+            Debug.LogWarning(
+                "CustomerColorに存在しない値です：" +
+                value
+            );
+
+            return;
+        }
+
+
+        if (!colorKeywords.ContainsKey(keyword))
+        {
+            colorKeywords.Add(
+                keyword,
+                color
+            );
+        }
+    }
+
+
+    /// <summary>
+    /// 特徴キーワード登録
+    /// </summary>
+    private void AddFeatureKeyword(
+        string keyword,
+        string value)
+    {
+        switch (value)
+        {
+            case "Hat":
+
+                if (!hatKeywords.Contains(keyword))
+                {
+                    hatKeywords.Add(keyword);
+                }
+
+                break;
+
+
+            case "Glasses":
+
+                if (!glassesKeywords.Contains(keyword))
+                {
+                    glassesKeywords.Add(keyword);
+                }
+
+                break;
+
+
+            case "Bag":
+
+                if (!bagKeywords.Contains(keyword))
+                {
+                    bagKeywords.Add(keyword);
+                }
+
+                break;
+
+
+            default:
+
+                Debug.LogWarning(
+                    "不明なFeatureです：" +
+                    value
+                );
+
+                break;
+        }
+    }
+
+
+    /// <summary>
+    /// はい / いいえを登録
+    /// </summary>
+    private void AddConfirmationKeyword(
+        string keyword,
+        string value)
+    {
+        switch (value)
+        {
+            case "Yes":
+
+                if (!yesKeywords.Contains(keyword))
+                {
+                    yesKeywords.Add(keyword);
+                }
+
+                break;
+
+
+            case "No":
+
+                if (!noKeywords.Contains(keyword))
+                {
+                    noKeywords.Add(keyword);
+                }
+
+                break;
+
+
+            default:
+
+                Debug.LogWarning(
+                    "不明なConfirmationです：" +
+                    value
+                );
+
+                break;
+        }
+    }
+
+
+    // =========================================================
+    // DictationRecognizer
+    // =========================================================
 
     /// <summary>
     /// DictationRecognizerを開始する
@@ -115,15 +548,20 @@ public class VoiceRecognizer : MonoBehaviour
             dictationRecognizer =
                 new DictationRecognizer();
 
+
             dictationRecognizer.DictationResult
                 += OnDictationResult;
+
 
             dictationRecognizer.DictationError
                 += OnDictationError;
 
+
             dictationRecognizer.Start();
 
+
             useDictation = true;
+
 
             Debug.Log(
                 "DictationRecognizerを開始しました。" +
@@ -137,9 +575,11 @@ public class VoiceRecognizer : MonoBehaviour
                 exception.Message
             );
 
+
             SwitchToKeywordRecognizer();
         }
     }
+
 
     /// <summary>
     /// DictationRecognizerの認識結果
@@ -148,19 +588,21 @@ public class VoiceRecognizer : MonoBehaviour
         string text,
         ConfidenceLevel confidence)
     {
-        // スペースを押していない場合は基本的に無視
-        // ただし離してから少しだけ猶予を持たせる
         if (!CanAcceptVoiceResult())
         {
             return;
         }
 
+
         Debug.Log(
-            "音声認識結果：" + text
+            "音声認識結果：" +
+            text
         );
+
 
         ProcessRecognizedText(text);
     }
+
 
     /// <summary>
     /// DictationRecognizerのエラー
@@ -176,8 +618,14 @@ public class VoiceRecognizer : MonoBehaviour
             hresult
         );
 
+
         SwitchToKeywordRecognizer();
     }
+
+
+    // =========================================================
+    // KeywordRecognizer
+    // =========================================================
 
     /// <summary>
     /// KeywordRecognizerへ切り替える
@@ -186,42 +634,68 @@ public class VoiceRecognizer : MonoBehaviour
     {
         useDictation = false;
 
-        // Dictationを停止
+
+        // ========================================
+        // Dictation停止
+        // ========================================
+
         if (dictationRecognizer != null)
         {
             try
             {
-                if (dictationRecognizer.Status
-                    == SpeechSystemStatus.Running)
+                if (dictationRecognizer.Status ==
+                    SpeechSystemStatus.Running)
                 {
                     dictationRecognizer.Stop();
                 }
             }
-            catch
+            catch (Exception exception)
             {
-                // 停止時の例外は無視
+                Debug.LogWarning(
+                    "DictationRecognizer停止時エラー：" +
+                    exception.Message
+                );
             }
         }
 
-        // すでにKeywordRecognizerが存在しているなら
-        // 新しく作らない
+
+        // ========================================
+        // KeywordRecognizer
+        // ========================================
+
         if (keywordRecognizer != null)
         {
-            return;
+            // すでに動いているなら何もしない
+            if (keywordRecognizer.IsRunning)
+            {
+                return;
+            }
+
+            // 存在するが停止している場合は破棄
+            keywordRecognizer.OnPhraseRecognized
+                -= OnPhraseRecognized;
+
+            keywordRecognizer.Dispose();
+
+            keywordRecognizer = null;
         }
+
 
         try
         {
             keywordRecognizer =
                 new KeywordRecognizer(
-                    keywords,
+                    allKeywords.ToArray(),
                     ConfidenceLevel.Low
                 );
 
 
-            keywordRecognizer.OnPhraseRecognized += OnPhraseRecognized;
+            keywordRecognizer.OnPhraseRecognized
+                += OnPhraseRecognized;
+
 
             keywordRecognizer.Start();
+
 
             Debug.Log(
                 "KeywordRecognizerに切り替えました。" +
@@ -237,6 +711,7 @@ public class VoiceRecognizer : MonoBehaviour
         }
     }
 
+
     /// <summary>
     /// KeywordRecognizerの結果
     /// </summary>
@@ -248,15 +723,24 @@ public class VoiceRecognizer : MonoBehaviour
             return;
         }
 
-        string text = args.text;
+
+        string text =
+            args.text;
+
 
         Debug.Log(
             "キーワード認識結果：" +
             text
         );
 
+
         ProcessRecognizedText(text);
     }
+
+
+    // =========================================================
+    // 共通処理
+    // =========================================================
 
     /// <summary>
     /// Dictation / Keyword 共通の認識結果処理
@@ -269,67 +753,61 @@ public class VoiceRecognizer : MonoBehaviour
             return;
         }
 
-        // ====================================
-        // 捕獲確認「はい」「いいえ」
-        // ====================================
 
-        if (IsYes(text))
+        // ========================================
+        // はい
+        // ========================================
+
+        if (ContainsAny(
+            text,
+            yesKeywords))
         {
             Debug.Log(
                 "確認音声：はい"
             );
 
+
             OnConfirmationRecognized
                 ?.Invoke(true);
+
 
             return;
         }
 
-        if (IsNo(text))
+
+        // ========================================
+        // いいえ
+        // ========================================
+
+        if (ContainsAny(
+            text,
+            noKeywords))
         {
             Debug.Log(
                 "確認音声：いいえ"
             );
 
+
             OnConfirmationRecognized
                 ?.Invoke(false);
+
 
             return;
         }
 
-        // ====================================
+
+        // ========================================
         // 通常命令
-        // ====================================
+        // ========================================
 
         VoiceCommand command =
             CreateCommand(text);
+
 
         OnCommandRecognized
             ?.Invoke(command);
     }
 
-    /// <summary>
-    /// 「はい」かどうか
-    /// </summary>
-    private bool IsYes(
-        string text)
-    {
-        return
-            text.Contains("はい") ||
-            text.Contains("ハイ");
-    }
-
-    /// <summary>
-    /// 「いいえ」かどうか
-    /// </summary>
-    private bool IsNo(
-        string text)
-    {
-        return
-            text.Contains("いいえ") ||
-            text.Contains("いいや") ||
-            text.Contains("いや");
-    }
 
     /// <summary>
     /// 認識した文章からVoiceCommandを作る
@@ -340,142 +818,94 @@ public class VoiceRecognizer : MonoBehaviour
         VoiceCommand command =
             new VoiceCommand();
 
-        // ====================================
+
+        // ========================================
         // コーナー
-        // ====================================
+        // ========================================
 
-        if (text.Contains("鮮魚") ||
-            text.Contains("さかな"))
+        foreach (
+            KeyValuePair<string, CornerType> pair
+            in cornerKeywords)
         {
-            command.corner =
-                CornerType.Fish;
-        }
-        else if (
-            text.Contains("野菜") ||
-            text.Contains("青果"))
-        {
-            command.corner =
-                CornerType.Vegetable;
-        }
-        else if (
-            text.Contains("お菓子") ||
-            text.Contains("菓子"))
-        {
-            command.corner =
-                CornerType.Snack;
-        }
-        else if (
-            text.Contains("冷凍"))
-        {
-            command.corner =
-                CornerType.FrozenFood;
-        }
-        else if (
-            text.Contains("飲料") ||
-            text.Contains("飲み物") ||
-            text.Contains("ドリンク"))
-        {
-            command.corner =
-                CornerType.Drink;
-        }
-        else if (
-            text.Contains("惣菜") ||
-            text.Contains("おかず"))
-        {
-            command.corner =
-                CornerType.PreparedFood;
-        }
-        else if (
-            text.Contains("精肉") ||
-            text.Contains("肉コーナー"))
-        {
-            command.corner =
-                CornerType.Meat;
+            if (text.Contains(pair.Key))
+            {
+                command.corner =
+                    pair.Value;
+
+                break;
+            }
         }
 
-        // ====================================
+
+        // ========================================
         // 捕獲命令
-        // ====================================
+        // ========================================
 
-        if (text.Contains("捕まえ")||
-            text.Contains("確保")||
-            text.Contains("逮捕")||
-            text.Contains("いけ")||
-            text.Contains("やれ"))
+        if (ContainsAny(
+            text,
+            captureKeywords))
         {
             command.isCaptureCommand =
                 true;
         }
 
-        // ====================================
+
+        // ========================================
         // 色
-        // ====================================
+        // ========================================
 
-        if (text.Contains("赤"))
+        foreach (
+            KeyValuePair<string, CustomerColor> pair
+            in colorKeywords)
         {
-            command.clothesColor =
-                CustomerColor.Red;
-        }
-        else if (text.Contains("青"))
-        {
-            command.clothesColor =
-                CustomerColor.Blue;
-        }
-        else if (text.Contains("緑"))
-        {
-            command.clothesColor =
-                CustomerColor.Green;
-        }
-        else if (text.Contains("オレンジ"))
-        {
-            command.clothesColor =
-                CustomerColor.Orange;
-        }
-        else if (text.Contains("黄"))
-        {
-            command.clothesColor =
-                CustomerColor.Yellow;
-        }
-        else if (text.Contains("紫"))
-        {
-            command.clothesColor =
-                CustomerColor.Purple;
-        }
-        else if (text.Contains("黒"))
-        {
-            command.clothesColor =
-                CustomerColor.Black;
-        }
-        else if (text.Contains("白"))
-        {
-            command.clothesColor =
-                CustomerColor.White;
+            if (text.Contains(pair.Key))
+            {
+                command.clothesColor =
+                    pair.Value;
+
+                break;
+            }
         }
 
-        // ====================================
-        // 特徴
-        // ====================================
 
-        if (text.Contains("帽子"))
+        // ========================================
+        // 帽子
+        // ========================================
+
+        if (ContainsAny(
+            text,
+            hatKeywords))
         {
             command.requiresHat =
                 true;
         }
 
-        if (text.Contains("眼鏡") ||
-            text.Contains("メガネ"))
+
+        // ========================================
+        // メガネ
+        // ========================================
+
+        if (ContainsAny(
+            text,
+            glassesKeywords))
         {
             command.requiresGlasses =
                 true;
         }
 
-        if (text.Contains("バッグ") ||
-            text.Contains("鞄") ||
-            text.Contains("かばん"))
+
+        // ========================================
+        // バッグ
+        // ========================================
+
+        if (ContainsAny(
+            text,
+            bagKeywords))
         {
             command.requiresBag =
                 true;
         }
+
 
         Debug.Log(
             "命令解析完了：" +
@@ -493,8 +923,35 @@ public class VoiceRecognizer : MonoBehaviour
             command.isCaptureCommand
         );
 
+
         return command;
     }
+
+
+    /// <summary>
+    /// textの中に指定されたキーワードが
+    /// 1つでも含まれているか
+    /// </summary>
+    private bool ContainsAny(
+        string text,
+        List<string> words)
+    {
+        foreach (string word in words)
+        {
+            if (text.Contains(word))
+            {
+                return true;
+            }
+        }
+
+
+        return false;
+    }
+
+
+    // =========================================================
+    // Push To Talk
+    // =========================================================
 
     /// <summary>
     /// 現在音声認識結果を受け取ってよいか
@@ -507,6 +964,7 @@ public class VoiceRecognizer : MonoBehaviour
             return true;
         }
 
+
         // スペースを離した直後
         if (Time.time - radioReleasedTime
             <= releaseGraceTime)
@@ -514,42 +972,62 @@ public class VoiceRecognizer : MonoBehaviour
             return true;
         }
 
+
         return false;
     }
 
+
+    // =========================================================
+    // 終了処理
+    // =========================================================
+
     private void OnDestroy()
     {
+        // ========================================
         // DictationRecognizer
+        // ========================================
+
         if (dictationRecognizer != null)
         {
             dictationRecognizer.DictationResult
                 -= OnDictationResult;
 
+
             dictationRecognizer.DictationError
                 -= OnDictationError;
 
-            if (dictationRecognizer.Status
-                == SpeechSystemStatus.Running)
+
+            if (dictationRecognizer.Status ==
+                SpeechSystemStatus.Running)
             {
                 dictationRecognizer.Stop();
             }
 
+
             dictationRecognizer.Dispose();
+
             dictationRecognizer = null;
         }
 
+
+        // ========================================
         // KeywordRecognizer
+        // ========================================
+
         if (keywordRecognizer != null)
         {
+            keywordRecognizer.OnPhraseRecognized
+                -= OnPhraseRecognized;
 
-            keywordRecognizer.OnPhraseRecognized += OnPhraseRecognized;
 
             if (keywordRecognizer.IsRunning)
             {
                 keywordRecognizer.Stop();
             }
 
+
             keywordRecognizer.Dispose();
+
             keywordRecognizer = null;
         }
     }
