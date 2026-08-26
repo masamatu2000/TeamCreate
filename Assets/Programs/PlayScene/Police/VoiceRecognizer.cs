@@ -23,7 +23,8 @@ public class VoiceRecognizer : MonoBehaviour
     /// false = いいえ
     /// </summary>
     public event Action<bool> OnConfirmationRecognized;
-
+    [SerializeField]
+    private bool forceKeywordRecognizer = false;
     [Header("キーワードCSV")]
     [SerializeField]
     private TextAsset keywordCsv;
@@ -106,13 +107,8 @@ public class VoiceRecognizer : MonoBehaviour
 
     private void Start()
     {
-        // ========================================
-        // CSV読み込み
-        // ========================================
-
         LoadKeywordsFromCsv();
 
-        // CSVを正常に読み込めなかった場合
         if (allKeywords.Count == 0)
         {
             Debug.LogError(
@@ -123,11 +119,22 @@ public class VoiceRecognizer : MonoBehaviour
             return;
         }
 
-        // ========================================
-        // 音声認識開始
-        // ========================================
+        if (forceKeywordRecognizer)
+        {
+            Debug.Log(
+                "KeywordRecognizer固定モードで開始します"
+            );
 
-        StartDictationRecognizer();
+            SwitchToKeywordRecognizer();
+        }
+        else
+        {
+            Debug.Log(
+                "DictationRecognizerを試します"
+            );
+
+            StartDictationRecognizer();
+        }
     }
 
 

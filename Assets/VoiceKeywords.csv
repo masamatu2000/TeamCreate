@@ -46,9 +46,10 @@ Feature,鞄,Bag
 Feature,かばん,Bag
 ,,
 Confirmation,はい,Yes
-Confirmation,ハイ,Yes
+Confirmation,yes,Yes
 Confirmation,イえス,Yes
 Confirmation,いいえ,No
 Confirmation,いいや,No
 Confirmation,いや,No
 Confirmation,ノー,No
+Confirmation,no,No

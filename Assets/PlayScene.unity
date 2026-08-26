@@ -158,6 +158,38 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: -3503629816624402399, guid: 163c80800b32e1144940bf52d367b3db, type: 3}
+      propertyPath: police
+      value: 
+      objectReference: {fileID: 557006592}
+    - target: {fileID: -3503629816624402399, guid: 163c80800b32e1144940bf52d367b3db, type: 3}
+      propertyPath: fishCorner
+      value: 
+      objectReference: {fileID: 58864305}
+    - target: {fileID: -3503629816624402399, guid: 163c80800b32e1144940bf52d367b3db, type: 3}
+      propertyPath: meatCorner
+      value: 
+      objectReference: {fileID: 1132839069}
+    - target: {fileID: -3503629816624402399, guid: 163c80800b32e1144940bf52d367b3db, type: 3}
+      propertyPath: drinkCorner
+      value: 
+      objectReference: {fileID: 1085160861}
+    - target: {fileID: -3503629816624402399, guid: 163c80800b32e1144940bf52d367b3db, type: 3}
+      propertyPath: snackCorner
+      value: 
+      objectReference: {fileID: 1103297407}
+    - target: {fileID: -3503629816624402399, guid: 163c80800b32e1144940bf52d367b3db, type: 3}
+      propertyPath: vegetableCorner
+      value: 
+      objectReference: {fileID: 1072783140}
+    - target: {fileID: -3503629816624402399, guid: 163c80800b32e1144940bf52d367b3db, type: 3}
+      propertyPath: frozenFoodCorner
+      value: 
+      objectReference: {fileID: 182532850}
+    - target: {fileID: -3503629816624402399, guid: 163c80800b32e1144940bf52d367b3db, type: 3}
+      propertyPath: preparedFoodCorner
+      value: 
+      objectReference: {fileID: 262264544}
     - target: {fileID: 1646196348434634917, guid: 163c80800b32e1144940bf52d367b3db, type: 3}
       propertyPath: m_Name
       value: Customer_02
@@ -209,9 +241,6 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 1646196348434634917, guid: 163c80800b32e1144940bf52d367b3db, type: 3}
       insertIndex: -1
       addedObject: {fileID: 1704201957}
-    - targetCorrespondingSourceObject: {fileID: 1646196348434634917, guid: 163c80800b32e1144940bf52d367b3db, type: 3}
-      insertIndex: -1
-      addedObject: {fileID: 1704201956}
   m_SourcePrefab: {fileID: 100100000, guid: 163c80800b32e1144940bf52d367b3db, type: 3}
 --- !u!1 &136286112
 GameObject:
@@ -370,6 +399,9 @@ RectTransform:
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 1874963774}
+  - {fileID: 631140965}
+  - {fileID: 1823557802}
+  - {fileID: 618432249}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
@@ -610,7 +642,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: 554, y: 268}
+  m_AnchoredPosition: {x: 715, y: 122}
   m_SizeDelta: {x: 200, y: 50}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &272827129
@@ -655,7 +687,7 @@ MonoBehaviour:
   m_spriteAsset: {fileID: 0}
   m_tintAllSprites: 0
   m_StyleSheet: {fileID: 0}
-  m_TextStyleHashCode: 0
+  m_TextStyleHashCode: -1183493901
   m_overrideHtmlColors: 0
   m_faceColor:
     serializedVersion: 2
@@ -858,6 +890,38 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: -3503629816624402399, guid: 163c80800b32e1144940bf52d367b3db, type: 3}
+      propertyPath: police
+      value: 
+      objectReference: {fileID: 557006592}
+    - target: {fileID: -3503629816624402399, guid: 163c80800b32e1144940bf52d367b3db, type: 3}
+      propertyPath: fishCorner
+      value: 
+      objectReference: {fileID: 58864305}
+    - target: {fileID: -3503629816624402399, guid: 163c80800b32e1144940bf52d367b3db, type: 3}
+      propertyPath: meatCorner
+      value: 
+      objectReference: {fileID: 1132839069}
+    - target: {fileID: -3503629816624402399, guid: 163c80800b32e1144940bf52d367b3db, type: 3}
+      propertyPath: drinkCorner
+      value: 
+      objectReference: {fileID: 1085160861}
+    - target: {fileID: -3503629816624402399, guid: 163c80800b32e1144940bf52d367b3db, type: 3}
+      propertyPath: snackCorner
+      value: 
+      objectReference: {fileID: 1103297407}
+    - target: {fileID: -3503629816624402399, guid: 163c80800b32e1144940bf52d367b3db, type: 3}
+      propertyPath: vegetableCorner
+      value: 
+      objectReference: {fileID: 1072783140}
+    - target: {fileID: -3503629816624402399, guid: 163c80800b32e1144940bf52d367b3db, type: 3}
+      propertyPath: frozenFoodCorner
+      value: 
+      objectReference: {fileID: 182532850}
+    - target: {fileID: -3503629816624402399, guid: 163c80800b32e1144940bf52d367b3db, type: 3}
+      propertyPath: preparedFoodCorner
+      value: 
+      objectReference: {fileID: 262264544}
     - target: {fileID: 1646196348434634917, guid: 163c80800b32e1144940bf52d367b3db, type: 3}
       propertyPath: m_Name
       value: Customer_10
@@ -909,9 +973,6 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 1646196348434634917, guid: 163c80800b32e1144940bf52d367b3db, type: 3}
       insertIndex: -1
       addedObject: {fileID: 1296059297}
-    - targetCorrespondingSourceObject: {fileID: 1646196348434634917, guid: 163c80800b32e1144940bf52d367b3db, type: 3}
-      insertIndex: -1
-      addedObject: {fileID: 1296059296}
   m_SourcePrefab: {fileID: 100100000, guid: 163c80800b32e1144940bf52d367b3db, type: 3}
 --- !u!1 &391353345
 GameObject:
@@ -1033,6 +1094,38 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: -3503629816624402399, guid: 163c80800b32e1144940bf52d367b3db, type: 3}
+      propertyPath: police
+      value: 
+      objectReference: {fileID: 557006592}
+    - target: {fileID: -3503629816624402399, guid: 163c80800b32e1144940bf52d367b3db, type: 3}
+      propertyPath: fishCorner
+      value: 
+      objectReference: {fileID: 58864305}
+    - target: {fileID: -3503629816624402399, guid: 163c80800b32e1144940bf52d367b3db, type: 3}
+      propertyPath: meatCorner
+      value: 
+      objectReference: {fileID: 1132839069}
+    - target: {fileID: -3503629816624402399, guid: 163c80800b32e1144940bf52d367b3db, type: 3}
+      propertyPath: drinkCorner
+      value: 
+      objectReference: {fileID: 1085160861}
+    - target: {fileID: -3503629816624402399, guid: 163c80800b32e1144940bf52d367b3db, type: 3}
+      propertyPath: snackCorner
+      value: 
+      objectReference: {fileID: 1103297407}
+    - target: {fileID: -3503629816624402399, guid: 163c80800b32e1144940bf52d367b3db, type: 3}
+      propertyPath: vegetableCorner
+      value: 
+      objectReference: {fileID: 1072783140}
+    - target: {fileID: -3503629816624402399, guid: 163c80800b32e1144940bf52d367b3db, type: 3}
+      propertyPath: frozenFoodCorner
+      value: 
+      objectReference: {fileID: 182532850}
+    - target: {fileID: -3503629816624402399, guid: 163c80800b32e1144940bf52d367b3db, type: 3}
+      propertyPath: preparedFoodCorner
+      value: 
+      objectReference: {fileID: 262264544}
     - target: {fileID: 1646196348434634917, guid: 163c80800b32e1144940bf52d367b3db, type: 3}
       propertyPath: m_Name
       value: Customer_12
@@ -1084,9 +1177,6 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 1646196348434634917, guid: 163c80800b32e1144940bf52d367b3db, type: 3}
       insertIndex: -1
       addedObject: {fileID: 1233000034}
-    - targetCorrespondingSourceObject: {fileID: 1646196348434634917, guid: 163c80800b32e1144940bf52d367b3db, type: 3}
-      insertIndex: -1
-      addedObject: {fileID: 1233000033}
   m_SourcePrefab: {fileID: 100100000, guid: 163c80800b32e1144940bf52d367b3db, type: 3}
 --- !u!1001 &499578001
 PrefabInstance:
@@ -1096,6 +1186,38 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: -3503629816624402399, guid: 163c80800b32e1144940bf52d367b3db, type: 3}
+      propertyPath: police
+      value: 
+      objectReference: {fileID: 557006592}
+    - target: {fileID: -3503629816624402399, guid: 163c80800b32e1144940bf52d367b3db, type: 3}
+      propertyPath: fishCorner
+      value: 
+      objectReference: {fileID: 58864305}
+    - target: {fileID: -3503629816624402399, guid: 163c80800b32e1144940bf52d367b3db, type: 3}
+      propertyPath: meatCorner
+      value: 
+      objectReference: {fileID: 1132839069}
+    - target: {fileID: -3503629816624402399, guid: 163c80800b32e1144940bf52d367b3db, type: 3}
+      propertyPath: drinkCorner
+      value: 
+      objectReference: {fileID: 1085160861}
+    - target: {fileID: -3503629816624402399, guid: 163c80800b32e1144940bf52d367b3db, type: 3}
+      propertyPath: snackCorner
+      value: 
+      objectReference: {fileID: 1103297407}
+    - target: {fileID: -3503629816624402399, guid: 163c80800b32e1144940bf52d367b3db, type: 3}
+      propertyPath: vegetableCorner
+      value: 
+      objectReference: {fileID: 1072783140}
+    - target: {fileID: -3503629816624402399, guid: 163c80800b32e1144940bf52d367b3db, type: 3}
+      propertyPath: frozenFoodCorner
+      value: 
+      objectReference: {fileID: 182532850}
+    - target: {fileID: -3503629816624402399, guid: 163c80800b32e1144940bf52d367b3db, type: 3}
+      propertyPath: preparedFoodCorner
+      value: 
+      objectReference: {fileID: 262264544}
     - target: {fileID: 1646196348434634917, guid: 163c80800b32e1144940bf52d367b3db, type: 3}
       propertyPath: m_Name
       value: Customer_07
@@ -1147,9 +1269,6 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 1646196348434634917, guid: 163c80800b32e1144940bf52d367b3db, type: 3}
       insertIndex: -1
       addedObject: {fileID: 1731502364}
-    - targetCorrespondingSourceObject: {fileID: 1646196348434634917, guid: 163c80800b32e1144940bf52d367b3db, type: 3}
-      insertIndex: -1
-      addedObject: {fileID: 1731502363}
   m_SourcePrefab: {fileID: 100100000, guid: 163c80800b32e1144940bf52d367b3db, type: 3}
 --- !u!1 &557006587
 GameObject:
@@ -1221,7 +1340,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: 31321ba15b8f8eb4c954353edc038b1d, type: 2}
+  - {fileID: 2100000, guid: b5e5cb2df11fc4743bb8a6962668c4d0, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -1303,8 +1422,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5c525237afe2c654581d48e74f2604cc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::VoiceRecognizer
+  forceKeywordRecognizer: 0
   keywordCsv: {fileID: 4900000, guid: db1376c8b9d488745b4d65aab83f3bd3, type: 3}
-  releaseGraceTime: 1.5
+  releaseGraceTime: 3
 --- !u!195 &557006595
 NavMeshAgent:
   m_ObjectHideFlags: 0
@@ -1332,26 +1452,6 @@ GameObject:
   m_CorrespondingSourceObject: {fileID: 1646196348434634917, guid: 163c80800b32e1144940bf52d367b3db, type: 3}
   m_PrefabInstance: {fileID: 1132717110}
   m_PrefabAsset: {fileID: 0}
---- !u!114 &557912916
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 557912915}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 61b365b7da8ee674ca559ae2aedf84db, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::Customer
-  moveRadius: 10
-  minWaitTime: 2
-  maxWaitTime: 5
-  clothesColor: 0
-  wearsHat: 0
-  wearsGlasses: 0
-  hasBag: 0
-  isThief: 0
 --- !u!195 &557912917
 NavMeshAgent:
   m_ObjectHideFlags: 0
@@ -1374,6 +1474,17 @@ NavMeshAgent:
   m_BaseOffset: 1
   m_WalkableMask: 4294967295
   m_ObstacleAvoidanceType: 4
+--- !u!114 &557912919 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: -3503629816624402399, guid: 163c80800b32e1144940bf52d367b3db, type: 3}
+  m_PrefabInstance: {fileID: 1132717110}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 557912915}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 61b365b7da8ee674ca559ae2aedf84db, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::Customer
 --- !u!1 &609991152
 GameObject:
   m_ObjectHideFlags: 0
@@ -1486,31 +1597,285 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!1 &686232272 stripped
+--- !u!1 &618432248
 GameObject:
-  m_CorrespondingSourceObject: {fileID: 1646196348434634917, guid: 163c80800b32e1144940bf52d367b3db, type: 3}
-  m_PrefabInstance: {fileID: 1353853082}
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
---- !u!114 &686232273
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 618432249}
+  - component: {fileID: 618432251}
+  - component: {fileID: 618432250}
+  m_Layer: 5
+  m_Name: Sales
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!224 &618432249
+RectTransform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 618432248}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 150186088}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_AnchorMin: {x: 0, y: 1}
+  m_AnchorMax: {x: 0, y: 1}
+  m_AnchoredPosition: {x: 916.7, y: -32.6}
+  m_SizeDelta: {x: 200, y: 50}
+  m_Pivot: {x: 0.5, y: 0.5}
+--- !u!114 &618432250
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 686232272}
+  m_GameObject: {fileID: 618432248}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 61b365b7da8ee674ca559ae2aedf84db, type: 3}
+  m_Script: {fileID: 11500000, guid: f4688fdb7df04437aeb418b961361dc5, type: 3}
   m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::Customer
-  moveRadius: 10
-  minWaitTime: 2
-  maxWaitTime: 5
-  clothesColor: 0
-  wearsHat: 0
-  wearsGlasses: 0
-  hasBag: 0
-  isThief: 0
+  m_EditorClassIdentifier: Unity.TextMeshPro::TMPro.TextMeshProUGUI
+  m_Material: {fileID: 0}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_RaycastTarget: 1
+  m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
+  m_Maskable: 1
+  m_OnCullStateChanged:
+    m_PersistentCalls:
+      m_Calls: []
+  m_text: Sales
+  m_isRightToLeft: 0
+  m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
+  m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
+  m_fontSharedMaterials: []
+  m_fontMaterial: {fileID: 0}
+  m_fontMaterials: []
+  m_fontColor32:
+    serializedVersion: 2
+    rgba: 4294967295
+  m_fontColor: {r: 1, g: 1, b: 1, a: 1}
+  m_enableVertexGradient: 0
+  m_colorMode: 3
+  m_fontColorGradient:
+    topLeft: {r: 1, g: 1, b: 1, a: 1}
+    topRight: {r: 1, g: 1, b: 1, a: 1}
+    bottomLeft: {r: 1, g: 1, b: 1, a: 1}
+    bottomRight: {r: 1, g: 1, b: 1, a: 1}
+  m_fontColorGradientPreset: {fileID: 0}
+  m_spriteAsset: {fileID: 0}
+  m_tintAllSprites: 0
+  m_StyleSheet: {fileID: 0}
+  m_TextStyleHashCode: -1183493901
+  m_overrideHtmlColors: 0
+  m_faceColor:
+    serializedVersion: 2
+    rgba: 4294967295
+  m_fontSize: 36
+  m_fontSizeBase: 36
+  m_fontWeight: 400
+  m_enableAutoSizing: 0
+  m_fontSizeMin: 18
+  m_fontSizeMax: 72
+  m_fontStyle: 0
+  m_HorizontalAlignment: 1
+  m_VerticalAlignment: 256
+  m_textAlignment: 65535
+  m_characterSpacing: 0
+  m_characterHorizontalScale: 1
+  m_wordSpacing: 0
+  m_lineSpacing: 0
+  m_lineSpacingMax: 0
+  m_paragraphSpacing: 0
+  m_charWidthMaxAdj: 0
+  m_TextWrappingMode: 1
+  m_wordWrappingRatios: 0.4
+  m_overflowMode: 0
+  m_linkedTextComponent: {fileID: 0}
+  parentLinkedComponent: {fileID: 0}
+  m_enableKerning: 0
+  m_ActiveFontFeatures: 6e72656b
+  m_enableExtraPadding: 0
+  checkPaddingRequired: 0
+  m_isRichText: 1
+  m_EmojiFallbackSupport: 1
+  m_parseCtrlCharacters: 1
+  m_isOrthographic: 1
+  m_isCullingEnabled: 0
+  m_horizontalMapping: 0
+  m_verticalMapping: 0
+  m_uvLineOffset: 0
+  m_geometrySortingOrder: 0
+  m_IsTextObjectScaleStatic: 0
+  m_VertexBufferAutoSizeReduction: 0
+  m_useMaxVisibleDescender: 1
+  m_pageToDisplay: 1
+  m_margin: {x: 0, y: 0, z: -77.80963, w: 0}
+  m_isUsingLegacyAnimationComponent: 0
+  m_isVolumetricText: 0
+  m_hasFontAssetChanged: 0
+  m_baseMaterial: {fileID: 0}
+  m_maskOffset: {x: 0, y: 0, z: 0, w: 0}
+--- !u!222 &618432251
+CanvasRenderer:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 618432248}
+  m_CullTransparentMesh: 1
+--- !u!1 &631140964
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 631140965}
+  - component: {fileID: 631140967}
+  - component: {fileID: 631140966}
+  m_Layer: 5
+  m_Name: Timer
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!224 &631140965
+RectTransform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 631140964}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 150186088}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_AnchorMin: {x: 1, y: 1}
+  m_AnchorMax: {x: 1, y: 1}
+  m_AnchoredPosition: {x: -192.1, y: -96}
+  m_SizeDelta: {x: 200, y: 50}
+  m_Pivot: {x: 0.5, y: 0.5}
+--- !u!114 &631140966
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 631140964}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f4688fdb7df04437aeb418b961361dc5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Unity.TextMeshPro::TMPro.TextMeshProUGUI
+  m_Material: {fileID: 0}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_RaycastTarget: 1
+  m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
+  m_Maskable: 1
+  m_OnCullStateChanged:
+    m_PersistentCalls:
+      m_Calls: []
+  m_text: Timer
+  m_isRightToLeft: 0
+  m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
+  m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
+  m_fontSharedMaterials: []
+  m_fontMaterial: {fileID: 0}
+  m_fontMaterials: []
+  m_fontColor32:
+    serializedVersion: 2
+    rgba: 4294967295
+  m_fontColor: {r: 1, g: 1, b: 1, a: 1}
+  m_enableVertexGradient: 0
+  m_colorMode: 3
+  m_fontColorGradient:
+    topLeft: {r: 1, g: 1, b: 1, a: 1}
+    topRight: {r: 1, g: 1, b: 1, a: 1}
+    bottomLeft: {r: 1, g: 1, b: 1, a: 1}
+    bottomRight: {r: 1, g: 1, b: 1, a: 1}
+  m_fontColorGradientPreset: {fileID: 0}
+  m_spriteAsset: {fileID: 0}
+  m_tintAllSprites: 0
+  m_StyleSheet: {fileID: 0}
+  m_TextStyleHashCode: -1183493901
+  m_overrideHtmlColors: 0
+  m_faceColor:
+    serializedVersion: 2
+    rgba: 4294967295
+  m_fontSize: 36
+  m_fontSizeBase: 36
+  m_fontWeight: 400
+  m_enableAutoSizing: 0
+  m_fontSizeMin: 18
+  m_fontSizeMax: 72
+  m_fontStyle: 0
+  m_HorizontalAlignment: 1
+  m_VerticalAlignment: 256
+  m_textAlignment: 65535
+  m_characterSpacing: 0
+  m_characterHorizontalScale: 1
+  m_wordSpacing: 0
+  m_lineSpacing: 0
+  m_lineSpacingMax: 0
+  m_paragraphSpacing: 0
+  m_charWidthMaxAdj: 0
+  m_TextWrappingMode: 1
+  m_wordWrappingRatios: 0.4
+  m_overflowMode: 0
+  m_linkedTextComponent: {fileID: 0}
+  parentLinkedComponent: {fileID: 0}
+  m_enableKerning: 0
+  m_ActiveFontFeatures: 6e72656b
+  m_enableExtraPadding: 0
+  checkPaddingRequired: 0
+  m_isRichText: 1
+  m_EmojiFallbackSupport: 1
+  m_parseCtrlCharacters: 1
+  m_isOrthographic: 1
+  m_isCullingEnabled: 0
+  m_horizontalMapping: 0
+  m_verticalMapping: 0
+  m_uvLineOffset: 0
+  m_geometrySortingOrder: 0
+  m_IsTextObjectScaleStatic: 0
+  m_VertexBufferAutoSizeReduction: 0
+  m_useMaxVisibleDescender: 1
+  m_pageToDisplay: 1
+  m_margin: {x: 0, y: 0, z: 0, w: 0}
+  m_isUsingLegacyAnimationComponent: 0
+  m_isVolumetricText: 0
+  m_hasFontAssetChanged: 0
+  m_baseMaterial: {fileID: 0}
+  m_maskOffset: {x: 0, y: 0, z: 0, w: 0}
+--- !u!222 &631140967
+CanvasRenderer:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 631140964}
+  m_CullTransparentMesh: 1
+--- !u!1 &686232272 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 1646196348434634917, guid: 163c80800b32e1144940bf52d367b3db, type: 3}
+  m_PrefabInstance: {fileID: 1353853082}
+  m_PrefabAsset: {fileID: 0}
 --- !u!195 &686232274
 NavMeshAgent:
   m_ObjectHideFlags: 0
@@ -1533,6 +1898,17 @@ NavMeshAgent:
   m_BaseOffset: 1
   m_WalkableMask: 4294967295
   m_ObstacleAvoidanceType: 4
+--- !u!114 &686232276 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: -3503629816624402399, guid: 163c80800b32e1144940bf52d367b3db, type: 3}
+  m_PrefabInstance: {fileID: 1353853082}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 686232272}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 61b365b7da8ee674ca559ae2aedf84db, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::Customer
 --- !u!1 &882161753
 GameObject:
   m_ObjectHideFlags: 0
@@ -1563,21 +1939,21 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::NewMonoBehaviourScript
   customers:
-  - {fileID: 1511261036}
-  - {fileID: 1704201956}
-  - {fileID: 1979052832}
-  - {fileID: 931899526}
-  - {fileID: 1741360789}
-  - {fileID: 686232273}
-  - {fileID: 1731502363}
-  - {fileID: 1707518675}
-  - {fileID: 1546807843}
-  - {fileID: 1296059296}
-  - {fileID: 1611423640}
-  - {fileID: 1233000033}
-  - {fileID: 1480141647}
-  - {fileID: 1580104177}
-  - {fileID: 557912916}
+  - {fileID: 1511261039}
+  - {fileID: 1704201959}
+  - {fileID: 1979052835}
+  - {fileID: 931899529}
+  - {fileID: 1741360792}
+  - {fileID: 686232276}
+  - {fileID: 1731502366}
+  - {fileID: 1707518678}
+  - {fileID: 1546807846}
+  - {fileID: 1296059299}
+  - {fileID: 1611423643}
+  - {fileID: 1233000036}
+  - {fileID: 1480141650}
+  - {fileID: 1580104180}
+  - {fileID: 557912919}
   thiefCount: 3
 --- !u!4 &882161755
 Transform:
@@ -1714,6 +2090,38 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: -3503629816624402399, guid: 163c80800b32e1144940bf52d367b3db, type: 3}
+      propertyPath: police
+      value: 
+      objectReference: {fileID: 557006592}
+    - target: {fileID: -3503629816624402399, guid: 163c80800b32e1144940bf52d367b3db, type: 3}
+      propertyPath: fishCorner
+      value: 
+      objectReference: {fileID: 58864305}
+    - target: {fileID: -3503629816624402399, guid: 163c80800b32e1144940bf52d367b3db, type: 3}
+      propertyPath: meatCorner
+      value: 
+      objectReference: {fileID: 1132839069}
+    - target: {fileID: -3503629816624402399, guid: 163c80800b32e1144940bf52d367b3db, type: 3}
+      propertyPath: drinkCorner
+      value: 
+      objectReference: {fileID: 1085160861}
+    - target: {fileID: -3503629816624402399, guid: 163c80800b32e1144940bf52d367b3db, type: 3}
+      propertyPath: snackCorner
+      value: 
+      objectReference: {fileID: 1103297407}
+    - target: {fileID: -3503629816624402399, guid: 163c80800b32e1144940bf52d367b3db, type: 3}
+      propertyPath: vegetableCorner
+      value: 
+      objectReference: {fileID: 1072783140}
+    - target: {fileID: -3503629816624402399, guid: 163c80800b32e1144940bf52d367b3db, type: 3}
+      propertyPath: frozenFoodCorner
+      value: 
+      objectReference: {fileID: 182532850}
+    - target: {fileID: -3503629816624402399, guid: 163c80800b32e1144940bf52d367b3db, type: 3}
+      propertyPath: preparedFoodCorner
+      value: 
+      objectReference: {fileID: 262264544}
     - target: {fileID: 1646196348434634917, guid: 163c80800b32e1144940bf52d367b3db, type: 3}
       propertyPath: m_Name
       value: Customer_14
@@ -1765,9 +2173,6 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 1646196348434634917, guid: 163c80800b32e1144940bf52d367b3db, type: 3}
       insertIndex: -1
       addedObject: {fileID: 1580104178}
-    - targetCorrespondingSourceObject: {fileID: 1646196348434634917, guid: 163c80800b32e1144940bf52d367b3db, type: 3}
-      insertIndex: -1
-      addedObject: {fileID: 1580104177}
   m_SourcePrefab: {fileID: 100100000, guid: 163c80800b32e1144940bf52d367b3db, type: 3}
 --- !u!1001 &909878910
 PrefabInstance:
@@ -1777,6 +2182,38 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: -3503629816624402399, guid: 163c80800b32e1144940bf52d367b3db, type: 3}
+      propertyPath: police
+      value: 
+      objectReference: {fileID: 557006592}
+    - target: {fileID: -3503629816624402399, guid: 163c80800b32e1144940bf52d367b3db, type: 3}
+      propertyPath: fishCorner
+      value: 
+      objectReference: {fileID: 58864305}
+    - target: {fileID: -3503629816624402399, guid: 163c80800b32e1144940bf52d367b3db, type: 3}
+      propertyPath: meatCorner
+      value: 
+      objectReference: {fileID: 1132839069}
+    - target: {fileID: -3503629816624402399, guid: 163c80800b32e1144940bf52d367b3db, type: 3}
+      propertyPath: drinkCorner
+      value: 
+      objectReference: {fileID: 1085160861}
+    - target: {fileID: -3503629816624402399, guid: 163c80800b32e1144940bf52d367b3db, type: 3}
+      propertyPath: snackCorner
+      value: 
+      objectReference: {fileID: 1103297407}
+    - target: {fileID: -3503629816624402399, guid: 163c80800b32e1144940bf52d367b3db, type: 3}
+      propertyPath: vegetableCorner
+      value: 
+      objectReference: {fileID: 1072783140}
+    - target: {fileID: -3503629816624402399, guid: 163c80800b32e1144940bf52d367b3db, type: 3}
+      propertyPath: frozenFoodCorner
+      value: 
+      objectReference: {fileID: 182532850}
+    - target: {fileID: -3503629816624402399, guid: 163c80800b32e1144940bf52d367b3db, type: 3}
+      propertyPath: preparedFoodCorner
+      value: 
+      objectReference: {fileID: 262264544}
     - target: {fileID: 1646196348434634917, guid: 163c80800b32e1144940bf52d367b3db, type: 3}
       propertyPath: m_Name
       value: Customer_09
@@ -1828,9 +2265,6 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 1646196348434634917, guid: 163c80800b32e1144940bf52d367b3db, type: 3}
       insertIndex: -1
       addedObject: {fileID: 1546807844}
-    - targetCorrespondingSourceObject: {fileID: 1646196348434634917, guid: 163c80800b32e1144940bf52d367b3db, type: 3}
-      insertIndex: -1
-      addedObject: {fileID: 1546807843}
   m_SourcePrefab: {fileID: 100100000, guid: 163c80800b32e1144940bf52d367b3db, type: 3}
 --- !u!1 &924552130
 GameObject:
@@ -1866,7 +2300,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 1, y: 0}
   m_AnchorMax: {x: 1, y: 0}
-  m_AnchoredPosition: {x: -554, y: 268}
+  m_AnchoredPosition: {x: -781, y: 130}
   m_SizeDelta: {x: 200, y: 50}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &924552132
@@ -1911,7 +2345,7 @@ MonoBehaviour:
   m_spriteAsset: {fileID: 0}
   m_tintAllSprites: 0
   m_StyleSheet: {fileID: 0}
-  m_TextStyleHashCode: 0
+  m_TextStyleHashCode: -1183493901
   m_overrideHtmlColors: 0
   m_faceColor:
     serializedVersion: 2
@@ -1974,26 +2408,6 @@ GameObject:
   m_CorrespondingSourceObject: {fileID: 1646196348434634917, guid: 163c80800b32e1144940bf52d367b3db, type: 3}
   m_PrefabInstance: {fileID: 1869567461}
   m_PrefabAsset: {fileID: 0}
---- !u!114 &931899526
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 931899525}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 61b365b7da8ee674ca559ae2aedf84db, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::Customer
-  moveRadius: 10
-  minWaitTime: 2
-  maxWaitTime: 5
-  clothesColor: 0
-  wearsHat: 0
-  wearsGlasses: 0
-  hasBag: 0
-  isThief: 0
 --- !u!195 &931899527
 NavMeshAgent:
   m_ObjectHideFlags: 0
@@ -2016,6 +2430,17 @@ NavMeshAgent:
   m_BaseOffset: 1
   m_WalkableMask: 4294967295
   m_ObstacleAvoidanceType: 4
+--- !u!114 &931899529 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: -3503629816624402399, guid: 163c80800b32e1144940bf52d367b3db, type: 3}
+  m_PrefabInstance: {fileID: 1869567461}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 931899525}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 61b365b7da8ee674ca559ae2aedf84db, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::Customer
 --- !u!1001 &995196068
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -2024,6 +2449,38 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: -3503629816624402399, guid: 163c80800b32e1144940bf52d367b3db, type: 3}
+      propertyPath: police
+      value: 
+      objectReference: {fileID: 557006592}
+    - target: {fileID: -3503629816624402399, guid: 163c80800b32e1144940bf52d367b3db, type: 3}
+      propertyPath: fishCorner
+      value: 
+      objectReference: {fileID: 58864305}
+    - target: {fileID: -3503629816624402399, guid: 163c80800b32e1144940bf52d367b3db, type: 3}
+      propertyPath: meatCorner
+      value: 
+      objectReference: {fileID: 1132839069}
+    - target: {fileID: -3503629816624402399, guid: 163c80800b32e1144940bf52d367b3db, type: 3}
+      propertyPath: drinkCorner
+      value: 
+      objectReference: {fileID: 1085160861}
+    - target: {fileID: -3503629816624402399, guid: 163c80800b32e1144940bf52d367b3db, type: 3}
+      propertyPath: snackCorner
+      value: 
+      objectReference: {fileID: 1103297407}
+    - target: {fileID: -3503629816624402399, guid: 163c80800b32e1144940bf52d367b3db, type: 3}
+      propertyPath: vegetableCorner
+      value: 
+      objectReference: {fileID: 1072783140}
+    - target: {fileID: -3503629816624402399, guid: 163c80800b32e1144940bf52d367b3db, type: 3}
+      propertyPath: frozenFoodCorner
+      value: 
+      objectReference: {fileID: 182532850}
+    - target: {fileID: -3503629816624402399, guid: 163c80800b32e1144940bf52d367b3db, type: 3}
+      propertyPath: preparedFoodCorner
+      value: 
+      objectReference: {fileID: 262264544}
     - target: {fileID: 1646196348434634917, guid: 163c80800b32e1144940bf52d367b3db, type: 3}
       propertyPath: m_Name
       value: Customer_05
@@ -2075,9 +2532,6 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 1646196348434634917, guid: 163c80800b32e1144940bf52d367b3db, type: 3}
       insertIndex: -1
       addedObject: {fileID: 1741360790}
-    - targetCorrespondingSourceObject: {fileID: 1646196348434634917, guid: 163c80800b32e1144940bf52d367b3db, type: 3}
-      insertIndex: -1
-      addedObject: {fileID: 1741360789}
   m_SourcePrefab: {fileID: 100100000, guid: 163c80800b32e1144940bf52d367b3db, type: 3}
 --- !u!1001 &1032662271
 PrefabInstance:
@@ -2087,6 +2541,38 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: -3503629816624402399, guid: 163c80800b32e1144940bf52d367b3db, type: 3}
+      propertyPath: police
+      value: 
+      objectReference: {fileID: 557006592}
+    - target: {fileID: -3503629816624402399, guid: 163c80800b32e1144940bf52d367b3db, type: 3}
+      propertyPath: fishCorner
+      value: 
+      objectReference: {fileID: 58864305}
+    - target: {fileID: -3503629816624402399, guid: 163c80800b32e1144940bf52d367b3db, type: 3}
+      propertyPath: meatCorner
+      value: 
+      objectReference: {fileID: 1132839069}
+    - target: {fileID: -3503629816624402399, guid: 163c80800b32e1144940bf52d367b3db, type: 3}
+      propertyPath: drinkCorner
+      value: 
+      objectReference: {fileID: 1085160861}
+    - target: {fileID: -3503629816624402399, guid: 163c80800b32e1144940bf52d367b3db, type: 3}
+      propertyPath: snackCorner
+      value: 
+      objectReference: {fileID: 1103297407}
+    - target: {fileID: -3503629816624402399, guid: 163c80800b32e1144940bf52d367b3db, type: 3}
+      propertyPath: vegetableCorner
+      value: 
+      objectReference: {fileID: 1072783140}
+    - target: {fileID: -3503629816624402399, guid: 163c80800b32e1144940bf52d367b3db, type: 3}
+      propertyPath: frozenFoodCorner
+      value: 
+      objectReference: {fileID: 182532850}
+    - target: {fileID: -3503629816624402399, guid: 163c80800b32e1144940bf52d367b3db, type: 3}
+      propertyPath: preparedFoodCorner
+      value: 
+      objectReference: {fileID: 262264544}
     - target: {fileID: 1646196348434634917, guid: 163c80800b32e1144940bf52d367b3db, type: 3}
       propertyPath: m_Name
       value: Customer_08
@@ -2138,9 +2624,6 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 1646196348434634917, guid: 163c80800b32e1144940bf52d367b3db, type: 3}
       insertIndex: -1
       addedObject: {fileID: 1707518676}
-    - targetCorrespondingSourceObject: {fileID: 1646196348434634917, guid: 163c80800b32e1144940bf52d367b3db, type: 3}
-      insertIndex: -1
-      addedObject: {fileID: 1707518675}
   m_SourcePrefab: {fileID: 100100000, guid: 163c80800b32e1144940bf52d367b3db, type: 3}
 --- !u!1 &1072783139
 GameObject:
@@ -2269,7 +2752,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 0, y: 0}
+  m_AnchoredPosition: {x: 0, y: 100}
   m_SizeDelta: {x: 100, y: 100}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1124953742
@@ -2315,6 +2798,38 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: -3503629816624402399, guid: 163c80800b32e1144940bf52d367b3db, type: 3}
+      propertyPath: police
+      value: 
+      objectReference: {fileID: 557006592}
+    - target: {fileID: -3503629816624402399, guid: 163c80800b32e1144940bf52d367b3db, type: 3}
+      propertyPath: fishCorner
+      value: 
+      objectReference: {fileID: 58864305}
+    - target: {fileID: -3503629816624402399, guid: 163c80800b32e1144940bf52d367b3db, type: 3}
+      propertyPath: meatCorner
+      value: 
+      objectReference: {fileID: 1132839069}
+    - target: {fileID: -3503629816624402399, guid: 163c80800b32e1144940bf52d367b3db, type: 3}
+      propertyPath: drinkCorner
+      value: 
+      objectReference: {fileID: 1085160861}
+    - target: {fileID: -3503629816624402399, guid: 163c80800b32e1144940bf52d367b3db, type: 3}
+      propertyPath: snackCorner
+      value: 
+      objectReference: {fileID: 1103297407}
+    - target: {fileID: -3503629816624402399, guid: 163c80800b32e1144940bf52d367b3db, type: 3}
+      propertyPath: vegetableCorner
+      value: 
+      objectReference: {fileID: 1072783140}
+    - target: {fileID: -3503629816624402399, guid: 163c80800b32e1144940bf52d367b3db, type: 3}
+      propertyPath: frozenFoodCorner
+      value: 
+      objectReference: {fileID: 182532850}
+    - target: {fileID: -3503629816624402399, guid: 163c80800b32e1144940bf52d367b3db, type: 3}
+      propertyPath: preparedFoodCorner
+      value: 
+      objectReference: {fileID: 262264544}
     - target: {fileID: 1646196348434634917, guid: 163c80800b32e1144940bf52d367b3db, type: 3}
       propertyPath: m_Name
       value: Customer_15
@@ -2366,9 +2881,6 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 1646196348434634917, guid: 163c80800b32e1144940bf52d367b3db, type: 3}
       insertIndex: -1
       addedObject: {fileID: 557912917}
-    - targetCorrespondingSourceObject: {fileID: 1646196348434634917, guid: 163c80800b32e1144940bf52d367b3db, type: 3}
-      insertIndex: -1
-      addedObject: {fileID: 557912916}
   m_SourcePrefab: {fileID: 100100000, guid: 163c80800b32e1144940bf52d367b3db, type: 3}
 --- !u!1 &1132839068
 GameObject:
@@ -2409,6 +2921,38 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: -3503629816624402399, guid: 163c80800b32e1144940bf52d367b3db, type: 3}
+      propertyPath: police
+      value: 
+      objectReference: {fileID: 557006592}
+    - target: {fileID: -3503629816624402399, guid: 163c80800b32e1144940bf52d367b3db, type: 3}
+      propertyPath: fishCorner
+      value: 
+      objectReference: {fileID: 58864305}
+    - target: {fileID: -3503629816624402399, guid: 163c80800b32e1144940bf52d367b3db, type: 3}
+      propertyPath: meatCorner
+      value: 
+      objectReference: {fileID: 1132839069}
+    - target: {fileID: -3503629816624402399, guid: 163c80800b32e1144940bf52d367b3db, type: 3}
+      propertyPath: drinkCorner
+      value: 
+      objectReference: {fileID: 1085160861}
+    - target: {fileID: -3503629816624402399, guid: 163c80800b32e1144940bf52d367b3db, type: 3}
+      propertyPath: snackCorner
+      value: 
+      objectReference: {fileID: 1103297407}
+    - target: {fileID: -3503629816624402399, guid: 163c80800b32e1144940bf52d367b3db, type: 3}
+      propertyPath: vegetableCorner
+      value: 
+      objectReference: {fileID: 1072783140}
+    - target: {fileID: -3503629816624402399, guid: 163c80800b32e1144940bf52d367b3db, type: 3}
+      propertyPath: frozenFoodCorner
+      value: 
+      objectReference: {fileID: 182532850}
+    - target: {fileID: -3503629816624402399, guid: 163c80800b32e1144940bf52d367b3db, type: 3}
+      propertyPath: preparedFoodCorner
+      value: 
+      objectReference: {fileID: 262264544}
     - target: {fileID: 1646196348434634917, guid: 163c80800b32e1144940bf52d367b3db, type: 3}
       propertyPath: m_Name
       value: Customer_03
@@ -2460,9 +3004,6 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 1646196348434634917, guid: 163c80800b32e1144940bf52d367b3db, type: 3}
       insertIndex: -1
       addedObject: {fileID: 1979052833}
-    - targetCorrespondingSourceObject: {fileID: 1646196348434634917, guid: 163c80800b32e1144940bf52d367b3db, type: 3}
-      insertIndex: -1
-      addedObject: {fileID: 1979052832}
   m_SourcePrefab: {fileID: 100100000, guid: 163c80800b32e1144940bf52d367b3db, type: 3}
 --- !u!1001 &1192033531
 PrefabInstance:
@@ -2472,6 +3013,38 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: -3503629816624402399, guid: 163c80800b32e1144940bf52d367b3db, type: 3}
+      propertyPath: police
+      value: 
+      objectReference: {fileID: 557006592}
+    - target: {fileID: -3503629816624402399, guid: 163c80800b32e1144940bf52d367b3db, type: 3}
+      propertyPath: fishCorner
+      value: 
+      objectReference: {fileID: 58864305}
+    - target: {fileID: -3503629816624402399, guid: 163c80800b32e1144940bf52d367b3db, type: 3}
+      propertyPath: meatCorner
+      value: 
+      objectReference: {fileID: 1132839069}
+    - target: {fileID: -3503629816624402399, guid: 163c80800b32e1144940bf52d367b3db, type: 3}
+      propertyPath: drinkCorner
+      value: 
+      objectReference: {fileID: 1085160861}
+    - target: {fileID: -3503629816624402399, guid: 163c80800b32e1144940bf52d367b3db, type: 3}
+      propertyPath: snackCorner
+      value: 
+      objectReference: {fileID: 1103297407}
+    - target: {fileID: -3503629816624402399, guid: 163c80800b32e1144940bf52d367b3db, type: 3}
+      propertyPath: vegetableCorner
+      value: 
+      objectReference: {fileID: 1072783140}
+    - target: {fileID: -3503629816624402399, guid: 163c80800b32e1144940bf52d367b3db, type: 3}
+      propertyPath: frozenFoodCorner
+      value: 
+      objectReference: {fileID: 182532850}
+    - target: {fileID: -3503629816624402399, guid: 163c80800b32e1144940bf52d367b3db, type: 3}
+      propertyPath: preparedFoodCorner
+      value: 
+      objectReference: {fileID: 262264544}
     - target: {fileID: 1646196348434634917, guid: 163c80800b32e1144940bf52d367b3db, type: 3}
       propertyPath: m_Name
       value: Customer_11
@@ -2523,35 +3096,12 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 1646196348434634917, guid: 163c80800b32e1144940bf52d367b3db, type: 3}
       insertIndex: -1
       addedObject: {fileID: 1611423641}
-    - targetCorrespondingSourceObject: {fileID: 1646196348434634917, guid: 163c80800b32e1144940bf52d367b3db, type: 3}
-      insertIndex: -1
-      addedObject: {fileID: 1611423640}
   m_SourcePrefab: {fileID: 100100000, guid: 163c80800b32e1144940bf52d367b3db, type: 3}
 --- !u!1 &1233000032 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 1646196348434634917, guid: 163c80800b32e1144940bf52d367b3db, type: 3}
   m_PrefabInstance: {fileID: 460458487}
   m_PrefabAsset: {fileID: 0}
---- !u!114 &1233000033
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1233000032}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 61b365b7da8ee674ca559ae2aedf84db, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::Customer
-  moveRadius: 10
-  minWaitTime: 2
-  maxWaitTime: 5
-  clothesColor: 0
-  wearsHat: 0
-  wearsGlasses: 0
-  hasBag: 0
-  isThief: 0
 --- !u!195 &1233000034
 NavMeshAgent:
   m_ObjectHideFlags: 0
@@ -2574,6 +3124,17 @@ NavMeshAgent:
   m_BaseOffset: 1
   m_WalkableMask: 4294967295
   m_ObstacleAvoidanceType: 4
+--- !u!114 &1233000036 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: -3503629816624402399, guid: 163c80800b32e1144940bf52d367b3db, type: 3}
+  m_PrefabInstance: {fileID: 460458487}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1233000032}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 61b365b7da8ee674ca559ae2aedf84db, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::Customer
 --- !u!1 &1269856069
 GameObject:
   m_ObjectHideFlags: 0
@@ -2583,6 +3144,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1269856070}
+  - component: {fileID: 1269856071}
   m_Layer: 0
   m_Name: PlaySceneManager
   m_TagString: Untagged
@@ -2605,31 +3167,32 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!1 &1296059295 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 1646196348434634917, guid: 163c80800b32e1144940bf52d367b3db, type: 3}
-  m_PrefabInstance: {fileID: 390811221}
-  m_PrefabAsset: {fileID: 0}
---- !u!114 &1296059296
+--- !u!114 &1269856071
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1296059295}
+  m_GameObject: {fileID: 1269856069}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 61b365b7da8ee674ca559ae2aedf84db, type: 3}
+  m_Script: {fileID: 11500000, guid: 5d1fdb5c09f9cf645abeea19285dc9ef, type: 3}
   m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::Customer
-  moveRadius: 10
-  minWaitTime: 2
-  maxWaitTime: 5
-  clothesColor: 0
-  wearsHat: 0
-  wearsGlasses: 0
-  hasBag: 0
-  isThief: 0
+  m_EditorClassIdentifier: Assembly-CSharp::PlaySceneManager
+  gameTime: 180
+  wrongArrestTimePenalty: 50
+  timeText: {fileID: 631140966}
+  customerCountText: {fileID: 1823557803}
+  salesText: {fileID: 618432250}
+  minSalesIncrease: 100
+  maxSalesIncrease: 1000
+  salesIncreaseInterval: 3
+  resultSceneName: ResultScene
+--- !u!1 &1296059295 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 1646196348434634917, guid: 163c80800b32e1144940bf52d367b3db, type: 3}
+  m_PrefabInstance: {fileID: 390811221}
+  m_PrefabAsset: {fileID: 0}
 --- !u!195 &1296059297
 NavMeshAgent:
   m_ObjectHideFlags: 0
@@ -2652,6 +3215,17 @@ NavMeshAgent:
   m_BaseOffset: 1
   m_WalkableMask: 4294967295
   m_ObstacleAvoidanceType: 4
+--- !u!114 &1296059299 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: -3503629816624402399, guid: 163c80800b32e1144940bf52d367b3db, type: 3}
+  m_PrefabInstance: {fileID: 390811221}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1296059295}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 61b365b7da8ee674ca559ae2aedf84db, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::Customer
 --- !u!1 &1300098081
 GameObject:
   m_ObjectHideFlags: 0
@@ -2739,6 +3313,38 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: -3503629816624402399, guid: 163c80800b32e1144940bf52d367b3db, type: 3}
+      propertyPath: police
+      value: 
+      objectReference: {fileID: 557006592}
+    - target: {fileID: -3503629816624402399, guid: 163c80800b32e1144940bf52d367b3db, type: 3}
+      propertyPath: fishCorner
+      value: 
+      objectReference: {fileID: 58864305}
+    - target: {fileID: -3503629816624402399, guid: 163c80800b32e1144940bf52d367b3db, type: 3}
+      propertyPath: meatCorner
+      value: 
+      objectReference: {fileID: 1132839069}
+    - target: {fileID: -3503629816624402399, guid: 163c80800b32e1144940bf52d367b3db, type: 3}
+      propertyPath: drinkCorner
+      value: 
+      objectReference: {fileID: 1085160861}
+    - target: {fileID: -3503629816624402399, guid: 163c80800b32e1144940bf52d367b3db, type: 3}
+      propertyPath: snackCorner
+      value: 
+      objectReference: {fileID: 1103297407}
+    - target: {fileID: -3503629816624402399, guid: 163c80800b32e1144940bf52d367b3db, type: 3}
+      propertyPath: vegetableCorner
+      value: 
+      objectReference: {fileID: 1072783140}
+    - target: {fileID: -3503629816624402399, guid: 163c80800b32e1144940bf52d367b3db, type: 3}
+      propertyPath: frozenFoodCorner
+      value: 
+      objectReference: {fileID: 182532850}
+    - target: {fileID: -3503629816624402399, guid: 163c80800b32e1144940bf52d367b3db, type: 3}
+      propertyPath: preparedFoodCorner
+      value: 
+      objectReference: {fileID: 262264544}
     - target: {fileID: 1646196348434634917, guid: 163c80800b32e1144940bf52d367b3db, type: 3}
       propertyPath: m_Name
       value: Customer_06
@@ -2790,35 +3396,12 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 1646196348434634917, guid: 163c80800b32e1144940bf52d367b3db, type: 3}
       insertIndex: -1
       addedObject: {fileID: 686232274}
-    - targetCorrespondingSourceObject: {fileID: 1646196348434634917, guid: 163c80800b32e1144940bf52d367b3db, type: 3}
-      insertIndex: -1
-      addedObject: {fileID: 686232273}
   m_SourcePrefab: {fileID: 100100000, guid: 163c80800b32e1144940bf52d367b3db, type: 3}
 --- !u!1 &1480141646 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 1646196348434634917, guid: 163c80800b32e1144940bf52d367b3db, type: 3}
   m_PrefabInstance: {fileID: 1925870457}
   m_PrefabAsset: {fileID: 0}
---- !u!114 &1480141647
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1480141646}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 61b365b7da8ee674ca559ae2aedf84db, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::Customer
-  moveRadius: 10
-  minWaitTime: 2
-  maxWaitTime: 5
-  clothesColor: 0
-  wearsHat: 0
-  wearsGlasses: 0
-  hasBag: 0
-  isThief: 0
 --- !u!195 &1480141648
 NavMeshAgent:
   m_ObjectHideFlags: 0
@@ -2841,6 +3424,17 @@ NavMeshAgent:
   m_BaseOffset: 1
   m_WalkableMask: 4294967295
   m_ObstacleAvoidanceType: 4
+--- !u!114 &1480141650 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: -3503629816624402399, guid: 163c80800b32e1144940bf52d367b3db, type: 3}
+  m_PrefabInstance: {fileID: 1925870457}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1480141646}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 61b365b7da8ee674ca559ae2aedf84db, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::Customer
 --- !u!1 &1508955476
 GameObject:
   m_ObjectHideFlags: 0
@@ -2974,26 +3568,6 @@ GameObject:
   m_CorrespondingSourceObject: {fileID: 1646196348434634917, guid: 163c80800b32e1144940bf52d367b3db, type: 3}
   m_PrefabInstance: {fileID: 7901653189716700585}
   m_PrefabAsset: {fileID: 0}
---- !u!114 &1511261036
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1511261035}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 61b365b7da8ee674ca559ae2aedf84db, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::Customer
-  moveRadius: 10
-  minWaitTime: 2
-  maxWaitTime: 5
-  clothesColor: 0
-  wearsHat: 0
-  wearsGlasses: 0
-  hasBag: 0
-  isThief: 0
 --- !u!195 &1511261037
 NavMeshAgent:
   m_ObjectHideFlags: 0
@@ -3016,31 +3590,22 @@ NavMeshAgent:
   m_BaseOffset: 1
   m_WalkableMask: 4294967295
   m_ObstacleAvoidanceType: 4
---- !u!1 &1546807842 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 1646196348434634917, guid: 163c80800b32e1144940bf52d367b3db, type: 3}
-  m_PrefabInstance: {fileID: 909878910}
-  m_PrefabAsset: {fileID: 0}
---- !u!114 &1546807843
+--- !u!114 &1511261039 stripped
 MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
+  m_CorrespondingSourceObject: {fileID: -3503629816624402399, guid: 163c80800b32e1144940bf52d367b3db, type: 3}
+  m_PrefabInstance: {fileID: 7901653189716700585}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1546807842}
+  m_GameObject: {fileID: 1511261035}
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 61b365b7da8ee674ca559ae2aedf84db, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Customer
-  moveRadius: 10
-  minWaitTime: 2
-  maxWaitTime: 5
-  clothesColor: 0
-  wearsHat: 0
-  wearsGlasses: 0
-  hasBag: 0
-  isThief: 0
+--- !u!1 &1546807842 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 1646196348434634917, guid: 163c80800b32e1144940bf52d367b3db, type: 3}
+  m_PrefabInstance: {fileID: 909878910}
+  m_PrefabAsset: {fileID: 0}
 --- !u!195 &1546807844
 NavMeshAgent:
   m_ObjectHideFlags: 0
@@ -3063,31 +3628,22 @@ NavMeshAgent:
   m_BaseOffset: 1
   m_WalkableMask: 4294967295
   m_ObstacleAvoidanceType: 4
---- !u!1 &1580104176 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 1646196348434634917, guid: 163c80800b32e1144940bf52d367b3db, type: 3}
-  m_PrefabInstance: {fileID: 905751922}
-  m_PrefabAsset: {fileID: 0}
---- !u!114 &1580104177
+--- !u!114 &1546807846 stripped
 MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
+  m_CorrespondingSourceObject: {fileID: -3503629816624402399, guid: 163c80800b32e1144940bf52d367b3db, type: 3}
+  m_PrefabInstance: {fileID: 909878910}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1580104176}
+  m_GameObject: {fileID: 1546807842}
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 61b365b7da8ee674ca559ae2aedf84db, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Customer
-  moveRadius: 10
-  minWaitTime: 2
-  maxWaitTime: 5
-  clothesColor: 0
-  wearsHat: 0
-  wearsGlasses: 0
-  hasBag: 0
-  isThief: 0
+--- !u!1 &1580104176 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 1646196348434634917, guid: 163c80800b32e1144940bf52d367b3db, type: 3}
+  m_PrefabInstance: {fileID: 905751922}
+  m_PrefabAsset: {fileID: 0}
 --- !u!195 &1580104178
 NavMeshAgent:
   m_ObjectHideFlags: 0
@@ -3110,31 +3666,22 @@ NavMeshAgent:
   m_BaseOffset: 1
   m_WalkableMask: 4294967295
   m_ObstacleAvoidanceType: 4
---- !u!1 &1611423639 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 1646196348434634917, guid: 163c80800b32e1144940bf52d367b3db, type: 3}
-  m_PrefabInstance: {fileID: 1192033531}
-  m_PrefabAsset: {fileID: 0}
---- !u!114 &1611423640
+--- !u!114 &1580104180 stripped
 MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
+  m_CorrespondingSourceObject: {fileID: -3503629816624402399, guid: 163c80800b32e1144940bf52d367b3db, type: 3}
+  m_PrefabInstance: {fileID: 905751922}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1611423639}
+  m_GameObject: {fileID: 1580104176}
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 61b365b7da8ee674ca559ae2aedf84db, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Customer
-  moveRadius: 10
-  minWaitTime: 2
-  maxWaitTime: 5
-  clothesColor: 0
-  wearsHat: 0
-  wearsGlasses: 0
-  hasBag: 0
-  isThief: 0
+--- !u!1 &1611423639 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 1646196348434634917, guid: 163c80800b32e1144940bf52d367b3db, type: 3}
+  m_PrefabInstance: {fileID: 1192033531}
+  m_PrefabAsset: {fileID: 0}
 --- !u!195 &1611423641
 NavMeshAgent:
   m_ObjectHideFlags: 0
@@ -3157,31 +3704,22 @@ NavMeshAgent:
   m_BaseOffset: 1
   m_WalkableMask: 4294967295
   m_ObstacleAvoidanceType: 4
---- !u!1 &1704201955 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 1646196348434634917, guid: 163c80800b32e1144940bf52d367b3db, type: 3}
-  m_PrefabInstance: {fileID: 68173859}
-  m_PrefabAsset: {fileID: 0}
---- !u!114 &1704201956
+--- !u!114 &1611423643 stripped
 MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
+  m_CorrespondingSourceObject: {fileID: -3503629816624402399, guid: 163c80800b32e1144940bf52d367b3db, type: 3}
+  m_PrefabInstance: {fileID: 1192033531}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1704201955}
+  m_GameObject: {fileID: 1611423639}
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 61b365b7da8ee674ca559ae2aedf84db, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Customer
-  moveRadius: 10
-  minWaitTime: 2
-  maxWaitTime: 5
-  clothesColor: 0
-  wearsHat: 0
-  wearsGlasses: 0
-  hasBag: 0
-  isThief: 0
+--- !u!1 &1704201955 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 1646196348434634917, guid: 163c80800b32e1144940bf52d367b3db, type: 3}
+  m_PrefabInstance: {fileID: 68173859}
+  m_PrefabAsset: {fileID: 0}
 --- !u!195 &1704201957
 NavMeshAgent:
   m_ObjectHideFlags: 0
@@ -3204,31 +3742,22 @@ NavMeshAgent:
   m_BaseOffset: 1
   m_WalkableMask: 4294967295
   m_ObstacleAvoidanceType: 4
---- !u!1 &1707518674 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 1646196348434634917, guid: 163c80800b32e1144940bf52d367b3db, type: 3}
-  m_PrefabInstance: {fileID: 1032662271}
-  m_PrefabAsset: {fileID: 0}
---- !u!114 &1707518675
+--- !u!114 &1704201959 stripped
 MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
+  m_CorrespondingSourceObject: {fileID: -3503629816624402399, guid: 163c80800b32e1144940bf52d367b3db, type: 3}
+  m_PrefabInstance: {fileID: 68173859}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1707518674}
+  m_GameObject: {fileID: 1704201955}
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 61b365b7da8ee674ca559ae2aedf84db, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Customer
-  moveRadius: 10
-  minWaitTime: 2
-  maxWaitTime: 5
-  clothesColor: 0
-  wearsHat: 0
-  wearsGlasses: 0
-  hasBag: 0
-  isThief: 0
+--- !u!1 &1707518674 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 1646196348434634917, guid: 163c80800b32e1144940bf52d367b3db, type: 3}
+  m_PrefabInstance: {fileID: 1032662271}
+  m_PrefabAsset: {fileID: 0}
 --- !u!195 &1707518676
 NavMeshAgent:
   m_ObjectHideFlags: 0
@@ -3251,31 +3780,22 @@ NavMeshAgent:
   m_BaseOffset: 1
   m_WalkableMask: 4294967295
   m_ObstacleAvoidanceType: 4
---- !u!1 &1731502362 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 1646196348434634917, guid: 163c80800b32e1144940bf52d367b3db, type: 3}
-  m_PrefabInstance: {fileID: 499578001}
-  m_PrefabAsset: {fileID: 0}
---- !u!114 &1731502363
+--- !u!114 &1707518678 stripped
 MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
+  m_CorrespondingSourceObject: {fileID: -3503629816624402399, guid: 163c80800b32e1144940bf52d367b3db, type: 3}
+  m_PrefabInstance: {fileID: 1032662271}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1731502362}
+  m_GameObject: {fileID: 1707518674}
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 61b365b7da8ee674ca559ae2aedf84db, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Customer
-  moveRadius: 10
-  minWaitTime: 2
-  maxWaitTime: 5
-  clothesColor: 0
-  wearsHat: 0
-  wearsGlasses: 0
-  hasBag: 0
-  isThief: 0
+--- !u!1 &1731502362 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 1646196348434634917, guid: 163c80800b32e1144940bf52d367b3db, type: 3}
+  m_PrefabInstance: {fileID: 499578001}
+  m_PrefabAsset: {fileID: 0}
 --- !u!195 &1731502364
 NavMeshAgent:
   m_ObjectHideFlags: 0
@@ -3298,31 +3818,22 @@ NavMeshAgent:
   m_BaseOffset: 1
   m_WalkableMask: 4294967295
   m_ObstacleAvoidanceType: 4
---- !u!1 &1741360788 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 1646196348434634917, guid: 163c80800b32e1144940bf52d367b3db, type: 3}
-  m_PrefabInstance: {fileID: 995196068}
-  m_PrefabAsset: {fileID: 0}
---- !u!114 &1741360789
+--- !u!114 &1731502366 stripped
 MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
+  m_CorrespondingSourceObject: {fileID: -3503629816624402399, guid: 163c80800b32e1144940bf52d367b3db, type: 3}
+  m_PrefabInstance: {fileID: 499578001}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1741360788}
+  m_GameObject: {fileID: 1731502362}
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 61b365b7da8ee674ca559ae2aedf84db, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Customer
-  moveRadius: 10
-  minWaitTime: 2
-  maxWaitTime: 5
-  clothesColor: 0
-  wearsHat: 0
-  wearsGlasses: 0
-  hasBag: 0
-  isThief: 0
+--- !u!1 &1741360788 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 1646196348434634917, guid: 163c80800b32e1144940bf52d367b3db, type: 3}
+  m_PrefabInstance: {fileID: 995196068}
+  m_PrefabAsset: {fileID: 0}
 --- !u!195 &1741360790
 NavMeshAgent:
   m_ObjectHideFlags: 0
@@ -3345,6 +3856,198 @@ NavMeshAgent:
   m_BaseOffset: 1
   m_WalkableMask: 4294967295
   m_ObstacleAvoidanceType: 4
+--- !u!114 &1741360792 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: -3503629816624402399, guid: 163c80800b32e1144940bf52d367b3db, type: 3}
+  m_PrefabInstance: {fileID: 995196068}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1741360788}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 61b365b7da8ee674ca559ae2aedf84db, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::Customer
+--- !u!1 &1823557801
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1823557802}
+  - component: {fileID: 1823557804}
+  - component: {fileID: 1823557803}
+  m_Layer: 5
+  m_Name: Customer
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!224 &1823557802
+RectTransform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1823557801}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 150186088}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_AnchorMin: {x: 0, y: 1}
+  m_AnchorMax: {x: 0, y: 1}
+  m_AnchoredPosition: {x: 114.8, y: -37.7}
+  m_SizeDelta: {x: 200, y: 50}
+  m_Pivot: {x: 0.5, y: 0.5}
+--- !u!114 &1823557803
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1823557801}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f4688fdb7df04437aeb418b961361dc5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Unity.TextMeshPro::TMPro.TextMeshProUGUI
+  m_Material: {fileID: 0}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_RaycastTarget: 1
+  m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
+  m_Maskable: 1
+  m_OnCullStateChanged:
+    m_PersistentCalls:
+      m_Calls: []
+  m_text: Customer
+  m_isRightToLeft: 0
+  m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
+  m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
+  m_fontSharedMaterials: []
+  m_fontMaterial: {fileID: 0}
+  m_fontMaterials: []
+  m_fontColor32:
+    serializedVersion: 2
+    rgba: 4294967295
+  m_fontColor: {r: 1, g: 1, b: 1, a: 1}
+  m_enableVertexGradient: 0
+  m_colorMode: 3
+  m_fontColorGradient:
+    topLeft: {r: 1, g: 1, b: 1, a: 1}
+    topRight: {r: 1, g: 1, b: 1, a: 1}
+    bottomLeft: {r: 1, g: 1, b: 1, a: 1}
+    bottomRight: {r: 1, g: 1, b: 1, a: 1}
+  m_fontColorGradientPreset: {fileID: 0}
+  m_spriteAsset: {fileID: 0}
+  m_tintAllSprites: 0
+  m_StyleSheet: {fileID: 0}
+  m_TextStyleHashCode: -1183493901
+  m_overrideHtmlColors: 0
+  m_faceColor:
+    serializedVersion: 2
+    rgba: 4294967295
+  m_fontSize: 36
+  m_fontSizeBase: 36
+  m_fontWeight: 400
+  m_enableAutoSizing: 0
+  m_fontSizeMin: 18
+  m_fontSizeMax: 72
+  m_fontStyle: 0
+  m_HorizontalAlignment: 1
+  m_VerticalAlignment: 256
+  m_textAlignment: 65535
+  m_characterSpacing: 0
+  m_characterHorizontalScale: 1
+  m_wordSpacing: 0
+  m_lineSpacing: 0
+  m_lineSpacingMax: 0
+  m_paragraphSpacing: 0
+  m_charWidthMaxAdj: 0
+  m_TextWrappingMode: 1
+  m_wordWrappingRatios: 0.4
+  m_overflowMode: 0
+  m_linkedTextComponent: {fileID: 0}
+  parentLinkedComponent: {fileID: 0}
+  m_enableKerning: 0
+  m_ActiveFontFeatures: 6e72656b
+  m_enableExtraPadding: 0
+  checkPaddingRequired: 0
+  m_isRichText: 1
+  m_EmojiFallbackSupport: 1
+  m_parseCtrlCharacters: 1
+  m_isOrthographic: 1
+  m_isCullingEnabled: 0
+  m_horizontalMapping: 0
+  m_verticalMapping: 0
+  m_uvLineOffset: 0
+  m_geometrySortingOrder: 0
+  m_IsTextObjectScaleStatic: 0
+  m_VertexBufferAutoSizeReduction: 0
+  m_useMaxVisibleDescender: 1
+  m_pageToDisplay: 1
+  m_margin: {x: 0, y: 0, z: -143.94556, w: 0}
+  m_isUsingLegacyAnimationComponent: 0
+  m_isVolumetricText: 0
+  m_hasFontAssetChanged: 0
+  m_baseMaterial: {fileID: 0}
+  m_maskOffset: {x: 0, y: 0, z: 0, w: 0}
+--- !u!222 &1823557804
+CanvasRenderer:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1823557801}
+  m_CullTransparentMesh: 1
+--- !u!1 &1852892131
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1852892133}
+  - component: {fileID: 1852892132}
+  m_Layer: 0
+  m_Name: GameObject
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 0
+--- !u!114 &1852892132
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1852892131}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: defbd22406c60cb45867ab5390b4c15b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::DictationTest
+--- !u!4 &1852892133
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1852892131}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 426.73035, y: -0.00002, z: 3797.6716}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1001 &1869567461
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -3353,6 +4056,38 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: -3503629816624402399, guid: 163c80800b32e1144940bf52d367b3db, type: 3}
+      propertyPath: police
+      value: 
+      objectReference: {fileID: 557006592}
+    - target: {fileID: -3503629816624402399, guid: 163c80800b32e1144940bf52d367b3db, type: 3}
+      propertyPath: fishCorner
+      value: 
+      objectReference: {fileID: 58864305}
+    - target: {fileID: -3503629816624402399, guid: 163c80800b32e1144940bf52d367b3db, type: 3}
+      propertyPath: meatCorner
+      value: 
+      objectReference: {fileID: 1132839069}
+    - target: {fileID: -3503629816624402399, guid: 163c80800b32e1144940bf52d367b3db, type: 3}
+      propertyPath: drinkCorner
+      value: 
+      objectReference: {fileID: 1085160861}
+    - target: {fileID: -3503629816624402399, guid: 163c80800b32e1144940bf52d367b3db, type: 3}
+      propertyPath: snackCorner
+      value: 
+      objectReference: {fileID: 1103297407}
+    - target: {fileID: -3503629816624402399, guid: 163c80800b32e1144940bf52d367b3db, type: 3}
+      propertyPath: vegetableCorner
+      value: 
+      objectReference: {fileID: 1072783140}
+    - target: {fileID: -3503629816624402399, guid: 163c80800b32e1144940bf52d367b3db, type: 3}
+      propertyPath: frozenFoodCorner
+      value: 
+      objectReference: {fileID: 182532850}
+    - target: {fileID: -3503629816624402399, guid: 163c80800b32e1144940bf52d367b3db, type: 3}
+      propertyPath: preparedFoodCorner
+      value: 
+      objectReference: {fileID: 262264544}
     - target: {fileID: 1646196348434634917, guid: 163c80800b32e1144940bf52d367b3db, type: 3}
       propertyPath: m_Name
       value: Customer_04
@@ -3404,9 +4139,6 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 1646196348434634917, guid: 163c80800b32e1144940bf52d367b3db, type: 3}
       insertIndex: -1
       addedObject: {fileID: 931899527}
-    - targetCorrespondingSourceObject: {fileID: 1646196348434634917, guid: 163c80800b32e1144940bf52d367b3db, type: 3}
-      insertIndex: -1
-      addedObject: {fileID: 931899526}
   m_SourcePrefab: {fileID: 100100000, guid: 163c80800b32e1144940bf52d367b3db, type: 3}
 --- !u!1 &1874963773
 GameObject:
@@ -3495,6 +4227,38 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: -3503629816624402399, guid: 163c80800b32e1144940bf52d367b3db, type: 3}
+      propertyPath: police
+      value: 
+      objectReference: {fileID: 557006592}
+    - target: {fileID: -3503629816624402399, guid: 163c80800b32e1144940bf52d367b3db, type: 3}
+      propertyPath: fishCorner
+      value: 
+      objectReference: {fileID: 58864305}
+    - target: {fileID: -3503629816624402399, guid: 163c80800b32e1144940bf52d367b3db, type: 3}
+      propertyPath: meatCorner
+      value: 
+      objectReference: {fileID: 1132839069}
+    - target: {fileID: -3503629816624402399, guid: 163c80800b32e1144940bf52d367b3db, type: 3}
+      propertyPath: drinkCorner
+      value: 
+      objectReference: {fileID: 1085160861}
+    - target: {fileID: -3503629816624402399, guid: 163c80800b32e1144940bf52d367b3db, type: 3}
+      propertyPath: snackCorner
+      value: 
+      objectReference: {fileID: 1103297407}
+    - target: {fileID: -3503629816624402399, guid: 163c80800b32e1144940bf52d367b3db, type: 3}
+      propertyPath: vegetableCorner
+      value: 
+      objectReference: {fileID: 1072783140}
+    - target: {fileID: -3503629816624402399, guid: 163c80800b32e1144940bf52d367b3db, type: 3}
+      propertyPath: frozenFoodCorner
+      value: 
+      objectReference: {fileID: 182532850}
+    - target: {fileID: -3503629816624402399, guid: 163c80800b32e1144940bf52d367b3db, type: 3}
+      propertyPath: preparedFoodCorner
+      value: 
+      objectReference: {fileID: 262264544}
     - target: {fileID: 1646196348434634917, guid: 163c80800b32e1144940bf52d367b3db, type: 3}
       propertyPath: m_Name
       value: Customer_13
@@ -3546,9 +4310,6 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 1646196348434634917, guid: 163c80800b32e1144940bf52d367b3db, type: 3}
       insertIndex: -1
       addedObject: {fileID: 1480141648}
-    - targetCorrespondingSourceObject: {fileID: 1646196348434634917, guid: 163c80800b32e1144940bf52d367b3db, type: 3}
-      insertIndex: -1
-      addedObject: {fileID: 1480141647}
   m_SourcePrefab: {fileID: 100100000, guid: 163c80800b32e1144940bf52d367b3db, type: 3}
 --- !u!1 &1931560767
 GameObject:
@@ -3682,26 +4443,6 @@ GameObject:
   m_CorrespondingSourceObject: {fileID: 1646196348434634917, guid: 163c80800b32e1144940bf52d367b3db, type: 3}
   m_PrefabInstance: {fileID: 1160201957}
   m_PrefabAsset: {fileID: 0}
---- !u!114 &1979052832
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1979052831}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 61b365b7da8ee674ca559ae2aedf84db, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::Customer
-  moveRadius: 10
-  minWaitTime: 2
-  maxWaitTime: 5
-  clothesColor: 0
-  wearsHat: 0
-  wearsGlasses: 0
-  hasBag: 0
-  isThief: 0
 --- !u!195 &1979052833
 NavMeshAgent:
   m_ObjectHideFlags: 0
@@ -3724,6 +4465,17 @@ NavMeshAgent:
   m_BaseOffset: 1
   m_WalkableMask: 4294967295
   m_ObstacleAvoidanceType: 4
+--- !u!114 &1979052835 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: -3503629816624402399, guid: 163c80800b32e1144940bf52d367b3db, type: 3}
+  m_PrefabInstance: {fileID: 1160201957}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1979052831}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 61b365b7da8ee674ca559ae2aedf84db, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::Customer
 --- !u!1 &1979334822
 GameObject:
   m_ObjectHideFlags: 0
@@ -4021,6 +4773,38 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: -3503629816624402399, guid: 163c80800b32e1144940bf52d367b3db, type: 3}
+      propertyPath: police
+      value: 
+      objectReference: {fileID: 557006592}
+    - target: {fileID: -3503629816624402399, guid: 163c80800b32e1144940bf52d367b3db, type: 3}
+      propertyPath: fishCorner
+      value: 
+      objectReference: {fileID: 58864305}
+    - target: {fileID: -3503629816624402399, guid: 163c80800b32e1144940bf52d367b3db, type: 3}
+      propertyPath: meatCorner
+      value: 
+      objectReference: {fileID: 1132839069}
+    - target: {fileID: -3503629816624402399, guid: 163c80800b32e1144940bf52d367b3db, type: 3}
+      propertyPath: drinkCorner
+      value: 
+      objectReference: {fileID: 1085160861}
+    - target: {fileID: -3503629816624402399, guid: 163c80800b32e1144940bf52d367b3db, type: 3}
+      propertyPath: snackCorner
+      value: 
+      objectReference: {fileID: 1103297407}
+    - target: {fileID: -3503629816624402399, guid: 163c80800b32e1144940bf52d367b3db, type: 3}
+      propertyPath: vegetableCorner
+      value: 
+      objectReference: {fileID: 1072783140}
+    - target: {fileID: -3503629816624402399, guid: 163c80800b32e1144940bf52d367b3db, type: 3}
+      propertyPath: frozenFoodCorner
+      value: 
+      objectReference: {fileID: 182532850}
+    - target: {fileID: -3503629816624402399, guid: 163c80800b32e1144940bf52d367b3db, type: 3}
+      propertyPath: preparedFoodCorner
+      value: 
+      objectReference: {fileID: 262264544}
     - target: {fileID: 1646196348434634917, guid: 163c80800b32e1144940bf52d367b3db, type: 3}
       propertyPath: m_Name
       value: Customer_01
@@ -4072,9 +4856,6 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 1646196348434634917, guid: 163c80800b32e1144940bf52d367b3db, type: 3}
       insertIndex: -1
       addedObject: {fileID: 1511261037}
-    - targetCorrespondingSourceObject: {fileID: 1646196348434634917, guid: 163c80800b32e1144940bf52d367b3db, type: 3}
-      insertIndex: -1
-      addedObject: {fileID: 1511261036}
   m_SourcePrefab: {fileID: 100100000, guid: 163c80800b32e1144940bf52d367b3db, type: 3}
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
@@ -4116,3 +4897,4 @@ SceneRoots:
   - {fileID: 150186088}
   - {fileID: 1508955480}
   - {fileID: 136286114}
+  - {fileID: 1852892133}
