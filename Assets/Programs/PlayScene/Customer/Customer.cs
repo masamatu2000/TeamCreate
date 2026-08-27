@@ -618,6 +618,7 @@ public void Catch()
 
         Debug.Log($"{gameObject.name} ‚Í“D–_‚Å‚µ‚½IŠm•Û¬Œ÷I");
             playSceneManager.Caught();
+            playSceneManager.ThiefCaught();
             // “D–_‚¾‚¯Á‚·
             gameObject.SetActive(false);
     }

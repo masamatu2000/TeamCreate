@@ -16,7 +16,10 @@ public class CustomerManager : MonoBehaviour
     {
         DecideThieves();
     }
-
+    public int GetThiefCount()
+    {
+        return thiefCount;
+    }
     /// <summary>
     /// “D–_‚ðƒ‰ƒ“ƒ_ƒ€‚ÉŒˆ’è‚·‚é
     /// </summary>

@@ -1,11 +1,14 @@
+using System.Collections;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using UnityEngine.InputSystem;
 using TMPro;
 
 /// <summary>
 /// PlayScene全体のゲーム進行を管理するクラス
-/// 
+///
 /// 管理するもの
+/// ・ゲーム開始カウントダウン
 /// ・制限時間
 /// ・現在のお客さん人数
 /// ・売上金
@@ -16,13 +19,32 @@ using TMPro;
 /// </summary>
 public class PlaySceneManager : MonoBehaviour
 {
+    [Header("ゲーム開始")]
+    [SerializeField]
+    private TextMeshProUGUI countdownText;
+
+    // ゲームが開始したか
+    private bool isGameStarted = false;
+
+    // カウントダウン中か
+    private bool isCountdownStarted = false;
+
+
+    [SerializeField]
+    private TextMeshProUGUI captureResultText;
+
+    [SerializeField]
+    private float captureResultDisplayTime = 2.0f;
+
     [Header("ゲーム時間")]
     [SerializeField]
     private float gameTime = 180.0f;
 
+
     [Header("誤認逮捕ペナルティ")]
     [SerializeField]
-    private float wrongArrestTimePenalty = 50.0f;
+    private float wrongArrestTimePenalty = 20.0f;
+
 
     [Header("UI")]
     [SerializeField]
@@ -33,6 +55,11 @@ public class PlaySceneManager : MonoBehaviour
 
     [SerializeField]
     private TextMeshProUGUI salesText;
+
+
+    [Header("お客さん管理")]
+    [SerializeField]
+    private CustomerManager CustomerManager;
 
 
     [Header("売上設定")]
@@ -60,6 +87,9 @@ public class PlaySceneManager : MonoBehaviour
     // 捕まえた人数
     private int caughtCount = 0;
 
+    // 捕まえた泥棒の人数
+    private int caughtThiefCount = 0;
+
     // 逃がした泥棒
     private int escapedThiefCount = 0;
 
@@ -75,9 +105,29 @@ public class PlaySceneManager : MonoBehaviour
 
     private void Start()
     {
-        // 初期化
+        // 売上タイマー初期化
         salesTimer = salesIncreaseInterval;
 
+        // ゲーム開始前
+        isGameStarted = false;
+        isCountdownStarted = false;
+
+        if (captureResultText != null)
+        {
+            captureResultText.gameObject.SetActive(false);
+        }
+
+        // 中央に開始メッセージを表示
+        if (countdownText != null)
+        {
+            countdownText.gameObject.SetActive(true);
+
+            countdownText.text =
+                "Push Space To Start";
+        }
+
+
+        UpdateCustomerCount();
         UpdateUI();
     }
 
@@ -89,24 +139,114 @@ public class PlaySceneManager : MonoBehaviour
             return;
         }
 
-        UpdateGameTimer();
-        Customer[] customers =
-       FindObjectsByType<Customer>(
-           FindObjectsSortMode.None
-       );
 
-        currentCustomerCount =
-            customers.Length;
-        // ゲーム終了したら、そのフレームの処理もここで終了
+        // ==========================================
+        // ゲーム開始前
+        // ==========================================
+
+        if (!isGameStarted)
+        {
+            // まだカウントダウンが始まっていない
+            if (!isCountdownStarted)
+            {
+                if (Keyboard.current != null &&
+                    Keyboard.current.spaceKey.wasPressedThisFrame)
+                {
+                    isCountdownStarted = true;
+
+                    StartCoroutine(
+                        StartCountdown()
+                    );
+                }
+            }
+
+            // ゲーム開始前なので
+            // 制限時間や売上処理は行わない
+            return;
+        }
+
+
+        // ==========================================
+        // ここからゲーム中
+        // ==========================================
+
+        UpdateGameTimer();
+
+        UpdateCustomerCount();
+
+
+        // ゲーム終了したら
+        // そのフレームの処理も終了
         if (isGameFinished)
         {
             return;
         }
 
+
         UpdateSales();
+
         UpdateUI();
     }
 
+
+    // ==========================================================
+    // ゲーム開始
+    // ==========================================================
+
+    /// <summary>
+    /// ゲーム開始カウントダウン
+    /// </summary>
+    private IEnumerator StartCountdown()
+    {
+        if (countdownText != null)
+        {
+            countdownText.text = "3";
+        }
+
+        yield return new WaitForSeconds(1.0f);
+
+
+        if (countdownText != null)
+        {
+            countdownText.text = "2";
+        }
+
+        yield return new WaitForSeconds(1.0f);
+
+
+        if (countdownText != null)
+        {
+            countdownText.text = "1";
+        }
+
+        yield return new WaitForSeconds(1.0f);
+
+
+        if (countdownText != null)
+        {
+            countdownText.text = "START!";
+        }
+
+        yield return new WaitForSeconds(1.0f);
+
+
+        // カウントダウンUIを消す
+        if (countdownText != null)
+        {
+            countdownText.gameObject.SetActive(false);
+        }
+
+
+        // ゲーム開始
+        isGameStarted = true;
+
+        Debug.Log("ゲーム開始！");
+    }
+
+
+    // ==========================================================
+    // 制限時間
+    // ==========================================================
 
     /// <summary>
     /// 制限時間を減らす
@@ -123,6 +263,29 @@ public class PlaySceneManager : MonoBehaviour
         }
     }
 
+
+    // ==========================================================
+    // お客さん人数
+    // ==========================================================
+
+    /// <summary>
+    /// 現在存在しているお客さんの人数を取得
+    /// </summary>
+    private void UpdateCustomerCount()
+    {
+        Customer[] customers =
+            FindObjectsByType<Customer>(
+                FindObjectsSortMode.None
+            );
+
+        currentCustomerCount =
+            customers.Length;
+    }
+
+
+    // ==========================================================
+    // 売上
+    // ==========================================================
 
     /// <summary>
     /// 一定時間ごとに売上を増やす
@@ -147,17 +310,14 @@ public class PlaySceneManager : MonoBehaviour
         sales += increase;
 
 
-        //Debug.Log(
-        //    "売上 +" +
-        //    increase +
-        //    "円"
-        //);
-
-
         // タイマーをリセット
         salesTimer = salesIncreaseInterval;
     }
 
+
+    // ==========================================================
+    // UI
+    // ==========================================================
 
     /// <summary>
     /// UI表示更新
@@ -204,7 +364,7 @@ public class PlaySceneManager : MonoBehaviour
         {
             salesText.text =
                 "Sales:" +
-                sales.ToString("N0") ;
+                sales.ToString("N0");
         }
     }
 
@@ -212,7 +372,6 @@ public class PlaySceneManager : MonoBehaviour
     // ==========================================================
     // お客さん関係
     // ==========================================================
-
 
     /// <summary>
     /// お客さんが店に入った
@@ -257,18 +416,42 @@ public class PlaySceneManager : MonoBehaviour
     // 泥棒関係
     // ==========================================================
 
-
     /// <summary>
-    /// 泥棒を捕まえた
+    /// 捕まえた
     /// </summary>
     public void Caught()
     {
         caughtCount++;
 
+        Debug.Log(
+            "捕まえた人数：" +
+            caughtCount
+        );
+    }
+
+
+    /// <summary>
+    /// 泥棒を捕まえた
+    /// </summary>
+    public void ThiefCaught()
+    {
+        caughtThiefCount++;
+
         CustomerExited();
 
+        StartCoroutine(
+       ShowCaptureResult("泥棒だった！")
+   );
+
+        if (caughtThiefCount ==
+            CustomerManager.GetThiefCount())
+        {
+            FinishGame();
+        }
+
+
         Debug.Log(
-            " 捕まえた人数：" +
+            "捕まえた人数：" +
             caughtCount
         );
     }
@@ -290,11 +473,23 @@ public class PlaySceneManager : MonoBehaviour
         );
     }
 
+    private IEnumerator ShowCaptureResult(string message)
+    {
+        if (captureResultText == null)
+        {
+            yield break;
+        }
 
+        captureResultText.gameObject.SetActive(true);
+        captureResultText.text = message;
+
+        yield return new WaitForSeconds(captureResultDisplayTime);
+
+        captureResultText.gameObject.SetActive(false);
+    }
     // ==========================================================
     // クレーム関係
     // ==========================================================
-
 
     /// <summary>
     /// 一般客を間違えて捕まえた
@@ -302,6 +497,10 @@ public class PlaySceneManager : MonoBehaviour
     public void AddComplaint()
     {
         complaintCount++;
+
+        StartCoroutine(
+       ShowCaptureResult("一般客だったようだ。。。")
+   );
 
         Debug.Log(
             "クレーム発生！" +
@@ -314,7 +513,6 @@ public class PlaySceneManager : MonoBehaviour
     // ==========================================================
     // 売上
     // ==========================================================
-
 
     /// <summary>
     /// 任意の金額を売上に追加
@@ -330,6 +528,11 @@ public class PlaySceneManager : MonoBehaviour
 
         UpdateUI();
     }
+
+
+    // ==========================================================
+    // 時間ペナルティ
+    // ==========================================================
 
     /// <summary>
     /// 誤認逮捕などで制限時間を減らす
@@ -351,17 +554,17 @@ public class PlaySceneManager : MonoBehaviour
 
         UpdateUI();
 
-        // ペナルティで0秒になった場合もゲーム終了
+
         if (gameTime <= 0.0f)
         {
             FinishGame();
         }
     }
 
+
     // ==========================================================
     // ゲーム終了
     // ==========================================================
-
 
     /// <summary>
     /// ゲーム終了
@@ -403,20 +606,21 @@ public class PlaySceneManager : MonoBehaviour
             sales;
 
 
-        // ResultSceneへ
         Debug.Log(
-     "★ FinishGame：ResultScene読み込み直前 " +
-     Time.realtimeSinceStartup
- );
+            "★ FinishGame：ResultScene読み込み直前 " +
+            Time.realtimeSinceStartup
+        );
 
-        SceneManager.LoadScene(resultSceneName);
+
+        SceneManager.LoadScene(
+            resultSceneName
+        );
     }
 
 
     // ==========================================================
     // Getter
     // ==========================================================
-
 
     public int GetCurrentCustomerCount()
     {
@@ -453,7 +657,14 @@ public class PlaySceneManager : MonoBehaviour
         return gameTime;
     }
 
- 
+
+    /// <summary>
+    /// ゲームが開始しているか
+    /// </summary>
+    public bool IsGameStarted()
+    {
+        return isGameStarted;
+    }
 }
 
 
