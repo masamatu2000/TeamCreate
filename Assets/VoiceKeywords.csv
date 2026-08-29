@@ -21,7 +21,8 @@ Corner,おかずコーナー,PreparedFood
 ,,
 Corner,精肉コーナー,Meat
 Corner,肉コーナー,Meat
-,,
+Corner,パン,Bread
+Corner,パンコーナー,Bread
 Capture,捕まえろ,Capture
 Capture,捕まえて,Capture
 Capture,確保,Capture
@@ -53,3 +54,7 @@ Confirmation,いいや,No
 Confirmation,いや,No
 Confirmation,ノー,No
 Confirmation,no,No
+,,
+Stop,止まって,Stop
+Stop,とまれ,Stop
+Stop,停止,Stop

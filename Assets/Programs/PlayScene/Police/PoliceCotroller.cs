@@ -19,10 +19,21 @@ public class PoliceController : MonoBehaviour
     [SerializeField] private Transform drinkCorner;
     [SerializeField] private Transform preparedFoodCorner;
     [SerializeField] private Transform meatCorner;
-
+    [SerializeField] private Transform breadCorner;
     [Header("捕獲設定")]
     [SerializeField] private float catchDistance = 4.0f;
 
+
+    [Header("泥棒捕獲用警備員")]
+    [SerializeField]
+    private ArrestPoliceController arrestPolice;
+
+    [Header("警備員モデル")]
+    [SerializeField]
+    private GameObject idlePolice;
+
+    [SerializeField]
+    private GameObject walkPolice;
     // 移動後に使う命令
     private VoiceCommand pendingCommand;
 
@@ -35,8 +46,12 @@ public class PoliceController : MonoBehaviour
     // 「はい」「いいえ」の返事を待っているか
     private bool isWaitingForConfirmation;
 
+    [SerializeField]
+    private PlaySceneManager playSceneManager;
+
     private void Start()
     {
+        ShowIdle();
         if (voiceRecognizer != null)
         {
             voiceRecognizer.OnCommandRecognized += ExecuteCommand;
@@ -52,6 +67,11 @@ public class PoliceController : MonoBehaviour
 
     private void Update()
     {
+        if (playSceneManager != null &&
+    !playSceneManager.IsGameStarted())
+        {
+            return;
+        }
         if (agent == null)
         {
             return;
@@ -62,6 +82,8 @@ public class PoliceController : MonoBehaviour
             agent.remainingDistance <= agent.stoppingDistance + 0.2f)
         {
             isMovingToCorner = false;
+
+            ShowIdle();
 
             Debug.Log("コーナーに到着しました");
 
@@ -137,6 +159,32 @@ public class PoliceController : MonoBehaviour
         }
     }
 
+    private void ShowIdle()
+    {
+        if (idlePolice != null)
+        {
+            idlePolice.SetActive(true);
+        }
+
+        if (walkPolice != null)
+        {
+            walkPolice.SetActive(false);
+        }
+    }
+
+    private void ShowWalk()
+    {
+        if (idlePolice != null)
+        {
+            idlePolice.SetActive(false);
+        }
+
+        if (walkPolice != null)
+        {
+            walkPolice.SetActive(true);
+        }
+    }
+
     /// <summary>
     /// CornerTypeに対応するTransformを取得する
     /// </summary>
@@ -164,6 +212,8 @@ public class PoliceController : MonoBehaviour
 
             case CornerType.Meat:
                 return meatCorner;
+            case CornerType.Bread:
+                return breadCorner;
         }
 
         return null;
@@ -183,7 +233,7 @@ public class PoliceController : MonoBehaviour
 
             return;
         }
-
+        ShowWalk();
         agent.SetDestination(
             destination.position
         );
@@ -365,26 +415,26 @@ public class PoliceController : MonoBehaviour
     /// <summary>
     /// 実際にお客さんを捕まえる
     /// </summary>
-    private void CatchCustomer(
-        Customer customer)
+    private void CatchCustomer(Customer customer)
     {
         if (customer == null)
         {
             return;
         }
 
-        Debug.Log(
-            customer.name +
-            (
-                customer.IsThief
-                    ? " を捕まえた！泥棒です"
-                    : " を捕まえた！一般客です"
-            )
-        );
+        if (customer.IsThief)
+        {
+            customer.Catch();
 
-        customer.Catch();
+            arrestPolice.StartArrest(
+                customer
+            );
+        }
+        else
+        {
+            customer.Catch();
+        }
     }
-
     private void OnDestroy()
     {
         if (voiceRecognizer != null)

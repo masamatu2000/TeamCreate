@@ -44,7 +44,8 @@ public class PlaySceneManager : MonoBehaviour
     [Header("誤認逮捕ペナルティ")]
     [SerializeField]
     private float wrongArrestTimePenalty = 20.0f;
-
+    [SerializeField]
+    private int wrongArrestSalesPenalty = 1000;
 
     [Header("UI")]
     [SerializeField]
@@ -138,8 +139,7 @@ public class PlaySceneManager : MonoBehaviour
         {
             return;
         }
-
-
+       
         // ==========================================
         // ゲーム開始前
         // ==========================================
@@ -497,6 +497,15 @@ public class PlaySceneManager : MonoBehaviour
     public void AddComplaint()
     {
         complaintCount++;
+
+        // 売上金を減らす
+        sales -= wrongArrestSalesPenalty;
+
+        // 売上金がマイナスにならないようにする
+        if (sales < 0)
+        {
+            sales = 0;
+        }
 
         StartCoroutine(
        ShowCaptureResult("一般客だったようだ。。。")

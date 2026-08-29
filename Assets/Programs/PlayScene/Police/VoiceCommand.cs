@@ -7,7 +7,8 @@ public enum CornerType
     FrozenFood,
     Drink,
     PreparedFood,
-    Meat
+    Meat,
+    Bread,
 }
 
 public enum CustomerColor
@@ -27,7 +28,7 @@ public class VoiceCommand
 {
     public CornerType corner = CornerType.None;
     public CustomerColor clothesColor = CustomerColor.None;
-
+    public bool isStopCommand;
     public bool requiresHat;
     public bool requiresGlasses;
     public bool requiresBag;

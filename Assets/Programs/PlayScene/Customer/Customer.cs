@@ -28,7 +28,7 @@ public class Customer : MonoBehaviour
     [SerializeField] private Transform drinkCorner;
     [SerializeField] private Transform preparedFoodCorner;
     [SerializeField] private Transform meatCorner;
-
+    [SerializeField] private Transform breadCorner;
     [Header("泥棒設定")]
     [SerializeField] private Transform police;
     [SerializeField] private float escapeDistance = 8.0f;
@@ -78,7 +78,8 @@ public class Customer : MonoBehaviour
             frozenFoodCorner,
             drinkCorner,
             preparedFoodCorner,
-            meatCorner
+            meatCorner,
+            breadCorner
         };
     }
 
@@ -219,6 +220,29 @@ private void PlaceAtRandomCorner()
 }
     void Update()
     {
+        // ========================================
+        // カウントダウン中は何もしない
+        // ========================================
+        if (playSceneManager != null &&
+            !playSceneManager.IsGameStarted())
+        {
+            if (agent != null &&
+                agent.isOnNavMesh)
+            {
+                agent.isStopped = true;
+            }
+
+            return;
+        }
+
+        // ゲーム開始後は移動可能にする
+        if (agent != null &&
+            agent.isOnNavMesh &&
+            !IsCaught)
+        {
+            agent.isStopped = false;
+        }
+
         if (IsCaught)
         {
             return;
@@ -702,7 +726,7 @@ public void Catch()
             playSceneManager.Caught();
             playSceneManager.ThiefCaught();
             // 泥棒だけ消す
-            gameObject.SetActive(false);
+            //gameObject.SetActive(false);
     }
 
     // =====================================

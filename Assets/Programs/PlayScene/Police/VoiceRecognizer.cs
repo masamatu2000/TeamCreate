@@ -104,7 +104,11 @@ public class VoiceRecognizer : MonoBehaviour
     private readonly List<string> noKeywords =
         new List<string>();
 
+    private readonly List<string> stopKeywords =
+    new List<string>();
 
+    [SerializeField]
+    private PlaySceneManager playSceneManager;
     private void Start()
     {
         LoadKeywordsFromCsv();
@@ -140,6 +144,18 @@ public class VoiceRecognizer : MonoBehaviour
 
     private void Update()
     {
+        if (playSceneManager != null &&
+            !playSceneManager.IsGameStarted())
+        {
+            return;
+        }
+
+        if (Keyboard.current == null)
+        {
+            return;
+        }
+
+        // 以下今まで通り
         if (Keyboard.current == null)
         {
             return;
@@ -207,7 +223,7 @@ public class VoiceRecognizer : MonoBehaviour
 
         yesKeywords.Clear();
         noKeywords.Clear();
-
+        stopKeywords.Clear();
 
         string[] lines =
             keywordCsv.text.Split(
@@ -360,6 +376,14 @@ public class VoiceRecognizer : MonoBehaviour
 
                     break;
 
+                case "Stop":
+
+                    if (!stopKeywords.Contains(keyword))
+                    {
+                        stopKeywords.Add(keyword);
+                    }
+
+                    break;
 
                 default:
 
@@ -913,6 +937,16 @@ public class VoiceRecognizer : MonoBehaviour
                 true;
         }
 
+        // ========================================
+        // 停止命令
+        // ========================================
+
+        if (ContainsAny(
+            text,
+            stopKeywords))
+        {
+            command.isStopCommand = true;
+        }
 
         Debug.Log(
             "命令解析完了：" +
