@@ -60,16 +60,16 @@ public class ResultSceneManager : MonoBehaviour
     {
         // ↓ここは既存のGameResultDataに合わせて変更
         capturedText.text =
-            "Capture：" + GameResultData.caughtCount;
+            "捕まえた人数：" + GameResultData.caughtCount;
 
         escapedText.text =
-            "Escaped：" + GameResultData.escapedThiefCount ;
+            "逃がした泥棒の数：" + GameResultData.escapedThiefCount ;
 
         complaintText.text =
-            "Complain：" + GameResultData.complaintCount;
+            "間違えた数：" + GameResultData.complaintCount;
 
         moneyText.text =
-            "Sales：" + GameResultData.sales.ToString("N0");
+            "売上金：" + GameResultData.sales.ToString("N0");
     }
 
 

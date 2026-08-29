@@ -7,10 +7,14 @@ using UnityEngine.AI;
 [RequireComponent(typeof(NavMeshAgent))]
 public class Customer : MonoBehaviour
 {
-    [Header("移動設定")]
-    [SerializeField] private float moveRadius = 5.0f;
-    [SerializeField] private float minWaitTime = 2.0f;
-    [SerializeField] private float maxWaitTime = 5.0f;
+   [Header("移動設定")]
+[SerializeField] private float moveRadius = 5.0f;
+[SerializeField] private float minWaitTime = 2.0f;
+[SerializeField] private float maxWaitTime = 5.0f;
+
+[Header("NavMesh検索設定")]
+[SerializeField] private float navMeshSampleDistance = 1.0f;
+[SerializeField] private int positionSearchCount = 30;
 
     [Header("移動速度")]
     [SerializeField] private float normalSpeed = 2.0f;
@@ -113,16 +117,20 @@ private void PlaceAtRandomCorner()
 {
     if (corners == null || corners.Length == 0)
     {
-        Debug.LogWarning($"{gameObject.name}：コーナーが設定されていません");
+        Debug.LogWarning(
+            $"{gameObject.name}：コーナーが設定されていません"
+        );
+
         return;
     }
 
-    // 使用できるコーナーだけ探す
     Transform selectedCorner = null;
 
+    // 有効なコーナーを探す
     for (int i = 0; i < 20; i++)
     {
-        int randomIndex = Random.Range(0, corners.Length);
+        int randomIndex =
+            Random.Range(0, corners.Length);
 
         if (corners[randomIndex] != null)
         {
@@ -133,47 +141,80 @@ private void PlaceAtRandomCorner()
 
     if (selectedCorner == null)
     {
-        Debug.LogWarning($"{gameObject.name}：有効なコーナーがありません");
+        Debug.LogWarning(
+            $"{gameObject.name}：有効なコーナーがありません"
+        );
+
         return;
     }
 
     currentCorner = selectedCorner;
 
-    // コーナー周辺のランダムな位置
-    Vector3 randomPosition =
-        currentCorner.position +
-        Random.insideUnitSphere * moveRadius;
+    // =====================================
+    // NavMesh上の安全な位置を何回か探す
+    // =====================================
 
-    randomPosition.y = currentCorner.position.y;
+    for (int i = 0; i < positionSearchCount; i++)
+    {
+        Vector2 randomCircle =
+            Random.insideUnitCircle * moveRadius;
 
-    // NavMesh上の位置を探す
+        Vector3 randomPosition =
+            currentCorner.position +
+            new Vector3(
+                randomCircle.x,
+                0.0f,
+                randomCircle.y
+            );
+
+        NavMeshHit hit;
+
+        // ★検索距離を小さくする
+        // 棚の反対側のNavMeshなどを拾いにくくする
+        if (NavMesh.SamplePosition(
+            randomPosition,
+            out hit,
+            navMeshSampleDistance,
+            NavMesh.AllAreas))
+        {
+            if (agent.Warp(hit.position))
+            {
+                Debug.Log(
+                    $"{gameObject.name} を " +
+                    $"{currentCorner.name} に配置しました。" +
+                    $"位置：{hit.position}"
+                );
+
+                return;
+            }
+        }
+    }
+
+    // =====================================
+    // ランダム位置が全部失敗した場合
+    // コーナー中心付近を探す
+    // =====================================
+
+    NavMeshHit centerHit;
+
     if (NavMesh.SamplePosition(
-        randomPosition,
-        out NavMeshHit hit,
-        moveRadius,
+        currentCorner.position,
+        out centerHit,
+        navMeshSampleDistance,
         NavMesh.AllAreas))
     {
-        // NavMeshAgentで移動するのではなく、
-        // ゲーム開始時なのでその場へ瞬間移動
-        agent.Warp(hit.position);
+        agent.Warp(centerHit.position);
 
-        Debug.Log(
-            $"{gameObject.name} を " +
-            $"{currentCorner.name} に配置しました"
+        Debug.LogWarning(
+            $"{gameObject.name}：ランダム位置が見つからなかったため、" +
+            $"{currentCorner.name} の中心付近に配置しました"
         );
     }
     else
     {
-        // ランダム位置が見つからなかったら
-        // コーナーの中心付近を探す
-        if (NavMesh.SamplePosition(
-            currentCorner.position,
-            out hit,
-            moveRadius,
-            NavMesh.AllAreas))
-        {
-            agent.Warp(hit.position);
-        }
+        Debug.LogError(
+            $"{gameObject.name}：NavMesh上に配置できませんでした！"
+        );
     }
 }
     void Update()
@@ -354,7 +395,8 @@ private void PlaceAtRandomCorner()
     }
 
     /// <summary>
-    /// 指定したコーナー周辺へ移動する
+    /// 指定したコーナー周辺の
+    /// NavMesh上にある安全な場所へ移動する
     /// </summary>
     private void SetDestinationAroundCorner(
         Transform corner,
@@ -365,34 +407,74 @@ private void PlaceAtRandomCorner()
             return;
         }
 
-        Vector3 randomPosition =
-            corner.position +
-            Random.insideUnitSphere * radius;
-
-        randomPosition.y = corner.position.y;
-
-        // NavMesh上の移動可能な場所を探す
-        if (NavMesh.SamplePosition(
-            randomPosition,
-            out NavMeshHit hit,
-            radius,
-            NavMesh.AllAreas))
+        if (agent == null)
         {
-            agent.SetDestination(hit.position);
+            return;
         }
-        else
+
+        if (!agent.isOnNavMesh)
         {
-            // ランダム地点が見つからなかった場合
-            // コーナー中心を探す
-            if (NavMesh.SamplePosition(
-                corner.position,
+            Debug.LogWarning(
+                $"{gameObject.name} がNavMesh上にいません"
+            );
+
+            return;
+        }
+
+        for (int i = 0; i < positionSearchCount; i++)
+        {
+            Vector2 randomCircle =
+                Random.insideUnitCircle * radius;
+
+            Vector3 randomPosition =
+                corner.position +
+                new Vector3(
+                    randomCircle.x,
+                    0.0f,
+                    randomCircle.y
+                );
+
+            NavMeshHit hit;
+
+            // 候補地点のすぐ近くに
+            // NavMeshが存在する場合のみ使用
+            if (!NavMesh.SamplePosition(
+                randomPosition,
                 out hit,
-                radius,
+                navMeshSampleDistance,
                 NavMesh.AllAreas))
             {
-                agent.SetDestination(hit.position);
+                continue;
+            }
+
+            // =====================================
+            // 本当にそこまで移動できるか調べる
+            // =====================================
+
+            NavMeshPath path =
+                new NavMeshPath();
+
+            if (agent.CalculatePath(
+                hit.position,
+                path))
+            {
+                // 完全な経路がある場合だけ採用
+                if (path.status ==
+                    NavMeshPathStatus.PathComplete)
+                {
+                    agent.SetDestination(
+                        hit.position
+                    );
+
+                    return;
+                }
             }
         }
+
+        Debug.LogWarning(
+            $"{gameObject.name}：" +
+            $"{corner.name}周辺に安全な移動先が見つかりませんでした"
+        );
     }
 
     /// <summary>

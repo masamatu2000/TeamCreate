@@ -339,7 +339,7 @@ public class PlaySceneManager : MonoBehaviour
             int seconds =
                 totalSeconds % 60;
 
-            timeText.text =
+            timeText.text = "écÇËéûä‘:" +
                 $"{minutes:00}:{seconds:00}";
         }
 
@@ -351,7 +351,7 @@ public class PlaySceneManager : MonoBehaviour
         if (customerCountText != null)
         {
             customerCountText.text =
-                "Costomer:" +
+                "écÇËêlêî:" +
                 currentCustomerCount;
         }
 
@@ -363,7 +363,7 @@ public class PlaySceneManager : MonoBehaviour
         if (salesText != null)
         {
             salesText.text =
-                "Sales:" +
+                "îÑè„ã‡:" +
                 sales.ToString("N0");
         }
     }
