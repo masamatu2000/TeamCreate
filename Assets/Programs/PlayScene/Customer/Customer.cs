@@ -1,5 +1,6 @@
 using UnityEngine;
 using UnityEngine.AI;
+using System.Collections;
 
 //アニメーション
 public enum CustomerAnimationState
@@ -483,6 +484,32 @@ private void PlaceAtRandomCorner()
 
         isWaiting = false;
 
+        // 30%の確率でキョロキョロ
+        if (Random.value < 0.3f)
+        {
+            StartCoroutine(
+                LookAroundBeforeMove()
+            );
+
+            return;
+        }
+
+        MoveAfterWaiting();
+    }
+    private IEnumerator LookAroundBeforeMove()
+    {
+        SetAnimation(
+            CustomerAnimationState.LookAround
+        );
+
+        // キョロキョロする時間
+        yield return new WaitForSeconds(2.0f);
+
+        MoveAfterWaiting();
+    }
+
+    private void MoveAfterWaiting()
+    {
         if (agent != null &&
             agent.isOnNavMesh)
         {

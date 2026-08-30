@@ -18,7 +18,8 @@ Corner,ドリンクコーナー,Drink
 ,,
 Corner,惣菜コーナー,PreparedFood
 Corner,おかずコーナー,PreparedFood
-,,
+Corner,惣菜,PreparedFood
+Corner,おかず,PreparedFood
 Corner,精肉コーナー,Meat
 Corner,肉コーナー,Meat
 Corner,パン,Bread
