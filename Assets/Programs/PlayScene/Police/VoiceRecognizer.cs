@@ -947,6 +947,21 @@ public class VoiceRecognizer : MonoBehaviour
         {
             command.isStopCommand = true;
         }
+        // ========================================
+        // 特徴が指定されていたら
+        // 自動的に捕獲命令として扱う
+        // ========================================
+
+        bool hasTargetFeature =
+            command.clothesColor != CustomerColor.None ||
+            command.requiresHat ||
+            command.requiresGlasses ||
+            command.requiresBag;
+
+        if (hasTargetFeature)
+        {
+            command.isCaptureCommand = true;
+        }
 
         Debug.Log(
             "命令解析完了：" +

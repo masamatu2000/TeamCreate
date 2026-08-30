@@ -1,6 +1,17 @@
 using UnityEngine;
 using UnityEngine.AI;
 
+//アニメーション
+public enum CustomerAnimationState
+{
+    Idle = 0,
+    Walk = 1,
+    FastWalk = 2,
+    LookAround = 3,
+    CrouchPick = 4,
+    TakeItem = 5,
+    ArrestedWalk = 6
+}
 /// <summary>
 /// お客さん1人分の処理
 /// </summary>
@@ -44,6 +55,20 @@ public class Customer : MonoBehaviour
     [SerializeField] private bool hasBag;
     [SerializeField] private bool isThief;
 
+    [Header("アニメーション")]
+    [SerializeField] private Animator animator;
+
+    [Tooltip("待機中に特殊アニメーションを再生する確率")]
+    [SerializeField]
+    [Range(0.0f, 1.0f)]
+    private float actionAnimationChance = 0.6f;
+
+    // 現在のアニメーション
+    private CustomerAnimationState currentAnimationState;
+
+    // 待機中に特殊アニメーションを選択済みか
+    private bool hasSelectedWaitAnimation;
+
     public bool IsThief => isThief;
     public bool IsCaught { get; private set; }
 
@@ -68,6 +93,12 @@ public class Customer : MonoBehaviour
     void Awake()
     {
         agent = GetComponent<NavMeshAgent>();
+
+        // Animatorを取得
+        if (animator == null)
+        {
+            animator = GetComponentInChildren<Animator>();
+        }
 
         // 各コーナーを配列にまとめる
         corners = new Transform[]
@@ -220,6 +251,9 @@ private void PlaceAtRandomCorner()
 }
     void Update()
     {
+
+        // アニメーション更新
+        UpdateAnimation();
         // ========================================
         // カウントダウン中は何もしない
         // ========================================
@@ -267,8 +301,8 @@ private void PlaceAtRandomCorner()
         }
 
         // 目的地に到着
-        if (!agent.hasPath ||
-            agent.remainingDistance <= agent.stoppingDistance)
+        if (!agent.pathPending &&
+        agent.remainingDistance <= agent.stoppingDistance + 0.5f)
         {
             if (!isWaiting)
             {
@@ -277,6 +311,102 @@ private void PlaceAtRandomCorner()
 
             Wait();
         }
+    }
+
+    /// <summary>
+    /// お客さんの現在の行動から
+    /// アニメーションを決定する
+    /// </summary>
+    private void UpdateAnimation()
+    {
+        if (animator == null ||
+            agent == null)
+        {
+            return;
+        }
+
+        if (IsCaught)
+        {
+            SetAnimation(
+                CustomerAnimationState.ArrestedWalk
+            );
+
+            return;
+        }
+
+        if (playSceneManager != null &&
+            !playSceneManager.IsGameStarted())
+        {
+            SetAnimation(
+                CustomerAnimationState.Idle
+            );
+
+            return;
+        }
+
+        // ========================================
+        // コーナー到着後はPick系を優先
+        // ========================================
+        if (isWaiting)
+        {
+            return;
+        }
+
+        // ========================================
+        // 移動中
+        // ========================================
+        bool isMoving =
+            agent.isOnNavMesh &&
+            !agent.isStopped &&
+            agent.velocity.sqrMagnitude > 0.01f;
+
+        if (isMoving)
+        {
+            if (isThief && hasEscaped)
+            {
+                SetAnimation(
+                    CustomerAnimationState.FastWalk
+                );
+            }
+            else
+            {
+                SetAnimation(
+                    CustomerAnimationState.Walk
+                );
+            }
+
+            return;
+        }
+
+        SetAnimation(
+            CustomerAnimationState.Idle
+        );
+    }
+
+    /// <summary>
+    /// Animatorのアニメーション状態を変更する
+    /// </summary>
+    private void SetAnimation(
+        CustomerAnimationState state)
+    {
+        if (animator == null)
+        {
+            return;
+        }
+
+        // 同じアニメーションなら
+        // 毎フレーム再設定しない
+        if (currentAnimationState == state)
+        {
+            return;
+        }
+
+        currentAnimationState = state;
+
+        animator.SetInteger(
+            "AnimationState",
+            (int)state
+        );
     }
 
     /// <summary>
@@ -294,15 +424,49 @@ private void PlaceAtRandomCorner()
         }
     }
 
-    /// <summary>
-    /// 待機開始
-    /// </summary>
     private void StartWaiting()
     {
         isWaiting = true;
 
+        // 到着したので一旦停止
+        if (agent != null &&
+            agent.isOnNavMesh)
+        {
+            agent.isStopped = true;
+        }
+
         waitTimer =
-            Random.Range(minWaitTime, maxWaitTime);
+            Random.Range(
+                minWaitTime,
+                maxWaitTime
+            );
+
+        SelectWaitAnimation();
+    }
+
+    /// <summary>
+    /// コーナー到着時の商品取得アニメーションを選ぶ
+    /// </summary>
+    private void SelectWaitAnimation()
+    {
+        int randomAction = Random.Range(0, 2);
+
+        switch (randomAction)
+        {
+            // しゃがんで商品を取る
+            case 0:
+                SetAnimation(
+                    CustomerAnimationState.CrouchPick
+                );
+                break;
+
+            // 普通に商品を取る
+            case 1:
+                SetAnimation(
+                    CustomerAnimationState.TakeItem
+                );
+                break;
+        }
     }
 
     /// <summary>
@@ -319,15 +483,18 @@ private void PlaceAtRandomCorner()
 
         isWaiting = false;
 
+        if (agent != null &&
+            agent.isOnNavMesh)
+        {
+            agent.isStopped = false;
+        }
+
         if (isThief)
         {
-            // 泥棒は現在いるコーナーから
-            // あまり離れない
             SetDestinationAroundCurrentCorner();
         }
         else
         {
-            // 一般客はいろいろなコーナーへ行く
             MoveToRandomCorner();
         }
     }
@@ -716,18 +883,18 @@ public void Catch()
     {
         IsCaught = true;
 
-        // 移動を停止
-        if (agent != null)
-        {
-            agent.isStopped = true;
-        }
+            SetAnimation(
+            CustomerAnimationState.ArrestedWalk
+        );
 
-        Debug.Log($"{gameObject.name} は泥棒でした！確保成功！");
+           
+            Debug.Log($"{gameObject.name} は泥棒でした！確保成功！");
             playSceneManager.Caught();
             playSceneManager.ThiefCaught();
             // 泥棒だけ消す
             //gameObject.SetActive(false);
-    }
+            return;
+        }
 
     // =====================================
     // 一般客だった場合

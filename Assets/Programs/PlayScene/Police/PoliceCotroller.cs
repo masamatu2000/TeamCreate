@@ -77,11 +77,15 @@ public class PoliceController : MonoBehaviour
             return;
         }
 
-        // コーナーへ移動中で、目的地に到着したか確認
         if (isMovingToCorner &&
-            agent.remainingDistance <= agent.stoppingDistance + 0.2f)
+    !agent.pathPending &&
+    agent.remainingDistance <= agent.stoppingDistance + 0.5f)
         {
             isMovingToCorner = false;
+
+            // 到着したので完全停止
+            agent.isStopped = true;
+            agent.ResetPath();
 
             ShowIdle();
 
@@ -112,7 +116,14 @@ public class PoliceController : MonoBehaviour
         {
             return;
         }
-
+        // ========================================
+        // 停止命令
+        // ========================================
+        if (command.isStopCommand)
+        {
+            StopPolice();
+            return;
+        }
         // 捕獲確認中は新しい通常命令を受け付けない
         if (isWaitingForConfirmation)
         {
@@ -157,6 +168,35 @@ public class PoliceController : MonoBehaviour
         {
             TryCatchCustomer(command);
         }
+    }
+
+    /// <summary>
+    /// 警備員をその場で停止する
+    /// </summary>
+    private void StopPolice()
+    {
+        if (agent == null)
+        {
+            return;
+        }
+
+        // 移動を完全停止
+        if (agent.isOnNavMesh)
+        {
+            agent.isStopped = true;
+            agent.ResetPath();
+        }
+
+        // 「コーナーへ移動中」状態を解除
+        isMovingToCorner = false;
+
+        // 保留している命令も解除
+        pendingCommand = null;
+
+        // 歩きモデルを消してIdleを表示
+        ShowIdle();
+
+        Debug.Log("警備員を停止しました");
     }
 
     private void ShowIdle()
@@ -234,10 +274,13 @@ public class PoliceController : MonoBehaviour
             return;
         }
         ShowWalk();
+
+        // StopPoliceで停止していた場合に再開
+        agent.isStopped = false;
+
         agent.SetDestination(
             destination.position
         );
-
         isMovingToCorner = true;
 
         Debug.Log(
