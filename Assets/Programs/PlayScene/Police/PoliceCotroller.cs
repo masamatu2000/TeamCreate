@@ -478,6 +478,7 @@ public class PoliceController : MonoBehaviour
             customer.Catch();
         }
     }
+    
     private void OnDestroy()
     {
         if (voiceRecognizer != null)

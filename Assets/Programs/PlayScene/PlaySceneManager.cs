@@ -57,11 +57,15 @@ public class PlaySceneManager : MonoBehaviour
     [SerializeField]
     private TextMeshProUGUI salesText;
 
-
+    [Header("泥棒残り人数UI")]
+    [SerializeField]
+    private TextMeshProUGUI thiefCountText;
     [Header("お客さん管理")]
     [SerializeField]
     private CustomerManager CustomerManager;
-
+    [Header("音声認識")]
+    [SerializeField]
+    private VoiceRecognizer voiceRecognizer;
 
     [Header("売上設定")]
     [SerializeField]
@@ -78,6 +82,7 @@ public class PlaySceneManager : MonoBehaviour
     [SerializeField]
     private string resultSceneName = "ResultScene";
 
+   
 
     // 現在のお客さん人数
     private int currentCustomerCount = 0;
@@ -354,7 +359,11 @@ public class PlaySceneManager : MonoBehaviour
                 "残り人数:" +
                 currentCustomerCount;
         }
-
+        if (thiefCountText != null)
+        {
+            thiefCountText.text =
+               "泥棒 残り：" + (CustomerManager.GetThiefCount()-caughtThiefCount) + "人";
+        }
 
         // -------------------------
         // 売上
@@ -587,6 +596,17 @@ public class PlaySceneManager : MonoBehaviour
 
         isGameFinished = true;
 
+        StartCoroutine(
+            FinishGameCoroutine()
+        );
+    }
+
+    private IEnumerator FinishGameCoroutine()
+    {
+        Debug.Log(
+            "★ FinishGame開始 " +
+            Time.realtimeSinceStartup
+        );
 
         Debug.Log(
             "ゲーム終了！" +
@@ -600,8 +620,10 @@ public class PlaySceneManager : MonoBehaviour
             sales
         );
 
+        // ==========================================
+        // リザルト画面へ渡すデータを保存
+        // ==========================================
 
-        // リザルト画面へ渡す
         GameResultData.caughtCount =
             caughtCount;
 
@@ -615,8 +637,18 @@ public class PlaySceneManager : MonoBehaviour
             sales;
 
 
+      
+
+
+        // ==========================================
+        // 1フレーム待つ
+        // ==========================================
+
+        yield return null;
+
+
         Debug.Log(
-            "★ FinishGame：ResultScene読み込み直前 " +
+            "★ ResultScene読み込み直前 " +
             Time.realtimeSinceStartup
         );
 
@@ -625,7 +657,6 @@ public class PlaySceneManager : MonoBehaviour
             resultSceneName
         );
     }
-
 
     // ==========================================================
     // Getter

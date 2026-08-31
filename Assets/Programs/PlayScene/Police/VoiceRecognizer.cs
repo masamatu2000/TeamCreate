@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.Windows.Speech;
+using TMPro;
 
 /// <summary>
 /// 音声を認識し、警備員への命令や
@@ -32,6 +33,10 @@ public class VoiceRecognizer : MonoBehaviour
     [Header("スペースを離した後も結果を受け付ける秒数")]
     [SerializeField]
     private float releaseGraceTime = 1.0f;
+
+    [Header("UI")]
+    [SerializeField]
+    private TextMeshProUGUI BottonText;
 
     private DictationRecognizer dictationRecognizer;
     private KeywordRecognizer keywordRecognizer;
@@ -150,11 +155,7 @@ public class VoiceRecognizer : MonoBehaviour
             return;
         }
 
-        if (Keyboard.current == null)
-        {
-            return;
-        }
-
+        
         // 以下今まで通り
         if (Keyboard.current == null)
         {
@@ -168,7 +169,10 @@ public class VoiceRecognizer : MonoBehaviour
         if (Keyboard.current.spaceKey.wasPressedThisFrame)
         {
             isRadioPressed = true;
-
+            if (BottonText != null)
+            {
+                BottonText.text = "マイクに話しかけてください";
+            }
             Debug.Log(
                 "音声入力開始"
             );
@@ -183,7 +187,10 @@ public class VoiceRecognizer : MonoBehaviour
             isRadioPressed = false;
 
             radioReleasedTime = Time.time;
-
+            if (BottonText != null)
+            {
+                BottonText.text = "ボタンを押してください";
+            }
             Debug.Log(
                 "音声入力終了"
             );
@@ -1031,7 +1038,8 @@ public class VoiceRecognizer : MonoBehaviour
 
         return false;
     }
-
+   
+    
 
     // =========================================================
     // 終了処理

@@ -21,10 +21,8 @@ public class CustomerPreview : MonoBehaviour
             return;
         }
 
-        // ëOâÒÇÃÇ®ãqÇ≥ÇÒÇè¡Ç∑
         Clear();
 
-        // Ç®ãqÇ≥ÇÒÇï°êª
         previewObject = Instantiate(
             customer.gameObject,
             previewPoint.position,
@@ -41,7 +39,7 @@ public class CustomerPreview : MonoBehaviour
         previewObject.transform.localRotation =
             Quaternion.identity;
 
-        // CustomerÇÃèàóùÇé~ÇﬂÇÈ
+        // Customerí‚é~
         Customer previewCustomer =
             previewObject.GetComponent<Customer>();
 
@@ -50,13 +48,40 @@ public class CustomerPreview : MonoBehaviour
             previewCustomer.enabled = false;
         }
 
-        // NavMeshAgentÇ‡é~ÇﬂÇÈ
+        // NavMeshAgentí‚é~
         NavMeshAgent previewAgent =
             previewObject.GetComponent<NavMeshAgent>();
 
         if (previewAgent != null)
         {
             previewAgent.enabled = false;
+        }
+
+        // Rigidbodyí‚é~
+        Rigidbody previewRigidbody =
+            previewObject.GetComponent<Rigidbody>();
+
+        if (previewRigidbody != null)
+        {
+            previewRigidbody.linearVelocity =
+                Vector3.zero;
+
+            previewRigidbody.angularVelocity =
+                Vector3.zero;
+
+            previewRigidbody.useGravity =
+                false;
+
+            previewRigidbody.isKinematic =
+                true;
+        }
+        Animator[] animators =
+    previewObject.GetComponentsInChildren<Animator>(true);
+
+        foreach (Animator animator in animators)
+        {
+            animator.applyRootMotion = false;
+            animator.enabled = false;
         }
     }
 
