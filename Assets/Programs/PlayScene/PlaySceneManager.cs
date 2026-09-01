@@ -344,7 +344,7 @@ public class PlaySceneManager : MonoBehaviour
             int seconds =
                 totalSeconds % 60;
 
-            timeText.text = "c‚èŠÔ:" +
+            timeText.text = "œREC " +
                 $"{minutes:00}:{seconds:00}";
         }
 
@@ -372,7 +372,7 @@ public class PlaySceneManager : MonoBehaviour
         if (salesText != null)
         {
             salesText.text =
-                "”„ã‹à:" +
+                "”„ã‹à:" +
                 sales.ToString("N0");
         }
     }
