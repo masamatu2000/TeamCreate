@@ -915,18 +915,21 @@ public class Customer : MonoBehaviour
             return;
         }
 
+        // ========================================
+        // 試していないコーナーを管理する
+        // ========================================
 
-        Transform selectedCorner =
-            null;
+        bool[] checkedCorners =
+            new bool[corners.Length];
+
+        int checkedCount = 0;
 
 
         // ========================================
-        // 有効なコーナーをランダム選択
+        // 全コーナーを最大1回ずつ試す
         // ========================================
 
-        for (int i = 0;
-             i < 20;
-             i++)
+        while (checkedCount < corners.Length)
         {
             int randomIndex =
                 Random.Range(
@@ -934,98 +937,127 @@ public class Customer : MonoBehaviour
                     corners.Length
                 );
 
-            if (corners[randomIndex] != null)
+            // すでに試したコーナーならやり直し
+            if (checkedCorners[randomIndex])
             {
-                selectedCorner =
-                    corners[randomIndex];
-
-                break;
+                continue;
             }
-        }
+
+            // このコーナーは試したことにする
+            checkedCorners[randomIndex] = true;
+            checkedCount++;
 
 
-        if (selectedCorner == null)
-        {
-            Debug.LogWarning(
-                $"{gameObject.name}：" +
-                "有効なコーナーがありません"
-            );
-
-            return;
-        }
+            Transform selectedCorner =
+                corners[randomIndex];
 
 
-        currentCorner =
-            selectedCorner;
+            // nullなら次のコーナーへ
+            if (selectedCorner == null)
+            {
+                continue;
+            }
 
 
-        // ========================================
-        // コーナー周辺のNavMesh上から
-        // 初期位置をランダムに探す
-        // ========================================
-
-        for (int i = 0;
-             i < positionSearchCount;
-             i++)
-        {
-            Vector2 randomCircle =
-                Random.insideUnitCircle *
-                moveRadius;
+            currentCorner =
+                selectedCorner;
 
 
-            Vector3 randomPosition =
-                currentCorner.position +
-                new Vector3(
-                    randomCircle.x,
-                    0.0f,
-                    randomCircle.y
-                );
+            // ========================================
+            // コーナー周辺から
+            // NavMesh上の位置を探す
+            // ========================================
+
+            for (int i = 0;
+                 i < positionSearchCount;
+                 i++)
+            {
+                Vector2 randomCircle =
+                    Random.insideUnitCircle *
+                    moveRadius;
 
 
-            NavMeshHit hit;
+                Vector3 randomPosition =
+                    currentCorner.position +
+                    new Vector3(
+                        randomCircle.x,
+                        0.0f,
+                        randomCircle.y
+                    );
+
+
+                NavMeshHit hit;
+
+
+                if (NavMesh.SamplePosition(
+                    randomPosition,
+                    out hit,
+                    navMeshSampleDistance,
+                    NavMesh.AllAreas))
+                {
+                    // 配置成功
+                    if (agent.Warp(
+                        hit.position))
+                    {
+                        Debug.Log(
+                            $"{gameObject.name}：" +
+                            $"{currentCorner.name} に配置成功"
+                        );
+
+                        return;
+                    }
+                }
+            }
+
+
+            // ========================================
+            // 周辺で見つからなかったら
+            // コーナー中心付近も試す
+            // ========================================
+
+            NavMeshHit centerHit;
 
 
             if (NavMesh.SamplePosition(
-                randomPosition,
-                out hit,
+                currentCorner.position,
+                out centerHit,
                 navMeshSampleDistance,
                 NavMesh.AllAreas))
             {
-                // NavMesh上へ瞬間移動
                 if (agent.Warp(
-                    hit.position))
+                    centerHit.position))
                 {
+                    Debug.Log(
+                        $"{gameObject.name}：" +
+                        $"{currentCorner.name} の中心付近に配置成功"
+                    );
+
                     return;
                 }
             }
-        }
 
 
-        // ========================================
-        // ランダム位置が見つからなかった場合
-        // コーナー中心付近へ配置
-        // ========================================
+            // ========================================
+            // このコーナーでは失敗
+            // 次の未チェックコーナーへ
+            // ========================================
 
-        NavMeshHit centerHit;
-
-
-        if (NavMesh.SamplePosition(
-            currentCorner.position,
-            out centerHit,
-            navMeshSampleDistance,
-            NavMesh.AllAreas))
-        {
-            agent.Warp(
-                centerHit.position
-            );
-        }
-        else
-        {
-            Debug.LogError(
+            Debug.LogWarning(
                 $"{gameObject.name}：" +
-                "NavMesh上に配置できませんでした"
+                $"{currentCorner.name} では配置できませんでした。" +
+                "別のコーナーを試します"
             );
         }
+
+
+        // ========================================
+        // 全コーナー失敗
+        // ========================================
+
+        Debug.LogError(
+            $"{gameObject.name}：" +
+            "すべてのコーナーでNavMesh上への配置に失敗しました"
+        );
     }
 
 
