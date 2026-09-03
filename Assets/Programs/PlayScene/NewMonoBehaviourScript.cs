@@ -81,7 +81,7 @@ public class CustomerPreview : MonoBehaviour
         foreach (Animator animator in animators)
         {
             animator.applyRootMotion = false;
-            animator.enabled = false;
+            //animator.enabled = false;
         }
     }
 
