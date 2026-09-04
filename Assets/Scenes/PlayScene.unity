@@ -3785,7 +3785,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4829125637571551536, guid: 3e8e4112945e6274981ec58390aa4270, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 0
+      value: -5.77
       objectReference: {fileID: 0}
     - target: {fileID: 4829125637571551536, guid: 3e8e4112945e6274981ec58390aa4270, type: 3}
       propertyPath: m_LocalPosition.y
@@ -3828,6 +3828,10 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 373946383}
     - target: {fileID: 7093942547492779254, guid: 3e8e4112945e6274981ec58390aa4270, type: 3}
+      propertyPath: isThief
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7093942547492779254, guid: 3e8e4112945e6274981ec58390aa4270, type: 3}
       propertyPath: animator
       value: 
       objectReference: {fileID: 1240847708}
@@ -3854,7 +3858,11 @@ PrefabInstance:
     - target: {fileID: 7093942547492779254, guid: 3e8e4112945e6274981ec58390aa4270, type: 3}
       propertyPath: snackCorner
       value: 
-      objectReference: {fileID: 1103297407}
+      objectReference: {fileID: 996301586}
+    - target: {fileID: 7093942547492779254, guid: 3e8e4112945e6274981ec58390aa4270, type: 3}
+      propertyPath: clothesColor
+      value: 5
+      objectReference: {fileID: 0}
     - target: {fileID: 7093942547492779254, guid: 3e8e4112945e6274981ec58390aa4270, type: 3}
       propertyPath: vegetableCorner
       value: 
@@ -3871,6 +3879,10 @@ PrefabInstance:
       propertyPath: preparedFoodCorner
       value: 
       objectReference: {fileID: 262264544}
+    - target: {fileID: 7093942547492779254, guid: 3e8e4112945e6274981ec58390aa4270, type: 3}
+      propertyPath: stayInLargeCornerRate
+      value: 1
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects:
     - {fileID: 8887095910656506581, guid: 3e8e4112945e6274981ec58390aa4270, type: 3}
@@ -6658,7 +6670,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4829125637571551536, guid: 3e8e4112945e6274981ec58390aa4270, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 0
+      value: 7.34
       objectReference: {fileID: 0}
     - target: {fileID: 4829125637571551536, guid: 3e8e4112945e6274981ec58390aa4270, type: 3}
       propertyPath: m_LocalPosition.y
@@ -6666,7 +6678,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4829125637571551536, guid: 3e8e4112945e6274981ec58390aa4270, type: 3}
       propertyPath: m_LocalPosition.z
-      value: 0
+      value: -0.85
       objectReference: {fileID: 0}
     - target: {fileID: 4829125637571551536, guid: 3e8e4112945e6274981ec58390aa4270, type: 3}
       propertyPath: m_LocalRotation.w
@@ -6701,9 +6713,17 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 373946383}
     - target: {fileID: 7093942547492779254, guid: 3e8e4112945e6274981ec58390aa4270, type: 3}
+      propertyPath: isThief
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7093942547492779254, guid: 3e8e4112945e6274981ec58390aa4270, type: 3}
       propertyPath: animator
       value: 
       objectReference: {fileID: 916915770}
+    - target: {fileID: 7093942547492779254, guid: 3e8e4112945e6274981ec58390aa4270, type: 3}
+      propertyPath: wearsHat
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 7093942547492779254, guid: 3e8e4112945e6274981ec58390aa4270, type: 3}
       propertyPath: fishCorner
       value: 
@@ -6727,7 +6747,11 @@ PrefabInstance:
     - target: {fileID: 7093942547492779254, guid: 3e8e4112945e6274981ec58390aa4270, type: 3}
       propertyPath: snackCorner
       value: 
-      objectReference: {fileID: 1103297407}
+      objectReference: {fileID: 996301586}
+    - target: {fileID: 7093942547492779254, guid: 3e8e4112945e6274981ec58390aa4270, type: 3}
+      propertyPath: clothesColor
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 7093942547492779254, guid: 3e8e4112945e6274981ec58390aa4270, type: 3}
       propertyPath: vegetableCorner
       value: 
@@ -10687,7 +10711,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4829125637571551536, guid: 3e8e4112945e6274981ec58390aa4270, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 0
+      value: -3.49
       objectReference: {fileID: 0}
     - target: {fileID: 4829125637571551536, guid: 3e8e4112945e6274981ec58390aa4270, type: 3}
       propertyPath: m_LocalPosition.y
@@ -10730,6 +10754,10 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 373946383}
     - target: {fileID: 7093942547492779254, guid: 3e8e4112945e6274981ec58390aa4270, type: 3}
+      propertyPath: isThief
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7093942547492779254, guid: 3e8e4112945e6274981ec58390aa4270, type: 3}
       propertyPath: animator
       value: 
       objectReference: {fileID: 1548564683}
@@ -10756,7 +10784,7 @@ PrefabInstance:
     - target: {fileID: 7093942547492779254, guid: 3e8e4112945e6274981ec58390aa4270, type: 3}
       propertyPath: snackCorner
       value: 
-      objectReference: {fileID: 1103297407}
+      objectReference: {fileID: 996301586}
     - target: {fileID: 7093942547492779254, guid: 3e8e4112945e6274981ec58390aa4270, type: 3}
       propertyPath: clothesColor
       value: 2
@@ -10777,6 +10805,10 @@ PrefabInstance:
       propertyPath: preparedFoodCorner
       value: 
       objectReference: {fileID: 262264544}
+    - target: {fileID: 7093942547492779254, guid: 3e8e4112945e6274981ec58390aa4270, type: 3}
+      propertyPath: stayInLargeCornerRate
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 7413008005010039343, guid: 3e8e4112945e6274981ec58390aa4270, type: 3}
       propertyPath: m_IsKinematic
       value: 0
@@ -11380,7 +11412,7 @@ MonoBehaviour:
   confirmUI: {fileID: 150186084}
   fishCorner: {fileID: 58864305}
   vegetableCorner: {fileID: 1072783140}
-  snackCorner: {fileID: 1103297407}
+  snackCorner: {fileID: 996301586}
   frozenFoodCorner: {fileID: 182532850}
   drinkCorner: {fileID: 1085160861}
   preparedFoodCorner: {fileID: 262264544}
@@ -19017,7 +19049,7 @@ GameObject:
   m_Component:
   - component: {fileID: 591551353}
   m_Layer: 0
-  m_Name: SnackCouner
+  m_Name: ActionPointSnack
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -19031,12 +19063,12 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 591551352}
   serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -7.64, y: 0, z: 5.59}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 4.23, y: 0, z: 7.7}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
-  m_Father: {fileID: 0}
+  m_Father: {fileID: 996301586}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1001 &593196094
 PrefabInstance:
@@ -20166,7 +20198,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4829125637571551536, guid: 3e8e4112945e6274981ec58390aa4270, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 0
+      value: -1.91
       objectReference: {fileID: 0}
     - target: {fileID: 4829125637571551536, guid: 3e8e4112945e6274981ec58390aa4270, type: 3}
       propertyPath: m_LocalPosition.y
@@ -20174,7 +20206,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4829125637571551536, guid: 3e8e4112945e6274981ec58390aa4270, type: 3}
       propertyPath: m_LocalPosition.z
-      value: 0
+      value: -2.42
       objectReference: {fileID: 0}
     - target: {fileID: 4829125637571551536, guid: 3e8e4112945e6274981ec58390aa4270, type: 3}
       propertyPath: m_LocalRotation.w
@@ -20209,6 +20241,10 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 373946383}
     - target: {fileID: 7093942547492779254, guid: 3e8e4112945e6274981ec58390aa4270, type: 3}
+      propertyPath: isThief
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7093942547492779254, guid: 3e8e4112945e6274981ec58390aa4270, type: 3}
       propertyPath: animator
       value: 
       objectReference: {fileID: 1479279802}
@@ -20235,7 +20271,11 @@ PrefabInstance:
     - target: {fileID: 7093942547492779254, guid: 3e8e4112945e6274981ec58390aa4270, type: 3}
       propertyPath: snackCorner
       value: 
-      objectReference: {fileID: 1103297407}
+      objectReference: {fileID: 996301586}
+    - target: {fileID: 7093942547492779254, guid: 3e8e4112945e6274981ec58390aa4270, type: 3}
+      propertyPath: clothesColor
+      value: 6
+      objectReference: {fileID: 0}
     - target: {fileID: 7093942547492779254, guid: 3e8e4112945e6274981ec58390aa4270, type: 3}
       propertyPath: vegetableCorner
       value: 
@@ -21065,7 +21105,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4829125637571551536, guid: 3e8e4112945e6274981ec58390aa4270, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 0
+      value: -2.72
       objectReference: {fileID: 0}
     - target: {fileID: 4829125637571551536, guid: 3e8e4112945e6274981ec58390aa4270, type: 3}
       propertyPath: m_LocalPosition.y
@@ -21073,7 +21113,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4829125637571551536, guid: 3e8e4112945e6274981ec58390aa4270, type: 3}
       propertyPath: m_LocalPosition.z
-      value: 0
+      value: -3.67
       objectReference: {fileID: 0}
     - target: {fileID: 4829125637571551536, guid: 3e8e4112945e6274981ec58390aa4270, type: 3}
       propertyPath: m_LocalRotation.w
@@ -21108,9 +21148,17 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 373946383}
     - target: {fileID: 7093942547492779254, guid: 3e8e4112945e6274981ec58390aa4270, type: 3}
+      propertyPath: isThief
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7093942547492779254, guid: 3e8e4112945e6274981ec58390aa4270, type: 3}
       propertyPath: animator
       value: 
       objectReference: {fileID: 1708992215}
+    - target: {fileID: 7093942547492779254, guid: 3e8e4112945e6274981ec58390aa4270, type: 3}
+      propertyPath: wearsHat
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 7093942547492779254, guid: 3e8e4112945e6274981ec58390aa4270, type: 3}
       propertyPath: fishCorner
       value: 
@@ -21134,7 +21182,11 @@ PrefabInstance:
     - target: {fileID: 7093942547492779254, guid: 3e8e4112945e6274981ec58390aa4270, type: 3}
       propertyPath: snackCorner
       value: 
-      objectReference: {fileID: 1103297407}
+      objectReference: {fileID: 996301586}
+    - target: {fileID: 7093942547492779254, guid: 3e8e4112945e6274981ec58390aa4270, type: 3}
+      propertyPath: clothesColor
+      value: 3
+      objectReference: {fileID: 0}
     - target: {fileID: 7093942547492779254, guid: 3e8e4112945e6274981ec58390aa4270, type: 3}
       propertyPath: vegetableCorner
       value: 
@@ -26060,7 +26112,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4829125637571551536, guid: 3e8e4112945e6274981ec58390aa4270, type: 3}
       propertyPath: m_LocalPosition.z
-      value: 0
+      value: -2.92
       objectReference: {fileID: 0}
     - target: {fileID: 4829125637571551536, guid: 3e8e4112945e6274981ec58390aa4270, type: 3}
       propertyPath: m_LocalRotation.w
@@ -26095,6 +26147,10 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 373946383}
     - target: {fileID: 7093942547492779254, guid: 3e8e4112945e6274981ec58390aa4270, type: 3}
+      propertyPath: isThief
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7093942547492779254, guid: 3e8e4112945e6274981ec58390aa4270, type: 3}
       propertyPath: animator
       value: 
       objectReference: {fileID: 1043162310}
@@ -26121,7 +26177,11 @@ PrefabInstance:
     - target: {fileID: 7093942547492779254, guid: 3e8e4112945e6274981ec58390aa4270, type: 3}
       propertyPath: snackCorner
       value: 
-      objectReference: {fileID: 1103297407}
+      objectReference: {fileID: 996301586}
+    - target: {fileID: 7093942547492779254, guid: 3e8e4112945e6274981ec58390aa4270, type: 3}
+      propertyPath: clothesColor
+      value: 6
+      objectReference: {fileID: 0}
     - target: {fileID: 7093942547492779254, guid: 3e8e4112945e6274981ec58390aa4270, type: 3}
       propertyPath: vegetableCorner
       value: 
@@ -26138,6 +26198,10 @@ PrefabInstance:
       propertyPath: preparedFoodCorner
       value: 
       objectReference: {fileID: 262264544}
+    - target: {fileID: 7093942547492779254, guid: 3e8e4112945e6274981ec58390aa4270, type: 3}
+      propertyPath: stayInLargeCornerRate
+      value: 0.492
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects:
     - {fileID: 8887095910656506581, guid: 3e8e4112945e6274981ec58390aa4270, type: 3}
@@ -27421,7 +27485,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 704ca3b19b3cbcc49ab4c09c5ba9f04f, type: 3}
       propertyPath: m_LocalPosition.z
-      value: 0
+      value: -0.94
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 704ca3b19b3cbcc49ab4c09c5ba9f04f, type: 3}
       propertyPath: m_LocalRotation.w
@@ -28090,7 +28154,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4829125637571551536, guid: 3e8e4112945e6274981ec58390aa4270, type: 3}
       propertyPath: m_LocalPosition.z
-      value: 0
+      value: -1.57
       objectReference: {fileID: 0}
     - target: {fileID: 4829125637571551536, guid: 3e8e4112945e6274981ec58390aa4270, type: 3}
       propertyPath: m_LocalRotation.w
@@ -28125,9 +28189,17 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 373946383}
     - target: {fileID: 7093942547492779254, guid: 3e8e4112945e6274981ec58390aa4270, type: 3}
+      propertyPath: isThief
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7093942547492779254, guid: 3e8e4112945e6274981ec58390aa4270, type: 3}
       propertyPath: animator
       value: 
       objectReference: {fileID: 1355588141}
+    - target: {fileID: 7093942547492779254, guid: 3e8e4112945e6274981ec58390aa4270, type: 3}
+      propertyPath: wearsHat
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 7093942547492779254, guid: 3e8e4112945e6274981ec58390aa4270, type: 3}
       propertyPath: fishCorner
       value: 
@@ -28151,7 +28223,7 @@ PrefabInstance:
     - target: {fileID: 7093942547492779254, guid: 3e8e4112945e6274981ec58390aa4270, type: 3}
       propertyPath: snackCorner
       value: 
-      objectReference: {fileID: 1103297407}
+      objectReference: {fileID: 996301586}
     - target: {fileID: 7093942547492779254, guid: 3e8e4112945e6274981ec58390aa4270, type: 3}
       propertyPath: vegetableCorner
       value: 
@@ -28168,6 +28240,10 @@ PrefabInstance:
       propertyPath: preparedFoodCorner
       value: 
       objectReference: {fileID: 262264544}
+    - target: {fileID: 7093942547492779254, guid: 3e8e4112945e6274981ec58390aa4270, type: 3}
+      propertyPath: stayInLargeCornerRate
+      value: 0.12
+      objectReference: {fileID: 0}
     - target: {fileID: 8079068545409982575, guid: 3e8e4112945e6274981ec58390aa4270, type: 3}
       propertyPath: m_LocalScale.x
       value: 200
@@ -29929,7 +30005,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4829125637571551536, guid: 3e8e4112945e6274981ec58390aa4270, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 0
+      value: -1.83
       objectReference: {fileID: 0}
     - target: {fileID: 4829125637571551536, guid: 3e8e4112945e6274981ec58390aa4270, type: 3}
       propertyPath: m_LocalPosition.y
@@ -29937,7 +30013,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4829125637571551536, guid: 3e8e4112945e6274981ec58390aa4270, type: 3}
       propertyPath: m_LocalPosition.z
-      value: 0
+      value: -3.02
       objectReference: {fileID: 0}
     - target: {fileID: 4829125637571551536, guid: 3e8e4112945e6274981ec58390aa4270, type: 3}
       propertyPath: m_LocalRotation.w
@@ -29972,6 +30048,10 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 373946383}
     - target: {fileID: 7093942547492779254, guid: 3e8e4112945e6274981ec58390aa4270, type: 3}
+      propertyPath: isThief
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7093942547492779254, guid: 3e8e4112945e6274981ec58390aa4270, type: 3}
       propertyPath: animator
       value: 
       objectReference: {fileID: 1648016999}
@@ -29998,7 +30078,11 @@ PrefabInstance:
     - target: {fileID: 7093942547492779254, guid: 3e8e4112945e6274981ec58390aa4270, type: 3}
       propertyPath: snackCorner
       value: 
-      objectReference: {fileID: 1103297407}
+      objectReference: {fileID: 996301586}
+    - target: {fileID: 7093942547492779254, guid: 3e8e4112945e6274981ec58390aa4270, type: 3}
+      propertyPath: clothesColor
+      value: 5
+      objectReference: {fileID: 0}
     - target: {fileID: 7093942547492779254, guid: 3e8e4112945e6274981ec58390aa4270, type: 3}
       propertyPath: vegetableCorner
       value: 
@@ -31677,7 +31761,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4829125637571551536, guid: 3e8e4112945e6274981ec58390aa4270, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 0
+      value: 5.03
       objectReference: {fileID: 0}
     - target: {fileID: 4829125637571551536, guid: 3e8e4112945e6274981ec58390aa4270, type: 3}
       propertyPath: m_LocalPosition.y
@@ -31750,7 +31834,7 @@ PrefabInstance:
     - target: {fileID: 7093942547492779254, guid: 3e8e4112945e6274981ec58390aa4270, type: 3}
       propertyPath: snackCorner
       value: 
-      objectReference: {fileID: 1103297407}
+      objectReference: {fileID: 996301586}
     - target: {fileID: 7093942547492779254, guid: 3e8e4112945e6274981ec58390aa4270, type: 3}
       propertyPath: clothesColor
       value: 3
@@ -31771,6 +31855,10 @@ PrefabInstance:
       propertyPath: preparedFoodCorner
       value: 
       objectReference: {fileID: 262264544}
+    - target: {fileID: 7093942547492779254, guid: 3e8e4112945e6274981ec58390aa4270, type: 3}
+      propertyPath: stayInLargeCornerRate
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 7413008005010039343, guid: 3e8e4112945e6274981ec58390aa4270, type: 3}
       propertyPath: m_IsKinematic
       value: 0
@@ -32072,7 +32160,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4829125637571551536, guid: 3e8e4112945e6274981ec58390aa4270, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 0
+      value: 1.81
       objectReference: {fileID: 0}
     - target: {fileID: 4829125637571551536, guid: 3e8e4112945e6274981ec58390aa4270, type: 3}
       propertyPath: m_LocalPosition.y
@@ -32080,7 +32168,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4829125637571551536, guid: 3e8e4112945e6274981ec58390aa4270, type: 3}
       propertyPath: m_LocalPosition.z
-      value: 0
+      value: -3.58
       objectReference: {fileID: 0}
     - target: {fileID: 4829125637571551536, guid: 3e8e4112945e6274981ec58390aa4270, type: 3}
       propertyPath: m_LocalRotation.w
@@ -32115,9 +32203,17 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 373946383}
     - target: {fileID: 7093942547492779254, guid: 3e8e4112945e6274981ec58390aa4270, type: 3}
+      propertyPath: isThief
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7093942547492779254, guid: 3e8e4112945e6274981ec58390aa4270, type: 3}
       propertyPath: animator
       value: 
       objectReference: {fileID: 1427407342}
+    - target: {fileID: 7093942547492779254, guid: 3e8e4112945e6274981ec58390aa4270, type: 3}
+      propertyPath: wearsHat
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 7093942547492779254, guid: 3e8e4112945e6274981ec58390aa4270, type: 3}
       propertyPath: fishCorner
       value: 
@@ -32141,7 +32237,11 @@ PrefabInstance:
     - target: {fileID: 7093942547492779254, guid: 3e8e4112945e6274981ec58390aa4270, type: 3}
       propertyPath: snackCorner
       value: 
-      objectReference: {fileID: 1103297407}
+      objectReference: {fileID: 996301586}
+    - target: {fileID: 7093942547492779254, guid: 3e8e4112945e6274981ec58390aa4270, type: 3}
+      propertyPath: clothesColor
+      value: 2
+      objectReference: {fileID: 0}
     - target: {fileID: 7093942547492779254, guid: 3e8e4112945e6274981ec58390aa4270, type: 3}
       propertyPath: vegetableCorner
       value: 
@@ -32294,7 +32394,10 @@ Transform:
   m_LocalPosition: {x: -11.87, y: 0, z: -2.11}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
-  m_Children: []
+  m_Children:
+  - {fileID: 1103297407}
+  - {fileID: 591551353}
+  - {fileID: 1003964236}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1000072263
@@ -32493,7 +32596,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1003964236}
   m_Layer: 0
-  m_Name: SnackCouner
+  m_Name: ActionPointSnack
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -32507,12 +32610,12 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1003964235}
   serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -11.87, y: 0, z: 5.692}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 7.802}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
-  m_Father: {fileID: 0}
+  m_Father: {fileID: 996301586}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1001 &1004185234
 PrefabInstance:
@@ -34814,7 +34917,8 @@ Transform:
   m_LocalPosition: {x: 4.93, y: 0, z: -2.52}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
-  m_Children: []
+  m_Children:
+  - {fileID: 1484640630}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!4 &1088308776 stripped
@@ -35131,7 +35235,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1103297407}
   m_Layer: 0
-  m_Name: SnackCouner
+  m_Name: ActionPointSnack
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -35145,12 +35249,12 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1103297406}
   serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -7.8, y: 0, z: -1.85}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 4.0699997, y: 0, z: 0.25999987}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 1
   m_Children: []
-  m_Father: {fileID: 0}
+  m_Father: {fileID: 996301586}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1001 &1103953290
 PrefabInstance:
@@ -43871,7 +43975,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4829125637571551536, guid: 3e8e4112945e6274981ec58390aa4270, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 0
+      value: 2.145
       objectReference: {fileID: 0}
     - target: {fileID: 4829125637571551536, guid: 3e8e4112945e6274981ec58390aa4270, type: 3}
       propertyPath: m_LocalPosition.y
@@ -43879,7 +43983,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4829125637571551536, guid: 3e8e4112945e6274981ec58390aa4270, type: 3}
       propertyPath: m_LocalPosition.z
-      value: 0
+      value: -4.417
       objectReference: {fileID: 0}
     - target: {fileID: 4829125637571551536, guid: 3e8e4112945e6274981ec58390aa4270, type: 3}
       propertyPath: m_LocalRotation.w
@@ -43914,6 +44018,10 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 373946383}
     - target: {fileID: 7093942547492779254, guid: 3e8e4112945e6274981ec58390aa4270, type: 3}
+      propertyPath: isThief
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7093942547492779254, guid: 3e8e4112945e6274981ec58390aa4270, type: 3}
       propertyPath: animator
       value: 
       objectReference: {fileID: 1923094345}
@@ -43940,7 +44048,11 @@ PrefabInstance:
     - target: {fileID: 7093942547492779254, guid: 3e8e4112945e6274981ec58390aa4270, type: 3}
       propertyPath: snackCorner
       value: 
-      objectReference: {fileID: 1103297407}
+      objectReference: {fileID: 996301586}
+    - target: {fileID: 7093942547492779254, guid: 3e8e4112945e6274981ec58390aa4270, type: 3}
+      propertyPath: clothesColor
+      value: 8
+      objectReference: {fileID: 0}
     - target: {fileID: 7093942547492779254, guid: 3e8e4112945e6274981ec58390aa4270, type: 3}
       propertyPath: vegetableCorner
       value: 
@@ -43957,6 +44069,10 @@ PrefabInstance:
       propertyPath: preparedFoodCorner
       value: 
       objectReference: {fileID: 262264544}
+    - target: {fileID: 7093942547492779254, guid: 3e8e4112945e6274981ec58390aa4270, type: 3}
+      propertyPath: stayInLargeCornerRate
+      value: 0.18
+      objectReference: {fileID: 0}
     - target: {fileID: 8079068545409982575, guid: 3e8e4112945e6274981ec58390aa4270, type: 3}
       propertyPath: m_LocalScale.x
       value: 200
@@ -45800,7 +45916,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4829125637571551536, guid: 3e8e4112945e6274981ec58390aa4270, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 0
+      value: 6.3
       objectReference: {fileID: 0}
     - target: {fileID: 4829125637571551536, guid: 3e8e4112945e6274981ec58390aa4270, type: 3}
       propertyPath: m_LocalPosition.y
@@ -45808,7 +45924,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4829125637571551536, guid: 3e8e4112945e6274981ec58390aa4270, type: 3}
       propertyPath: m_LocalPosition.z
-      value: 0
+      value: -2.41
       objectReference: {fileID: 0}
     - target: {fileID: 4829125637571551536, guid: 3e8e4112945e6274981ec58390aa4270, type: 3}
       propertyPath: m_LocalRotation.w
@@ -45843,9 +45959,17 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 373946383}
     - target: {fileID: 7093942547492779254, guid: 3e8e4112945e6274981ec58390aa4270, type: 3}
+      propertyPath: isThief
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7093942547492779254, guid: 3e8e4112945e6274981ec58390aa4270, type: 3}
       propertyPath: animator
       value: 
       objectReference: {fileID: 1579139837}
+    - target: {fileID: 7093942547492779254, guid: 3e8e4112945e6274981ec58390aa4270, type: 3}
+      propertyPath: wearsHat
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 7093942547492779254, guid: 3e8e4112945e6274981ec58390aa4270, type: 3}
       propertyPath: fishCorner
       value: 
@@ -45869,7 +45993,11 @@ PrefabInstance:
     - target: {fileID: 7093942547492779254, guid: 3e8e4112945e6274981ec58390aa4270, type: 3}
       propertyPath: snackCorner
       value: 
-      objectReference: {fileID: 1103297407}
+      objectReference: {fileID: 996301586}
+    - target: {fileID: 7093942547492779254, guid: 3e8e4112945e6274981ec58390aa4270, type: 3}
+      propertyPath: clothesColor
+      value: 8
+      objectReference: {fileID: 0}
     - target: {fileID: 7093942547492779254, guid: 3e8e4112945e6274981ec58390aa4270, type: 3}
       propertyPath: vegetableCorner
       value: 
@@ -45886,6 +46014,10 @@ PrefabInstance:
       propertyPath: preparedFoodCorner
       value: 
       objectReference: {fileID: 262264544}
+    - target: {fileID: 7093942547492779254, guid: 3e8e4112945e6274981ec58390aa4270, type: 3}
+      propertyPath: stayInLargeCornerRate
+      value: 0.448
+      objectReference: {fileID: 0}
     - target: {fileID: 8079068545409982575, guid: 3e8e4112945e6274981ec58390aa4270, type: 3}
       propertyPath: m_LocalScale.x
       value: 200
@@ -47425,7 +47557,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1484640630}
   m_Layer: 0
-  m_Name: DrinkCouner (1)
+  m_Name: ActionPointDrink
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -47439,12 +47571,12 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1484640629}
   serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 4.93, y: 0, z: 5.9}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 8.42}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
-  m_Father: {fileID: 0}
+  m_Father: {fileID: 1085160861}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!4 &1488734984 stripped
 Transform:
@@ -56324,7 +56456,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4829125637571551536, guid: 3e8e4112945e6274981ec58390aa4270, type: 3}
       propertyPath: m_LocalPosition.z
-      value: 0
+      value: -4.299
       objectReference: {fileID: 0}
     - target: {fileID: 4829125637571551536, guid: 3e8e4112945e6274981ec58390aa4270, type: 3}
       propertyPath: m_LocalRotation.w
@@ -56359,9 +56491,17 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 373946383}
     - target: {fileID: 7093942547492779254, guid: 3e8e4112945e6274981ec58390aa4270, type: 3}
+      propertyPath: isThief
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7093942547492779254, guid: 3e8e4112945e6274981ec58390aa4270, type: 3}
       propertyPath: animator
       value: 
       objectReference: {fileID: 1418613556}
+    - target: {fileID: 7093942547492779254, guid: 3e8e4112945e6274981ec58390aa4270, type: 3}
+      propertyPath: wearsHat
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 7093942547492779254, guid: 3e8e4112945e6274981ec58390aa4270, type: 3}
       propertyPath: fishCorner
       value: 
@@ -56385,7 +56525,11 @@ PrefabInstance:
     - target: {fileID: 7093942547492779254, guid: 3e8e4112945e6274981ec58390aa4270, type: 3}
       propertyPath: snackCorner
       value: 
-      objectReference: {fileID: 1103297407}
+      objectReference: {fileID: 996301586}
+    - target: {fileID: 7093942547492779254, guid: 3e8e4112945e6274981ec58390aa4270, type: 3}
+      propertyPath: clothesColor
+      value: 4
+      objectReference: {fileID: 0}
     - target: {fileID: 7093942547492779254, guid: 3e8e4112945e6274981ec58390aa4270, type: 3}
       propertyPath: vegetableCorner
       value: 
@@ -56402,6 +56546,10 @@ PrefabInstance:
       propertyPath: preparedFoodCorner
       value: 
       objectReference: {fileID: 262264544}
+    - target: {fileID: 7093942547492779254, guid: 3e8e4112945e6274981ec58390aa4270, type: 3}
+      propertyPath: stayInLargeCornerRate
+      value: 0.82
+      objectReference: {fileID: 0}
     - target: {fileID: 8079068545409982575, guid: 3e8e4112945e6274981ec58390aa4270, type: 3}
       propertyPath: m_LocalScale.x
       value: 200
@@ -58754,7 +58902,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4829125637571551536, guid: 3e8e4112945e6274981ec58390aa4270, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 0
+      value: 1.87
       objectReference: {fileID: 0}
     - target: {fileID: 4829125637571551536, guid: 3e8e4112945e6274981ec58390aa4270, type: 3}
       propertyPath: m_LocalPosition.y
@@ -58762,7 +58910,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4829125637571551536, guid: 3e8e4112945e6274981ec58390aa4270, type: 3}
       propertyPath: m_LocalPosition.z
-      value: 0
+      value: -3.37
       objectReference: {fileID: 0}
     - target: {fileID: 4829125637571551536, guid: 3e8e4112945e6274981ec58390aa4270, type: 3}
       propertyPath: m_LocalRotation.w
@@ -58797,9 +58945,17 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 373946383}
     - target: {fileID: 7093942547492779254, guid: 3e8e4112945e6274981ec58390aa4270, type: 3}
+      propertyPath: isThief
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7093942547492779254, guid: 3e8e4112945e6274981ec58390aa4270, type: 3}
       propertyPath: animator
       value: 
       objectReference: {fileID: 1639729592}
+    - target: {fileID: 7093942547492779254, guid: 3e8e4112945e6274981ec58390aa4270, type: 3}
+      propertyPath: wearsHat
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 7093942547492779254, guid: 3e8e4112945e6274981ec58390aa4270, type: 3}
       propertyPath: fishCorner
       value: 
@@ -58823,7 +58979,11 @@ PrefabInstance:
     - target: {fileID: 7093942547492779254, guid: 3e8e4112945e6274981ec58390aa4270, type: 3}
       propertyPath: snackCorner
       value: 
-      objectReference: {fileID: 1103297407}
+      objectReference: {fileID: 996301586}
+    - target: {fileID: 7093942547492779254, guid: 3e8e4112945e6274981ec58390aa4270, type: 3}
+      propertyPath: clothesColor
+      value: 5
+      objectReference: {fileID: 0}
     - target: {fileID: 7093942547492779254, guid: 3e8e4112945e6274981ec58390aa4270, type: 3}
       propertyPath: vegetableCorner
       value: 
@@ -59575,7 +59735,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4829125637571551536, guid: 3e8e4112945e6274981ec58390aa4270, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 0
+      value: -0.59
       objectReference: {fileID: 0}
     - target: {fileID: 4829125637571551536, guid: 3e8e4112945e6274981ec58390aa4270, type: 3}
       propertyPath: m_LocalPosition.y
@@ -59583,7 +59743,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4829125637571551536, guid: 3e8e4112945e6274981ec58390aa4270, type: 3}
       propertyPath: m_LocalPosition.z
-      value: 0
+      value: -2.67
       objectReference: {fileID: 0}
     - target: {fileID: 4829125637571551536, guid: 3e8e4112945e6274981ec58390aa4270, type: 3}
       propertyPath: m_LocalRotation.w
@@ -59618,6 +59778,10 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 373946383}
     - target: {fileID: 7093942547492779254, guid: 3e8e4112945e6274981ec58390aa4270, type: 3}
+      propertyPath: isThief
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7093942547492779254, guid: 3e8e4112945e6274981ec58390aa4270, type: 3}
       propertyPath: animator
       value: 
       objectReference: {fileID: 1921144897}
@@ -59644,7 +59808,11 @@ PrefabInstance:
     - target: {fileID: 7093942547492779254, guid: 3e8e4112945e6274981ec58390aa4270, type: 3}
       propertyPath: snackCorner
       value: 
-      objectReference: {fileID: 1103297407}
+      objectReference: {fileID: 996301586}
+    - target: {fileID: 7093942547492779254, guid: 3e8e4112945e6274981ec58390aa4270, type: 3}
+      propertyPath: clothesColor
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 7093942547492779254, guid: 3e8e4112945e6274981ec58390aa4270, type: 3}
       propertyPath: vegetableCorner
       value: 
@@ -59661,6 +59829,10 @@ PrefabInstance:
       propertyPath: preparedFoodCorner
       value: 
       objectReference: {fileID: 262264544}
+    - target: {fileID: 7093942547492779254, guid: 3e8e4112945e6274981ec58390aa4270, type: 3}
+      propertyPath: stayInLargeCornerRate
+      value: 0.721
+      objectReference: {fileID: 0}
     - target: {fileID: 8079068545409982575, guid: 3e8e4112945e6274981ec58390aa4270, type: 3}
       propertyPath: m_LocalScale.x
       value: 200
@@ -66252,7 +66424,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4829125637571551536, guid: 3e8e4112945e6274981ec58390aa4270, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 0
+      value: 2.1
       objectReference: {fileID: 0}
     - target: {fileID: 4829125637571551536, guid: 3e8e4112945e6274981ec58390aa4270, type: 3}
       propertyPath: m_LocalPosition.y
@@ -66295,6 +66467,10 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 373946383}
     - target: {fileID: 7093942547492779254, guid: 3e8e4112945e6274981ec58390aa4270, type: 3}
+      propertyPath: isThief
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7093942547492779254, guid: 3e8e4112945e6274981ec58390aa4270, type: 3}
       propertyPath: animator
       value: 
       objectReference: {fileID: 1157559545}
@@ -66321,7 +66497,7 @@ PrefabInstance:
     - target: {fileID: 7093942547492779254, guid: 3e8e4112945e6274981ec58390aa4270, type: 3}
       propertyPath: snackCorner
       value: 
-      objectReference: {fileID: 1103297407}
+      objectReference: {fileID: 996301586}
     - target: {fileID: 7093942547492779254, guid: 3e8e4112945e6274981ec58390aa4270, type: 3}
       propertyPath: vegetableCorner
       value: 
@@ -66338,6 +66514,10 @@ PrefabInstance:
       propertyPath: preparedFoodCorner
       value: 
       objectReference: {fileID: 262264544}
+    - target: {fileID: 7093942547492779254, guid: 3e8e4112945e6274981ec58390aa4270, type: 3}
+      propertyPath: stayInLargeCornerRate
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 8079068545409982575, guid: 3e8e4112945e6274981ec58390aa4270, type: 3}
       propertyPath: m_LocalScale.x
       value: 200
@@ -66374,13 +66554,9 @@ SceneRoots:
   - {fileID: 1132839069}
   - {fileID: 58864305}
   - {fileID: 1072783140}
-  - {fileID: 1103297407}
   - {fileID: 996301586}
-  - {fileID: 591551353}
-  - {fileID: 1003964236}
   - {fileID: 182532850}
   - {fileID: 1085160861}
-  - {fileID: 1484640630}
   - {fileID: 262264544}
   - {fileID: 1304987710}
   - {fileID: 882161755}

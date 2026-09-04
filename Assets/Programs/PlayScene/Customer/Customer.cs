@@ -73,7 +73,15 @@ public class Customer : MonoBehaviour
     [SerializeField]
     private float suspiciousFastWalkTime = 2.5f;
 
+    [Header("棚が多いコーナー設定")]
 
+    [Tooltip("お菓子・飲料コーナーで、行動後に同じコーナー内の別棚へ移動する確率")]
+    [Range(0.0f, 1.0f)]
+    [SerializeField]
+    private float stayInLargeCornerRate = 0.6f;
+
+    // 現在向かっているActionPoint
+    private Transform currentActionPoint;
     // ========================================
     // 不審行動確率
     // ========================================
@@ -252,6 +260,7 @@ public class Customer : MonoBehaviour
 
     private void Start()
     {
+       
         if (playSceneManager == null)
         {
             playSceneManager =
@@ -780,10 +789,10 @@ public class Customer : MonoBehaviour
         );
 
 
-        Debug.Log(
-            $"{gameObject.name}：" +
-            "通常行動 → 商品を見る"
-        );
+        //Debug.Log(
+        //    $"{gameObject.name}：" +
+        //    "通常行動 → 商品を見る"
+        //);
     }
 
 
@@ -824,10 +833,10 @@ public class Customer : MonoBehaviour
                 );
 
 
-                Debug.Log(
-                    $"{gameObject.name}：" +
-                    "不審行動 → しゃがんで漁る"
-                );
+                //Debug.Log(
+                //    $"{gameObject.name}：" +
+                //    "不審行動 → しゃがんで漁る"
+                //);
 
                 break;
 
@@ -847,10 +856,10 @@ public class Customer : MonoBehaviour
                 );
 
 
-                Debug.Log(
-                    $"{gameObject.name}：" +
-                    "不審行動 → キョロキョロ"
-                );
+                //Debug.Log(
+                //    $"{gameObject.name}：" +
+                //    "不審行動 → キョロキョロ"
+                //);
 
                 break;
 
@@ -866,10 +875,10 @@ public class Customer : MonoBehaviour
                 );
 
 
-                Debug.Log(
-                    $"{gameObject.name}：" +
-                    "不審行動 → 早歩き"
-                );
+                //Debug.Log(
+                //    $"{gameObject.name}：" +
+                //    "不審行動 → 早歩き"
+                //);
 
                 break;
         }
@@ -994,6 +1003,10 @@ public class Customer : MonoBehaviour
     // 行動終了後
     // ========================================
 
+    // ========================================
+    // 行動終了後
+    // ========================================
+
     private void MoveAfterWaiting()
     {
         if (IsCaught)
@@ -1001,13 +1014,8 @@ public class Customer : MonoBehaviour
             return;
         }
 
-
-        isWaiting =
-            false;
-
-        isLookingAround =
-            false;
-
+        isWaiting = false;
+        isLookingAround = false;
 
         SetAnimation(
             CustomerAnimationState.Idle
@@ -1015,18 +1023,57 @@ public class Customer : MonoBehaviour
 
 
         // ========================================
-        // 次の目的地
+        // 泥棒
         // ========================================
 
         if (isThief)
         {
             SetDestinationAroundCurrentCorner();
-        }
-        else
-        {
-            MoveToRandomCorner();
+
+            ResumeAgent();
+
+            return;
         }
 
+
+        // ========================================
+        // 棚が多いコーナーの場合
+        //
+        // お菓子 / 飲料
+        // ========================================
+
+        bool isLargeCorner =
+            currentCorner == snackCorner ||
+            currentCorner == drinkCorner;
+
+
+        if (isLargeCorner)
+        {
+            // ========================================
+            // 一定確率で
+            // 同じコーナーの別棚を見る
+            // ========================================
+
+            if (Random.value <
+                stayInLargeCornerRate)
+            {
+                SetDestinationAroundCorner(
+                    currentCorner,
+                    moveRadius
+                );
+
+                ResumeAgent();
+
+                return;
+            }
+        }
+
+
+        // ========================================
+        // 別のコーナーへ移動
+        // ========================================
+
+        MoveToRandomCorner();
 
         ResumeAgent();
     }
@@ -1276,6 +1323,7 @@ public class Customer : MonoBehaviour
         Transform corner,
         float radius)
     {
+        
         if (corner == null ||
             agent == null)
         {
@@ -1292,7 +1340,6 @@ public class Customer : MonoBehaviour
             return;
         }
 
-
         // ========================================
         // ActionPointを優先
         // ========================================
@@ -1302,18 +1349,23 @@ public class Customer : MonoBehaviour
                 corner
             );
 
-
         if (actionPoint != null)
         {
+           
+
+
             NavMeshHit actionHit;
 
 
             if (NavMesh.SamplePosition(
                 actionPoint.position,
                 out actionHit,
-                navMeshSampleDistance,
+                3.0f,
                 NavMesh.AllAreas))
             {
+                
+
+
                 NavMeshPath actionPath =
                     new NavMeshPath();
 
@@ -1325,22 +1377,36 @@ public class Customer : MonoBehaviour
                     if (actionPath.status ==
                         NavMeshPathStatus.PathComplete)
                     {
+                        
+
+
                         agent.SetDestination(
                             actionHit.position
                         );
 
-
-                        Debug.Log(
-                            $"{gameObject.name}：" +
-                            $"{actionPoint.name}へ移動"
-                        );
-
-
                         return;
+                    }
+                    else
+                    {
+                        Debug.LogWarning(
+                            $"{actionPoint.name} までの経路が不完全です"
+                        );
                     }
                 }
             }
+            else
+            {
+                Debug.LogWarning(
+                    $"{actionPoint.name} の近くにNavMeshがありません"
+                );
+            }
         }
+        //else
+        //{
+        //    //Debug.LogWarning(
+        //    //    $"{corner.name} にActionPointが見つかりません"
+        //    //);
+        //}
 
 
         // ========================================
@@ -1410,48 +1476,70 @@ public class Customer : MonoBehaviour
     // ActionPoint取得
     // ========================================
 
+    // ========================================
+    // コーナー内の停止ポイントを取得
+    // 前回と違うActionPointを優先する
+    // ========================================
+
     private Transform GetRandomActionPoint(
         Transform corner)
     {
+       
         if (corner == null)
         {
             return null;
         }
 
-
         Transform[] children =
             corner.GetComponentsInChildren<Transform>();
-
 
         List<Transform> actionPoints =
             new List<Transform>();
 
-
         foreach (Transform child in children)
         {
-            if (child ==
-                corner)
+            if (child == corner)
             {
                 continue;
             }
 
-
-            if (child.name.Contains(
-                "ActionPoint"))
+            if (!child.name.Contains("ActionPoint"))
             {
-                actionPoints.Add(
-                    child
-                );
+                continue;
+            }
+
+            // ActionPointが複数ある場合は
+            // 前回と同じ場所を除外
+            if (child == currentActionPoint)
+            {
+                continue;
+            }
+          
+            actionPoints.Add(child);
+        }
+
+        // 前回と違う場所がなかった場合
+        // 同じ場所でもいいので再取得
+        if (actionPoints.Count == 0)
+        {
+            foreach (Transform child in children)
+            {
+                if (child == corner)
+                {
+                    continue;
+                }
+
+                if (child.name.Contains("ActionPoint"))
+                {
+                    actionPoints.Add(child);
+                }
             }
         }
 
-
-        if (actionPoints.Count ==
-            0)
+        if (actionPoints.Count == 0)
         {
             return null;
         }
-
 
         int randomIndex =
             Random.Range(
@@ -1459,9 +1547,10 @@ public class Customer : MonoBehaviour
                 actionPoints.Count
             );
 
-
-        return
+        currentActionPoint =
             actionPoints[randomIndex];
+
+        return currentActionPoint;
     }
 
 
