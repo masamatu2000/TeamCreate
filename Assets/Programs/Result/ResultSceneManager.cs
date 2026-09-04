@@ -42,12 +42,11 @@ public class ResultSceneManager : MonoBehaviour
     private void Update()
     {
         // 時間を減らす
-        timer -= Time.deltaTime;
+        //timer -= Time.deltaTime;
 
         // スペースを押した、または10秒経過したらタイトルへ
         if ((Keyboard.current != null &&
-             Keyboard.current.spaceKey.wasPressedThisFrame)
-            || timer <= 0.0f)
+             Keyboard.current.spaceKey.wasPressedThisFrame))
         {
             ReturnTitle();
         }

@@ -1,4 +1,5 @@
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
@@ -37,7 +38,14 @@ public class VoiceRecognizer : MonoBehaviour
     [Header("UI")]
     [SerializeField]
     private TextMeshProUGUI BottonText;
+    [Header("音声認識結果UI")]
+    [SerializeField]
+    private TextMeshProUGUI recognizedText;
 
+    [SerializeField]
+    private float recognizedTextDisplayTime = 2.0f;
+
+    private Coroutine recognizedTextCoroutine;
     private DictationRecognizer dictationRecognizer;
     private KeywordRecognizer keywordRecognizer;
 
@@ -116,6 +124,13 @@ public class VoiceRecognizer : MonoBehaviour
     private PlaySceneManager playSceneManager;
     private void Start()
     {
+        // ========================================
+        // 音声認識結果は最初は非表示
+        // ========================================
+        if (recognizedText != null)
+        {
+            recognizedText.gameObject.SetActive(false);
+        }
         LoadKeywordsFromCsv();
 
         if (allKeywords.Count == 0)
@@ -790,6 +805,11 @@ public class VoiceRecognizer : MonoBehaviour
         {
             return;
         }
+        // ========================================
+        // 認識した音声を画面に表示
+        // ========================================
+
+        ShowRecognizedText(text);
 
 
         // ========================================
@@ -1010,7 +1030,56 @@ public class VoiceRecognizer : MonoBehaviour
 
         return false;
     }
+    // =========================================================
+    // 音声認識結果UI
+    // =========================================================
 
+    /// <summary>
+    /// 認識した音声を画面に一定時間表示する
+    /// </summary>
+    private void ShowRecognizedText(
+        string text)
+    {
+        if (recognizedText == null)
+        {
+            return;
+        }
+
+        // 前回の表示処理が残っていたら停止
+        if (recognizedTextCoroutine != null)
+        {
+            StopCoroutine(
+                recognizedTextCoroutine
+            );
+        }
+
+        recognizedTextCoroutine =
+            StartCoroutine(
+                ShowRecognizedTextCoroutine(text)
+            );
+    }
+
+
+    /// <summary>
+    /// 認識結果を表示して一定時間後に消す
+    /// </summary>
+    private IEnumerator ShowRecognizedTextCoroutine(
+        string text)
+    {
+        recognizedText.gameObject.SetActive(true);
+
+        recognizedText.text =
+            "認識しました！\n" +
+            "「" + text + "」";
+
+        yield return new WaitForSeconds(
+            recognizedTextDisplayTime
+        );
+
+        recognizedText.gameObject.SetActive(false);
+
+        recognizedTextCoroutine = null;
+    }
 
     // =========================================================
     // Push To Talk

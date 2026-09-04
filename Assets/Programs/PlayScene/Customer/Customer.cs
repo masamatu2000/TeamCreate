@@ -1,15 +1,11 @@
+
 using UnityEngine;
 using UnityEngine.AI;
 using System.Collections;
+using System.Collections.Generic;
 
 // ========================================
 // アニメーション状態
-//
-// Idle / Walk / FastWalk は
-// AnimatorのSpeedパラメーターで切り替える。
-//
-// LookAround / CrouchPick / TakeItem / ArrestedWalk は
-// AnimationStateで切り替える。
 // ========================================
 public enum CustomerAnimationState
 {
@@ -42,7 +38,9 @@ public class Customer : MonoBehaviour
 
     [SerializeField]
     private float maxWaitTime = 5.0f;
+
     private Rigidbody rb;
+
 
     // ========================================
     // NavMesh検索設定
@@ -68,6 +66,27 @@ public class Customer : MonoBehaviour
 
     [SerializeField]
     private float thiefSpeed = 3.5f;
+
+    [SerializeField]
+    private float suspiciousFastWalkSpeed = 3.2f;
+
+    [SerializeField]
+    private float suspiciousFastWalkTime = 2.5f;
+
+
+    // ========================================
+    // 不審行動確率
+    // ========================================
+
+    [Header("不審行動確率")]
+
+    [Range(0.0f, 1.0f)]
+    [SerializeField]
+    private float normalCustomerSuspiciousRate = 0.1f;
+
+    [Range(0.0f, 1.0f)]
+    [SerializeField]
+    private float thiefSuspiciousRate = 0.3f;
 
 
     // ========================================
@@ -173,28 +192,22 @@ public class Customer : MonoBehaviour
 
     private NavMeshAgent agent;
 
-    // 現在いるコーナー
     private Transform currentCorner;
 
-    // コーナー一覧
     private Transform[] corners;
 
-    // 商品取得中の待ち時間
     private float waitTimer;
 
-    // 商品取得中
     private bool isWaiting;
 
-    // キョロキョロ中
     private bool isLookingAround;
 
-    // 泥棒が警備員から逃げ始めたか
+    private bool isSuspiciousFastWalking;
+
     private bool hasEscaped;
 
-    // 前フレームまでゲーム開始済みだったか
     private bool wasGameStarted;
 
-    // 現在設定している特殊アニメーション
     private CustomerAnimationState currentAnimationState =
         (CustomerAnimationState)(-1);
 
@@ -205,19 +218,20 @@ public class Customer : MonoBehaviour
 
     private void Awake()
     {
-        // NavMeshAgent取得
         agent =
             GetComponent<NavMeshAgent>();
-        rb = GetComponent<Rigidbody>();
-        // AnimatorがInspectorで設定されていなければ
-        // 子オブジェクトから自動取得
+
+        rb =
+            GetComponent<Rigidbody>();
+
+
         if (animator == null)
         {
             animator =
                 GetComponentInChildren<Animator>();
         }
 
-        // コーナーを配列にまとめる
+
         corners = new Transform[]
         {
             fishCorner,
@@ -238,36 +252,21 @@ public class Customer : MonoBehaviour
 
     private void Start()
     {
-        // PlaySceneManager取得
         if (playSceneManager == null)
         {
             playSceneManager =
                 FindFirstObjectByType<PlaySceneManager>();
         }
 
-        // ゲーム開始時に
-        // ランダムなコーナー周辺へ配置
+
         PlaceAtRandomCorner();
-        Debug.Log(
-    $"{gameObject.name} Start配置後 " +
-    $"TransformY={transform.position.y}, " +
-    $"AgentNextY={agent.nextPosition.y}, " +
-    $"isOnNavMesh={agent.isOnNavMesh}"
-);
-        if (animator != null)
-        {
-            Debug.Log(
-                $"{gameObject.name} Animator側 " +
-                $"LocalY={animator.transform.localPosition.y}, " +
-                $"WorldY={animator.transform.position.y}"
-            );
-        }
-        // 移動速度を設定
+
+
         SetMoveSpeed();
 
 
         // ========================================
-        // 最初の目的地を設定
+        // 最初の目的地
         // ========================================
 
         if (isThief)
@@ -294,17 +293,20 @@ public class Customer : MonoBehaviour
         }
 
 
-        // 現在ゲーム開始済みか保存
         wasGameStarted =
             playSceneManager != null &&
             playSceneManager.IsGameStarted();
 
 
-        // 最初は通常状態
         SetAnimation(
             CustomerAnimationState.Idle
         );
     }
+
+
+    // ========================================
+    // Rigidbody固定
+    // ========================================
 
     private void FreezeCustomer()
     {
@@ -313,15 +315,20 @@ public class Customer : MonoBehaviour
             return;
         }
 
-        // 位置と回転を完全固定
+
         rb.constraints =
             RigidbodyConstraints.FreezePosition |
             RigidbodyConstraints.FreezeRotation;
 
-        // 念のため速度も0
-        rb.linearVelocity = Vector3.zero;
-        rb.angularVelocity = Vector3.zero;
+
+        rb.linearVelocity =
+            Vector3.zero;
+
+        rb.angularVelocity =
+            Vector3.zero;
     }
+
+
     private void UnfreezeCustomer()
     {
         if (rb == null)
@@ -329,11 +336,12 @@ public class Customer : MonoBehaviour
             return;
         }
 
-        // 回転だけ固定したまま
-        // Positionは自由にしてNavMeshAgentで動けるようにする
+
         rb.constraints =
             RigidbodyConstraints.FreezeRotation;
     }
+
+
     // ========================================
     // Update
     // ========================================
@@ -346,44 +354,43 @@ public class Customer : MonoBehaviour
         }
 
 
-        // ========================================
-        // ゲーム開始判定
-        // ========================================
-
         bool isGameStarted =
             playSceneManager == null ||
             playSceneManager.IsGameStarted();
 
 
         // ========================================
-        // カウントダウン中
+        // ゲーム開始前
         // ========================================
 
         if (!isGameStarted)
         {
-            // お客さんを停止
             StopAgent();
-            // カウントダウン中は完全固定
+
             FreezeCustomer();
-            // Speedを0にする
+
             UpdateAnimation();
 
-            wasGameStarted = false;
+            wasGameStarted =
+                false;
 
             return;
         }
 
 
         // ========================================
-        // ゲーム開始した瞬間
+        // ゲーム開始瞬間
         // ========================================
 
         if (!wasGameStarted)
         {
-            wasGameStarted = true;
-            // 座標固定を解除
+            wasGameStarted =
+                true;
+
+
             UnfreezeCustomer();
-            // 特殊行動中でなければ移動再開
+
+
             if (!IsCaught &&
                 !isWaiting &&
                 !isLookingAround)
@@ -394,7 +401,7 @@ public class Customer : MonoBehaviour
 
 
         // ========================================
-        // 捕まっている場合
+        // 捕獲済み
         // ========================================
 
         if (IsCaught)
@@ -420,7 +427,7 @@ public class Customer : MonoBehaviour
 
 
         // ========================================
-        // 商品取得中
+        // 商品を見る・取る
         // ========================================
 
         if (isWaiting)
@@ -443,8 +450,7 @@ public class Customer : MonoBehaviour
 
 
         // ========================================
-        // 泥棒の場合
-        // 警備員が近づいているか確認
+        // 泥棒が警備員から逃げる
         // ========================================
 
         if (isThief &&
@@ -455,7 +461,7 @@ public class Customer : MonoBehaviour
 
 
         // ========================================
-        // 経路計算中なら待つ
+        // 経路計算中
         // ========================================
 
         if (agent.pathPending)
@@ -467,12 +473,12 @@ public class Customer : MonoBehaviour
 
 
         // ========================================
-        // 目的地へ到着したか確認
+        // 目的地到着判定
         // ========================================
 
         if (agent.hasPath &&
             agent.remainingDistance <=
-            agent.stoppingDistance + 0.5f)
+            agent.stoppingDistance + 0.3f)
         {
             StartWaiting();
 
@@ -482,29 +488,12 @@ public class Customer : MonoBehaviour
         }
 
 
-        // ========================================
-        // 通常時のアニメーション更新
-        // ========================================
-
         UpdateAnimation();
     }
 
-    private void LateUpdate()
-    {
-        if (animator == null)
-        {
-            return;
-        }
 
-        Debug.Log(
-            $"{gameObject.name} LateUpdate " +
-            $"CustomerY={transform.position.y}, " +
-            $"AnimatorY={animator.transform.position.y}, " +
-            $"AnimatorLocalY={animator.transform.localPosition.y}"
-        );
-    }
     // ========================================
-    // NavMeshAgentを停止
+    // NavMeshAgent停止
     // ========================================
 
     private void StopAgent()
@@ -515,17 +504,17 @@ public class Customer : MonoBehaviour
             return;
         }
 
-        // 移動停止
-        agent.isStopped = true;
 
-        // 残っている速度も0にする
+        agent.isStopped =
+            true;
+
         agent.velocity =
             Vector3.zero;
     }
 
 
     // ========================================
-    // NavMeshAgentの移動再開
+    // NavMeshAgent再開
     // ========================================
 
     private void ResumeAgent()
@@ -536,7 +525,9 @@ public class Customer : MonoBehaviour
             return;
         }
 
-        agent.isStopped = false;
+
+        agent.isStopped =
+            false;
     }
 
 
@@ -554,7 +545,7 @@ public class Customer : MonoBehaviour
 
 
         // ========================================
-        // 捕まった泥棒
+        // 捕獲済み
         // ========================================
 
         if (IsCaught)
@@ -563,6 +554,7 @@ public class Customer : MonoBehaviour
                 "Speed",
                 0.0f
             );
+
 
             SetAnimation(
                 CustomerAnimationState.ArrestedWalk
@@ -579,18 +571,10 @@ public class Customer : MonoBehaviour
         if (playSceneManager != null &&
             !playSceneManager.IsGameStarted())
         {
-            // カウントダウン中なのでSpeedは0
             animator.SetFloat(
                 "Speed",
                 0.0f
             );
-
-            // Idleの沈み検証のため、
-            // 現在はここではAnimationStateを変更しない
-            //
-            // SetAnimation(
-            //     CustomerAnimationState.Idle
-            // );
 
             return;
         }
@@ -602,14 +586,11 @@ public class Customer : MonoBehaviour
 
         if (isWaiting)
         {
-            // 移動アニメーションを出さない
             animator.SetFloat(
                 "Speed",
                 0.0f
             );
 
-            // AnimationStateは
-            // CrouchPick または TakeItem のまま
             return;
         }
 
@@ -625,8 +606,6 @@ public class Customer : MonoBehaviour
                 0.0f
             );
 
-            // AnimationStateは
-            // LookAroundのまま
             return;
         }
 
@@ -640,15 +619,9 @@ public class Customer : MonoBehaviour
         );
 
 
-        // ========================================
-        // 実際の移動速度をAnimatorへ送る
-        //
-        // Speed = 0      → Idle
-        // Speed > 0.1    → Walk
-        // Speed > 2.8    → FastWalk
-        // ========================================
+        float speed =
+            0.0f;
 
-        float speed = 0.0f;
 
         if (agent.isOnNavMesh &&
             !agent.isStopped)
@@ -656,6 +629,7 @@ public class Customer : MonoBehaviour
             speed =
                 agent.velocity.magnitude;
         }
+
 
         animator.SetFloat(
             "Speed",
@@ -676,15 +650,17 @@ public class Customer : MonoBehaviour
             return;
         }
 
-        // 同じ状態なら再設定しない
+
         if (currentAnimationState ==
             state)
         {
             return;
         }
 
+
         currentAnimationState =
             state;
+
 
         animator.SetInteger(
             "AnimationState",
@@ -694,7 +670,7 @@ public class Customer : MonoBehaviour
 
 
     // ========================================
-    // 移動速度設定
+    // 通常速度設定
     // ========================================
 
     private void SetMoveSpeed()
@@ -704,7 +680,16 @@ public class Customer : MonoBehaviour
             return;
         }
 
-        // 泥棒が逃げ始めた場合だけ早くする
+
+        if (isSuspiciousFastWalking)
+        {
+            agent.speed =
+                suspiciousFastWalkSpeed;
+
+            return;
+        }
+
+
         if (isThief &&
             hasEscaped)
         {
@@ -720,62 +705,170 @@ public class Customer : MonoBehaviour
 
 
     // ========================================
-    // 商品取得開始
+    // 目的地到着
     // ========================================
 
     private void StartWaiting()
     {
-        // すでに特殊行動中なら開始しない
         if (isWaiting ||
             isLookingAround ||
+            isSuspiciousFastWalking ||
             IsCaught)
         {
             return;
         }
 
-        isWaiting = true;
 
-        // 到着したので停止
         StopAgent();
 
-        // 商品を見る時間
+
+        // ========================================
+        // 一般客 10%
+        // 泥棒   30%
+        // ========================================
+
+        float suspiciousRate =
+            isThief
+                ? thiefSuspiciousRate
+                : normalCustomerSuspiciousRate;
+
+
+        bool doSuspiciousAction =
+            Random.value <
+            suspiciousRate;
+
+
+        // ========================================
+        // 通常行動
+        // ========================================
+
+        if (!doSuspiciousAction)
+        {
+            StartNormalAction();
+
+            return;
+        }
+
+
+        // ========================================
+        // 不審行動
+        // ========================================
+
+        StartSuspiciousAction();
+    }
+
+
+    // ========================================
+    // 通常行動
+    // ========================================
+
+    private void StartNormalAction()
+    {
+        isWaiting =
+            true;
+
+
         waitTimer =
             Random.Range(
                 minWaitTime,
                 maxWaitTime
             );
 
-        // 商品取得アニメーションを選ぶ
-        SelectWaitAnimation();
+
+        SetAnimation(
+            CustomerAnimationState.TakeItem
+        );
+
+
+        Debug.Log(
+            $"{gameObject.name}：" +
+            "通常行動 → 商品を見る"
+        );
     }
 
 
     // ========================================
-    // 商品取得アニメーションをランダム選択
+    // 不審行動
     // ========================================
 
-    private void SelectWaitAnimation()
+    private void StartSuspiciousAction()
     {
         int randomAction =
-            Random.Range(0, 2);
+            Random.Range(
+                0,
+                3
+            );
+
 
         switch (randomAction)
         {
-            // しゃがんで商品を取る
+            // ========================================
+            // しゃがんで漁る
+            // ========================================
+
             case 0:
+
+                isWaiting =
+                    true;
+
+
+                waitTimer =
+                    Random.Range(
+                        minWaitTime,
+                        maxWaitTime
+                    );
+
 
                 SetAnimation(
                     CustomerAnimationState.CrouchPick
                 );
 
+
+                Debug.Log(
+                    $"{gameObject.name}：" +
+                    "不審行動 → しゃがんで漁る"
+                );
+
                 break;
 
 
-            // 普通に商品を取る
+            // ========================================
+            // キョロキョロ
+            // ========================================
+
             case 1:
 
-                SetAnimation(
-                    CustomerAnimationState.TakeItem
+                isLookingAround =
+                    true;
+
+
+                StartCoroutine(
+                    LookAroundBeforeMove()
+                );
+
+
+                Debug.Log(
+                    $"{gameObject.name}：" +
+                    "不審行動 → キョロキョロ"
+                );
+
+                break;
+
+
+            // ========================================
+            // 早歩き
+            // ========================================
+
+            case 2:
+
+                StartCoroutine(
+                    SuspiciousFastWalk()
+                );
+
+
+                Debug.Log(
+                    $"{gameObject.name}：" +
+                    "不審行動 → 早歩き"
                 );
 
                 break;
@@ -784,7 +877,7 @@ public class Customer : MonoBehaviour
 
 
     // ========================================
-    // 商品取得中の待機処理
+    // 商品取得中
     // ========================================
 
     private void Wait()
@@ -792,35 +885,18 @@ public class Customer : MonoBehaviour
         waitTimer -=
             Time.deltaTime;
 
-        // まだ時間が残っている
-        if (waitTimer > 0.0f)
+
+        if (waitTimer >
+            0.0f)
         {
             return;
         }
 
 
-        // 商品取得終了
-        isWaiting = false;
+        isWaiting =
+            false;
 
 
-        // ========================================
-        // 30%の確率でキョロキョロする
-        // ========================================
-
-        if (Random.value < 0.3f)
-        {
-            isLookingAround = true;
-
-            StartCoroutine(
-                LookAroundBeforeMove()
-            );
-
-            return;
-        }
-
-
-        // キョロキョロしない場合は
-        // そのまま次の場所へ移動
         MoveAfterWaiting();
     }
 
@@ -831,56 +907,60 @@ public class Customer : MonoBehaviour
 
     private IEnumerator LookAroundBeforeMove()
     {
-        // キョロキョロ中は完全停止
         StopAgent();
 
-        animator.SetFloat(
-            "Speed",
-            0.0f
-        );
+
+        if (animator != null)
+        {
+            animator.SetFloat(
+                "Speed",
+                0.0f
+            );
+        }
+
 
         SetAnimation(
             CustomerAnimationState.LookAround
         );
 
 
-        // 2秒間キョロキョロ
         yield return
-            new WaitForSeconds(2.0f);
+            new WaitForSeconds(
+                2.0f
+            );
 
 
-        // キョロキョロ終了
-        isLookingAround = false;
+        isLookingAround =
+            false;
 
 
-        // 次の場所へ移動
         MoveAfterWaiting();
     }
 
 
     // ========================================
-    // 商品取得・キョロキョロ後の移動
+    // 不審な早歩き
     // ========================================
 
-    private void MoveAfterWaiting()
+    private IEnumerator SuspiciousFastWalk()
     {
-        if (IsCaught)
+        if (agent == null ||
+            !agent.isOnNavMesh)
         {
-            return;
+            yield break;
         }
 
-        isWaiting = false;
-        isLookingAround = false;
+
+        isSuspiciousFastWalking =
+            true;
 
 
-        // 特殊アニメーション終了
-        SetAnimation(
-            CustomerAnimationState.Idle
-        );
+        agent.speed =
+            suspiciousFastWalkSpeed;
 
 
         // ========================================
-        // 次の目的地を設定
+        // 次の場所を設定
         // ========================================
 
         if (isThief)
@@ -893,7 +973,61 @@ public class Customer : MonoBehaviour
         }
 
 
-        // 移動再開
+        ResumeAgent();
+
+
+        yield return
+            new WaitForSeconds(
+                suspiciousFastWalkTime
+            );
+
+
+        isSuspiciousFastWalking =
+            false;
+
+
+        SetMoveSpeed();
+    }
+
+
+    // ========================================
+    // 行動終了後
+    // ========================================
+
+    private void MoveAfterWaiting()
+    {
+        if (IsCaught)
+        {
+            return;
+        }
+
+
+        isWaiting =
+            false;
+
+        isLookingAround =
+            false;
+
+
+        SetAnimation(
+            CustomerAnimationState.Idle
+        );
+
+
+        // ========================================
+        // 次の目的地
+        // ========================================
+
+        if (isThief)
+        {
+            SetDestinationAroundCurrentCorner();
+        }
+        else
+        {
+            MoveToRandomCorner();
+        }
+
+
         ResumeAgent();
     }
 
@@ -915,21 +1049,17 @@ public class Customer : MonoBehaviour
             return;
         }
 
-        // ========================================
-        // 試していないコーナーを管理する
-        // ========================================
 
         bool[] checkedCorners =
             new bool[corners.Length];
 
-        int checkedCount = 0;
+
+        int checkedCount =
+            0;
 
 
-        // ========================================
-        // 全コーナーを最大1回ずつ試す
-        // ========================================
-
-        while (checkedCount < corners.Length)
+        while (checkedCount <
+            corners.Length)
         {
             int randomIndex =
                 Random.Range(
@@ -937,14 +1067,17 @@ public class Customer : MonoBehaviour
                     corners.Length
                 );
 
-            // すでに試したコーナーならやり直し
+
             if (checkedCorners[randomIndex])
             {
                 continue;
             }
 
-            // このコーナーは試したことにする
-            checkedCorners[randomIndex] = true;
+
+            checkedCorners[randomIndex] =
+                true;
+
+
             checkedCount++;
 
 
@@ -952,7 +1085,6 @@ public class Customer : MonoBehaviour
                 corners[randomIndex];
 
 
-            // nullなら次のコーナーへ
             if (selectedCorner == null)
             {
                 continue;
@@ -962,11 +1094,6 @@ public class Customer : MonoBehaviour
             currentCorner =
                 selectedCorner;
 
-
-            // ========================================
-            // コーナー周辺から
-            // NavMesh上の位置を探す
-            // ========================================
 
             for (int i = 0;
                  i < positionSearchCount;
@@ -995,25 +1122,14 @@ public class Customer : MonoBehaviour
                     navMeshSampleDistance,
                     NavMesh.AllAreas))
                 {
-                    // 配置成功
                     if (agent.Warp(
                         hit.position))
                     {
-                        Debug.Log(
-                            $"{gameObject.name}：" +
-                            $"{currentCorner.name} に配置成功"
-                        );
-
                         return;
                     }
                 }
             }
 
-
-            // ========================================
-            // 周辺で見つからなかったら
-            // コーナー中心付近も試す
-            // ========================================
 
             NavMeshHit centerHit;
 
@@ -1027,43 +1143,22 @@ public class Customer : MonoBehaviour
                 if (agent.Warp(
                     centerHit.position))
                 {
-                    Debug.Log(
-                        $"{gameObject.name}：" +
-                        $"{currentCorner.name} の中心付近に配置成功"
-                    );
-
                     return;
                 }
             }
-
-
-            // ========================================
-            // このコーナーでは失敗
-            // 次の未チェックコーナーへ
-            // ========================================
-
-            Debug.LogWarning(
-                $"{gameObject.name}：" +
-                $"{currentCorner.name} では配置できませんでした。" +
-                "別のコーナーを試します"
-            );
         }
 
 
-        // ========================================
-        // 全コーナー失敗
-        // ========================================
-
         Debug.LogError(
             $"{gameObject.name}：" +
-            "すべてのコーナーでNavMesh上への配置に失敗しました"
+            "すべてのコーナーで配置に失敗しました"
         );
     }
 
 
     // ========================================
     // 一般客
-    // 別のランダムなコーナーへ移動
+    // 別コーナーへ
     // ========================================
 
     private void MoveToRandomCorner()
@@ -1097,12 +1192,13 @@ public class Customer : MonoBehaviour
 
 
     // ========================================
-    // 現在とは違うコーナーをランダム取得
+    // 現在とは違うコーナー
     // ========================================
 
     private Transform GetRandomDifferentCorner()
     {
-        int validCornerCount = 0;
+        int validCornerCount =
+            0;
 
 
         foreach (Transform corner
@@ -1115,15 +1211,15 @@ public class Customer : MonoBehaviour
         }
 
 
-        // コーナーなし
-        if (validCornerCount == 0)
+        if (validCornerCount ==
+            0)
         {
             return null;
         }
 
 
-        // 1個しかない場合
-        if (validCornerCount == 1)
+        if (validCornerCount ==
+            1)
         {
             foreach (Transform corner
                      in corners)
@@ -1136,7 +1232,6 @@ public class Customer : MonoBehaviour
         }
 
 
-        // 現在とは違うコーナーを探す
         for (int i = 0;
              i < 20;
              i++)
@@ -1169,13 +1264,12 @@ public class Customer : MonoBehaviour
         }
 
 
-        // 見つからなければ現在のコーナー
         return currentCorner;
     }
 
 
     // ========================================
-    // 指定コーナー周辺の安全な場所へ移動
+    // 指定コーナーへ移動
     // ========================================
 
     private void SetDestinationAroundCorner(
@@ -1199,11 +1293,64 @@ public class Customer : MonoBehaviour
         }
 
 
+        // ========================================
+        // ActionPointを優先
+        // ========================================
+
+        Transform actionPoint =
+            GetRandomActionPoint(
+                corner
+            );
+
+
+        if (actionPoint != null)
+        {
+            NavMeshHit actionHit;
+
+
+            if (NavMesh.SamplePosition(
+                actionPoint.position,
+                out actionHit,
+                navMeshSampleDistance,
+                NavMesh.AllAreas))
+            {
+                NavMeshPath actionPath =
+                    new NavMeshPath();
+
+
+                if (agent.CalculatePath(
+                    actionHit.position,
+                    actionPath))
+                {
+                    if (actionPath.status ==
+                        NavMeshPathStatus.PathComplete)
+                    {
+                        agent.SetDestination(
+                            actionHit.position
+                        );
+
+
+                        Debug.Log(
+                            $"{gameObject.name}：" +
+                            $"{actionPoint.name}へ移動"
+                        );
+
+
+                        return;
+                    }
+                }
+            }
+        }
+
+
+        // ========================================
+        // ActionPointがない場合は従来方式
+        // ========================================
+
         for (int i = 0;
              i < positionSearchCount;
              i++)
         {
-            // コーナー周辺のランダム位置
             Vector2 randomCircle =
                 Random.insideUnitCircle *
                 radius;
@@ -1221,7 +1368,6 @@ public class Customer : MonoBehaviour
             NavMeshHit hit;
 
 
-            // ランダム位置付近にNavMeshがあるか確認
             if (!NavMesh.SamplePosition(
                 randomPosition,
                 out hit,
@@ -1232,7 +1378,6 @@ public class Customer : MonoBehaviour
             }
 
 
-            // 実際にそこまで移動できるか確認
             NavMeshPath path =
                 new NavMeshPath();
 
@@ -1241,7 +1386,6 @@ public class Customer : MonoBehaviour
                 hit.position,
                 path))
             {
-                // 完全な経路がある場合のみ採用
                 if (path.status ==
                     NavMeshPathStatus.PathComplete)
                 {
@@ -1257,15 +1401,73 @@ public class Customer : MonoBehaviour
 
         Debug.LogWarning(
             $"{gameObject.name}：" +
-            $"{corner.name}周辺に" +
-            "安全な移動先が見つかりませんでした"
+            $"{corner.name}周辺に移動先が見つかりませんでした"
         );
     }
 
 
     // ========================================
+    // ActionPoint取得
+    // ========================================
+
+    private Transform GetRandomActionPoint(
+        Transform corner)
+    {
+        if (corner == null)
+        {
+            return null;
+        }
+
+
+        Transform[] children =
+            corner.GetComponentsInChildren<Transform>();
+
+
+        List<Transform> actionPoints =
+            new List<Transform>();
+
+
+        foreach (Transform child in children)
+        {
+            if (child ==
+                corner)
+            {
+                continue;
+            }
+
+
+            if (child.name.Contains(
+                "ActionPoint"))
+            {
+                actionPoints.Add(
+                    child
+                );
+            }
+        }
+
+
+        if (actionPoints.Count ==
+            0)
+        {
+            return null;
+        }
+
+
+        int randomIndex =
+            Random.Range(
+                0,
+                actionPoints.Count
+            );
+
+
+        return
+            actionPoints[randomIndex];
+    }
+
+
+    // ========================================
     // 泥棒
-    // 現在のコーナー周辺へ移動
+    // 現在コーナー内
     // ========================================
 
     private void SetDestinationAroundCurrentCorner()
@@ -1290,7 +1492,7 @@ public class Customer : MonoBehaviour
 
 
     // ========================================
-    // 警備員との距離確認
+    // 警備員との距離
     // ========================================
 
     private void CheckPoliceDistance()
@@ -1308,7 +1510,6 @@ public class Customer : MonoBehaviour
             );
 
 
-        // 警備員が近づいたら逃走
         if (distance <=
             escapeDistance)
         {
@@ -1318,29 +1519,37 @@ public class Customer : MonoBehaviour
 
 
     // ========================================
-    // 泥棒の逃走
+    // 泥棒逃走
     // ========================================
 
     private void EscapeFromPolice()
     {
-        // すでに逃げている
         if (hasEscaped)
         {
             return;
         }
 
 
-        hasEscaped = true;
-
-        isWaiting = false;
-        isLookingAround = false;
+        hasEscaped =
+            true;
 
 
-        // 逃走速度へ変更
+        isWaiting =
+            false;
+
+        isLookingAround =
+            false;
+
+        isSuspiciousFastWalking =
+            false;
+
+
+        StopAllCoroutines();
+
+
         SetMoveSpeed();
 
 
-        // 警備員から最も遠いコーナーを探す
         Transform escapeCorner =
             GetFarthestCornerFromPolice();
 
@@ -1355,19 +1564,11 @@ public class Customer : MonoBehaviour
             escapeCorner;
 
 
-        Debug.Log(
-            $"{gameObject.name} が警備員から逃げました！ " +
-            $"逃走先：{escapeCorner.name}"
-        );
-
-
-        // 特殊アニメーション解除
         SetAnimation(
             CustomerAnimationState.Idle
         );
 
 
-        // 逃走先を設定
         SetDestinationAroundCorner(
             currentCorner,
             thiefMoveRadius
@@ -1379,7 +1580,7 @@ public class Customer : MonoBehaviour
 
 
     // ========================================
-    // 警備員から最も遠いコーナーを取得
+    // 警備員から最も遠いコーナー
     // ========================================
 
     private Transform GetFarthestCornerFromPolice()
@@ -1408,7 +1609,6 @@ public class Customer : MonoBehaviour
             }
 
 
-            // 現在いるコーナーは除外
             if (corner ==
                 currentCorner)
             {
@@ -1440,7 +1640,7 @@ public class Customer : MonoBehaviour
 
 
     // ========================================
-    // 現在位置から最も近いコーナー
+    // 最寄りコーナー
     // ========================================
 
     private Transform FindNearestCorner()
@@ -1486,7 +1686,7 @@ public class Customer : MonoBehaviour
 
 
     // ========================================
-    // 泥棒かどうか設定
+    // 泥棒設定
     // ========================================
 
     public void SetThief(
@@ -1509,13 +1709,12 @@ public class Customer : MonoBehaviour
 
 
     // ========================================
-    // 音声命令の特徴と一致しているか確認
+    // 特徴一致
     // ========================================
 
     public bool Matches(
         VoiceCommand command)
     {
-        // 服の色
         if (command.clothesColor !=
                 CustomerColor.None &&
             clothesColor !=
@@ -1525,7 +1724,6 @@ public class Customer : MonoBehaviour
         }
 
 
-        // 帽子
         if (command.requiresHat &&
             !wearsHat)
         {
@@ -1533,7 +1731,6 @@ public class Customer : MonoBehaviour
         }
 
 
-        // 眼鏡
         if (command.requiresGlasses &&
             !wearsGlasses)
         {
@@ -1541,7 +1738,6 @@ public class Customer : MonoBehaviour
         }
 
 
-        // 鞄
         if (command.requiresBag &&
             !hasBag)
         {
@@ -1559,7 +1755,6 @@ public class Customer : MonoBehaviour
 
     public void Catch()
     {
-        // すでに捕獲済み
         if (IsCaught)
         {
             return;
@@ -1567,26 +1762,31 @@ public class Customer : MonoBehaviour
 
 
         // ========================================
-        // 泥棒だった場合
+        // 泥棒
         // ========================================
 
         if (IsThief)
         {
-            IsCaught = true;
-
-            isWaiting = false;
-            isLookingAround = false;
+            IsCaught =
+                true;
 
 
-            // キョロキョロなどのCoroutineを停止
+            isWaiting =
+                false;
+
+            isLookingAround =
+                false;
+
+            isSuspiciousFastWalking =
+                false;
+
+
             StopAllCoroutines();
 
 
-            // 移動停止
             StopAgent();
 
 
-            // 捕獲後の歩行アニメーション
             SetAnimation(
                 CustomerAnimationState.ArrestedWalk
             );
@@ -1597,9 +1797,12 @@ public class Customer : MonoBehaviour
             );
 
 
-            playSceneManager.Caught();
+            if (playSceneManager != null)
+            {
+                playSceneManager.Caught();
 
-            playSceneManager.ThiefCaught();
+                playSceneManager.ThiefCaught();
+            }
 
 
             return;
@@ -1607,7 +1810,7 @@ public class Customer : MonoBehaviour
 
 
         // ========================================
-        // 一般客だった場合
+        // 一般客
         // ========================================
 
         Debug.Log(
@@ -1615,15 +1818,14 @@ public class Customer : MonoBehaviour
         );
 
 
-        // クレーム追加
-        playSceneManager.AddComplaint();
+        if (playSceneManager != null)
+        {
+            playSceneManager.AddComplaint();
 
+            playSceneManager.Caught();
 
-        // 捕獲処理
-        playSceneManager.Caught();
-
-
-        // 制限時間ペナルティ
-        playSceneManager.AddTimePenalty();
+            playSceneManager.AddTimePenalty();
+        }
     }
 }
+
