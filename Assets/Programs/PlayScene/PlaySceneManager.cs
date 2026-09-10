@@ -144,7 +144,7 @@ public class PlaySceneManager : MonoBehaviour
         {
             return;
         }
-       
+
         // ==========================================
         // ゲーム開始前
         // ==========================================
@@ -152,10 +152,16 @@ public class PlaySceneManager : MonoBehaviour
         if (!isGameStarted)
         {
             // まだカウントダウンが始まっていない
-            if (!isCountdownStarted)
+            if (!isCountdownStarted &&
+                Keyboard.current != null)
             {
-                if (Keyboard.current != null &&
-                    Keyboard.current.spaceKey.wasPressedThisFrame)
+                bool startButtonPressed =
+                    Keyboard.current.spaceKey.wasPressedThisFrame ||
+                    Keyboard.current.aKey.wasPressedThisFrame ||
+                    Keyboard.current.bKey.wasPressedThisFrame ||
+                    Keyboard.current.cKey.wasPressedThisFrame;
+
+                if (startButtonPressed)
                 {
                     isCountdownStarted = true;
 

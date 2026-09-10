@@ -85,11 +85,23 @@ public class RuleSceneManager : MonoBehaviour
         }
 
 
-        // ============================
-        // スペースを押した瞬間
-        // ============================
+        // ========================================
+        // どれかのボタンが押されているか
+        // ========================================
 
-        if (keyboard.spaceKey.wasPressedThisFrame)
+        bool isAnyButtonPressed =
+            keyboard.spaceKey.isPressed ||
+            keyboard.aKey.isPressed ||
+            keyboard.bKey.isPressed ||
+            keyboard.cKey.isPressed;
+
+
+        // ========================================
+        // ボタンを押した瞬間
+        // ========================================
+
+        if (isAnyButtonPressed &&
+            !isSpacePressed)
         {
             isSpacePressed = true;
 
@@ -99,14 +111,15 @@ public class RuleSceneManager : MonoBehaviour
         }
 
 
-        // ============================
-        // スペース長押し判定
-        // ============================
+        // ========================================
+        // ボタンの長押し判定
+        // ========================================
 
-        if (isSpacePressed)
+        if (isSpacePressed &&
+            isAnyButtonPressed)
         {
-            spacePressTimer += Time.unscaledDeltaTime;
-
+            spacePressTimer +=
+                Time.unscaledDeltaTime;
 
             if (spacePressTimer >= longPressTime &&
                 !longPressExecuted)
@@ -118,20 +131,19 @@ public class RuleSceneManager : MonoBehaviour
         }
 
 
-        // ============================
-        // スペースを離した瞬間
-        // ============================
+        // ========================================
+        // すべてのボタンを離した瞬間
+        // ========================================
 
-        if (keyboard.spaceKey.wasReleasedThisFrame)
+        if (!isAnyButtonPressed &&
+            isSpacePressed)
         {
-            // 長押しが発動していない場合のみ
+            // 長押しが発動していない場合だけ
             // 短押しとして扱う
-
             if (!longPressExecuted)
             {
                 OnShortPress();
             }
-
 
             isSpacePressed = false;
 

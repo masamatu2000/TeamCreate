@@ -20210,7 +20210,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4829125637571551536, guid: 3e8e4112945e6274981ec58390aa4270, type: 3}
       propertyPath: m_LocalPosition.z
-      value: -5.31
+      value: -3.48
       objectReference: {fileID: 0}
     - target: {fileID: 4829125637571551536, guid: 3e8e4112945e6274981ec58390aa4270, type: 3}
       propertyPath: m_LocalRotation.w
@@ -40578,7 +40578,7 @@ MonoBehaviour:
   captureResultText: {fileID: 2096382364}
   captureResultDisplayTime: 2
   gameTime: 180
-  wrongArrestTimePenalty: 50
+  wrongArrestTimePenalty: 20
   wrongArrestSalesPenalty: 1000
   timeText: {fileID: 631140966}
   customerCountText: {fileID: 1823557803}
@@ -44027,7 +44027,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4829125637571551536, guid: 3e8e4112945e6274981ec58390aa4270, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 2.145
+      value: 3.48
       objectReference: {fileID: 0}
     - target: {fileID: 4829125637571551536, guid: 3e8e4112945e6274981ec58390aa4270, type: 3}
       propertyPath: m_LocalPosition.y
@@ -44080,6 +44080,10 @@ PrefabInstance:
     - target: {fileID: 7093942547492779254, guid: 3e8e4112945e6274981ec58390aa4270, type: 3}
       propertyPath: hatColor
       value: 8
+      objectReference: {fileID: 0}
+    - target: {fileID: 7093942547492779254, guid: 3e8e4112945e6274981ec58390aa4270, type: 3}
+      propertyPath: wearsHat
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 7093942547492779254, guid: 3e8e4112945e6274981ec58390aa4270, type: 3}
       propertyPath: fishCorner

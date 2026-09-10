@@ -184,35 +184,49 @@ public class VoiceRecognizer : MonoBehaviour
             return;
         }
 
+        // スペース・A・B・Cのどれかが押されているか
+        bool isAnyRadioKeyPressed =
+            Keyboard.current.spaceKey.isPressed ||
+            Keyboard.current.aKey.isPressed ||
+            Keyboard.current.bKey.isPressed ||
+            Keyboard.current.cKey.isPressed;
+
         // ========================================
-        // スペースを押した瞬間
+        // どれかのキーを押し始めた瞬間
         // ========================================
 
-        if (Keyboard.current.spaceKey.wasPressedThisFrame)
+        if (isAnyRadioKeyPressed && !isRadioPressed)
         {
             isRadioPressed = true;
+
             if (BottonText != null)
             {
-                BottonText.text = "マイクに話しかけてください";
+                BottonText.text =
+                    "マイクに話しかけてください";
             }
+
             Debug.Log(
                 "音声入力開始"
             );
         }
 
         // ========================================
-        // スペースを離した瞬間
+        // すべてのキーを離した瞬間
         // ========================================
 
-        if (Keyboard.current.spaceKey.wasReleasedThisFrame)
+        if (!isAnyRadioKeyPressed && isRadioPressed)
         {
             isRadioPressed = false;
 
-            radioReleasedTime = Time.time;
+            radioReleasedTime =
+                Time.time;
+
             if (BottonText != null)
             {
-                BottonText.text = "ボタンを押してください";
+                BottonText.text =
+                    "ボタンを押してください";
             }
+
             Debug.Log(
                 "音声入力終了"
             );

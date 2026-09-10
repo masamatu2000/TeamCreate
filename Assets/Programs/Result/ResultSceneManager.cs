@@ -41,12 +41,24 @@ public class ResultSceneManager : MonoBehaviour
 
     private void Update()
     {
-        // 時間を減らす
-        //timer -= Time.deltaTime;
+        Keyboard keyboard = Keyboard.current;
 
-        // スペースを押した、または10秒経過したらタイトルへ
-        if ((Keyboard.current != null &&
-             Keyboard.current.spaceKey.wasPressedThisFrame))
+        if (keyboard == null)
+        {
+            return;
+        }
+
+        // ========================================
+        // どれかのボタンが押されているか
+        // ========================================
+
+        bool isAnyButtonPressed =
+            keyboard.spaceKey.isPressed ||
+            keyboard.aKey.isPressed ||
+            keyboard.bKey.isPressed ||
+            keyboard.cKey.isPressed;
+
+        if (isAnyButtonPressed)
         {
             ReturnTitle();
         }
