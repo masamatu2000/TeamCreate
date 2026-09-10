@@ -36,7 +36,9 @@ public class PoliceController : MonoBehaviour
     private GameObject walkPolice;
     // 移動後に使う命令
     private VoiceCommand pendingCommand;
-
+    // 現在警備員がいるコーナー
+    private CornerType currentCorner =
+        CornerType.None;
     // コーナーへ移動中かどうか
     private bool isMovingToCorner;
 
@@ -78,30 +80,38 @@ public class PoliceController : MonoBehaviour
         }
 
         if (isMovingToCorner &&
-    !agent.pathPending &&
-    agent.remainingDistance <= agent.stoppingDistance + 0.5f)
+      !agent.pathPending &&
+      agent.remainingDistance <= agent.stoppingDistance + 0.5f)
         {
             isMovingToCorner = false;
 
-            // 到着したので完全停止
             agent.isStopped = true;
             agent.ResetPath();
 
             ShowIdle();
 
-            Debug.Log("コーナーに到着しました");
+            // ========================================
+            // 警備員の現在コーナーを記録
+            // ========================================
+            if (pendingCommand != null &&
+                pendingCommand.corner != CornerType.None)
+            {
+                currentCorner =
+                    pendingCommand.corner;
+            }
+
+            Debug.Log(
+                "コーナーに到着しました：" +
+                currentCorner
+            );
 
             if (pendingCommand != null &&
                 pendingCommand.isCaptureCommand)
             {
                 Debug.Log("お客さんを探します");
 
-                TryCatchCustomer(pendingCommand);
-            }
-            else
-            {
-                Debug.Log(
-                    "捕獲命令がないため、移動だけで終了します"
+                TryCatchCustomer(
+                    pendingCommand
                 );
             }
         }
@@ -290,7 +300,7 @@ public class PoliceController : MonoBehaviour
     }
 
     /// <summary>
-    /// 近くにいるお客さんから
+    /// 警備員の近くにいるお客さんから
     /// 条件に合う一番近い人を探す
     /// </summary>
     private void TryCatchCustomer(
@@ -302,7 +312,8 @@ public class PoliceController : MonoBehaviour
                 catchDistance
             );
 
-        Customer nearestCustomer = null;
+        Customer nearestCustomer =
+            null;
 
         float nearestDistance =
             float.MaxValue;
@@ -310,15 +321,24 @@ public class PoliceController : MonoBehaviour
         HashSet<Customer> checkedCustomers =
             new HashSet<Customer>();
 
+
         foreach (Collider hitCollider
                  in hitColliders)
         {
             Customer customer =
                 hitCollider.GetComponentInParent<Customer>();
 
-            if (customer == null ||
-                customer.IsCaught ||
-                checkedCustomers.Contains(customer))
+            if (customer == null)
+            {
+                continue;
+            }
+
+            if (customer.IsCaught)
+            {
+                continue;
+            }
+
+            if (checkedCustomers.Contains(customer))
             {
                 continue;
             }
@@ -327,17 +347,27 @@ public class PoliceController : MonoBehaviour
                 customer
             );
 
-            // 指定された特徴に一致するか
+
+            // ========================================
+            // 特徴が一致するか
+            // ========================================
+
             if (!customer.Matches(command))
             {
                 continue;
             }
+
 
             float distance =
                 Vector3.Distance(
                     transform.position,
                     customer.transform.position
                 );
+
+
+            // ========================================
+            // 一番近い客を保存
+            // ========================================
 
             if (distance < nearestDistance)
             {
@@ -349,7 +379,11 @@ public class PoliceController : MonoBehaviour
             }
         }
 
-        // お客さんが見つからなかった
+
+        // ========================================
+        // 該当者なし
+        // ========================================
+
         if (nearestCustomer == null)
         {
             if (command.HasNoFeature())
@@ -361,14 +395,18 @@ public class PoliceController : MonoBehaviour
             else
             {
                 Debug.Log(
-                    "指定された特徴のお客さんが近くにいません"
+                    "近くに指定された特徴のお客さんがいません"
                 );
             }
 
             return;
         }
 
-        // 確認UIが設定されていない
+
+        // ========================================
+        // 確認UI
+        // ========================================
+
         if (confirmUI == null)
         {
             Debug.LogError(
@@ -378,22 +416,22 @@ public class PoliceController : MonoBehaviour
             return;
         }
 
-        // 捕獲候補のお客さんを保存
+
         confirmCustomer =
             nearestCustomer;
 
-        // 「はい」「いいえ」の返事待ちにする
         isWaitingForConfirmation =
             true;
 
-        // 確認画面を表示
+
         confirmUI.Show(
             confirmCustomer
         );
 
+
         Debug.Log(
             confirmCustomer.name +
-            "を捕まえますか？ 「はい」か「いいえ」と話してください"
+            "を捕獲候補にしました"
         );
     }
 

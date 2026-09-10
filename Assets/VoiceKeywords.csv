@@ -47,7 +47,7 @@ Color,黄,Yellow
 Color,紫,Purple
 Color,黒,Black
 Color,白,White
-,,
+Color,イエロー,Yellow
 Feature,帽子,Hat
 Feature,眼鏡,Glasses
 Feature,メガネ,Glasses
@@ -67,3 +67,14 @@ Confirmation,no,No
 Stop,止まって,Stop
 Stop,とまれ,Stop
 Stop,停止,Stop
+,,
+,,
+Feature,赤の帽子,Hat
+Feature,青の帽子,Hat
+Feature,緑の帽子,Hat
+Feature,黄の帽子,Hat
+Feature,紫の帽子,Hat
+Feature,オレンジの帽子,Hat
+Feature,黒の帽子,Hat
+Feature,白の帽子,Hat
+Feature,イエローの帽子,Hat

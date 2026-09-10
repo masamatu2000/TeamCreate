@@ -156,7 +156,8 @@ public class Customer : MonoBehaviour
 
     [SerializeField]
     private bool wearsHat;
-
+    [SerializeField]
+    private CustomerColor hatColor = CustomerColor.None;
     [SerializeField]
     private bool wearsGlasses;
 
@@ -1802,8 +1803,12 @@ public class Customer : MonoBehaviour
     // ========================================
 
     public bool Matches(
-        VoiceCommand command)
+     VoiceCommand command)
     {
+        // ========================================
+        // 服の色
+        // ========================================
+
         if (command.clothesColor !=
                 CustomerColor.None &&
             clothesColor !=
@@ -1813,12 +1818,32 @@ public class Customer : MonoBehaviour
         }
 
 
-        if (command.requiresHat &&
-            !wearsHat)
+        // ========================================
+        // 帽子
+        // ========================================
+
+        if (command.requiresHat)
         {
-            return false;
+            // 帽子をかぶっていない
+            if (!wearsHat)
+            {
+                return false;
+            }
+
+            // 帽子の色まで指定されている
+            if (command.hatColor !=
+                    CustomerColor.None &&
+                hatColor !=
+                    command.hatColor)
+            {
+                return false;
+            }
         }
 
+
+        // ========================================
+        // メガネ
+        // ========================================
 
         if (command.requiresGlasses &&
             !wearsGlasses)
@@ -1826,6 +1851,10 @@ public class Customer : MonoBehaviour
             return false;
         }
 
+
+        // ========================================
+        // バッグ
+        // ========================================
 
         if (command.requiresBag &&
             !hasBag)
@@ -1915,6 +1944,50 @@ public class Customer : MonoBehaviour
 
             playSceneManager.AddTimePenalty();
         }
+    }
+    public CornerType GetCurrentCornerType()
+    {
+        if (currentCorner == fishCorner)
+        {
+            return CornerType.Fish;
+        }
+
+        if (currentCorner == vegetableCorner)
+        {
+            return CornerType.Vegetable;
+        }
+
+        if (currentCorner == snackCorner)
+        {
+            return CornerType.Snack;
+        }
+
+        if (currentCorner == frozenFoodCorner)
+        {
+            return CornerType.FrozenFood;
+        }
+
+        if (currentCorner == drinkCorner)
+        {
+            return CornerType.Drink;
+        }
+
+        if (currentCorner == preparedFoodCorner)
+        {
+            return CornerType.PreparedFood;
+        }
+
+        if (currentCorner == meatCorner)
+        {
+            return CornerType.Meat;
+        }
+
+        if (currentCorner == breadCorner)
+        {
+            return CornerType.Bread;
+        }
+
+        return CornerType.None;
     }
 }
 

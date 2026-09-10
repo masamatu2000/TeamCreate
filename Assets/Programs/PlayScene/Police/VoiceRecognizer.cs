@@ -82,6 +82,13 @@ public class VoiceRecognizer : MonoBehaviour
         new Dictionary<string, CustomerColor>();
 
     /// <summary>
+    /// 帽子の色
+    /// キーワード → CustomerColor
+    /// </summary>
+    private readonly Dictionary<string, CustomerColor> hatColorKeywords =
+        new Dictionary<string, CustomerColor>();
+
+    /// <summary>
     /// 捕獲命令
     /// </summary>
     private readonly List<string> captureKeywords =
@@ -236,7 +243,7 @@ public class VoiceRecognizer : MonoBehaviour
 
         cornerKeywords.Clear();
         colorKeywords.Clear();
-
+        hatColorKeywords.Clear();
         captureKeywords.Clear();
 
         hatKeywords.Clear();
@@ -355,7 +362,18 @@ public class VoiceRecognizer : MonoBehaviour
                     );
 
                     break;
+                // ------------------------------------
+                // 帽子の色
+                // ------------------------------------
 
+                case "ColorHat":
+
+                    AddHatColorKeyword(
+                        keyword,
+                        value
+                    );
+
+                    break;
 
                 // ------------------------------------
                 // 捕獲
@@ -493,7 +511,36 @@ public class VoiceRecognizer : MonoBehaviour
             );
         }
     }
+    /// <summary>
+    /// 帽子色キーワードを登録
+    /// </summary>
+    private void AddHatColorKeyword(
+        string keyword,
+        string value)
+    {
+        CustomerColor color;
 
+        if (!Enum.TryParse(
+            value,
+            true,
+            out color))
+        {
+            Debug.LogWarning(
+                "CustomerColorに存在しない値です：" +
+                value
+            );
+
+            return;
+        }
+
+        if (!hatColorKeywords.ContainsKey(keyword))
+        {
+            hatColorKeywords.Add(
+                keyword,
+                color
+            );
+        }
+    }
 
     /// <summary>
     /// 特徴キーワード登録
@@ -909,16 +956,20 @@ public class VoiceRecognizer : MonoBehaviour
 
 
         // ========================================
-        // 色
+        // 色付き帽子
+        // 「緑色の帽子」など
         // ========================================
 
         foreach (
             KeyValuePair<string, CustomerColor> pair
-            in colorKeywords)
+            in hatColorKeywords)
         {
             if (text.Contains(pair.Key))
             {
-                command.clothesColor =
+                command.requiresHat =
+                    true;
+
+                command.hatColor =
                     pair.Value;
 
                 break;
@@ -927,15 +978,77 @@ public class VoiceRecognizer : MonoBehaviour
 
 
         // ========================================
-        // 帽子
+        // 帽子が指定されているか
         // ========================================
 
-        if (ContainsAny(
-            text,
-            hatKeywords))
+        bool hasHatKeyword =
+            ContainsAny(
+                text,
+                hatKeywords
+            ) ||
+            command.hatColor != CustomerColor.None;
+
+
+        if (hasHatKeyword)
         {
             command.requiresHat =
                 true;
+        }
+
+
+        // ========================================
+        // 通常の色
+        //
+        // 「緑」
+        // 「緑の服」
+        // など
+        // ========================================
+
+        foreach (
+            KeyValuePair<string, CustomerColor> pair
+            in colorKeywords)
+        {
+            if (!text.Contains(pair.Key))
+            {
+                continue;
+            }
+
+
+            // ========================================
+            // ColorHatですでに帽子色が決まっている
+            // → 服の色としては扱わない
+            // ========================================
+
+            if (command.hatColor != CustomerColor.None)
+            {
+                break;
+            }
+
+
+            // ========================================
+            // 帽子指定あり
+            // → 帽子の色
+            // ========================================
+
+            if (hasHatKeyword)
+            {
+                command.hatColor =
+                    pair.Value;
+            }
+
+            // ========================================
+            // 帽子指定なし
+            // → 服の色
+            // ========================================
+
+            else
+            {
+                command.clothesColor =
+                    pair.Value;
+            }
+
+
+            break;
         }
 
 
@@ -980,10 +1093,11 @@ public class VoiceRecognizer : MonoBehaviour
         // ========================================
 
         bool hasTargetFeature =
-            command.clothesColor != CustomerColor.None ||
-            command.requiresHat ||
-            command.requiresGlasses ||
-            command.requiresBag;
+    command.clothesColor != CustomerColor.None ||
+    command.hatColor != CustomerColor.None ||
+    command.requiresHat ||
+    command.requiresGlasses ||
+    command.requiresBag;
 
         if (hasTargetFeature)
         {

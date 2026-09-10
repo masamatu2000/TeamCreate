@@ -3785,7 +3785,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4829125637571551536, guid: 3e8e4112945e6274981ec58390aa4270, type: 3}
       propertyPath: m_LocalPosition.x
-      value: -5.77
+      value: 21.01
       objectReference: {fileID: 0}
     - target: {fileID: 4829125637571551536, guid: 3e8e4112945e6274981ec58390aa4270, type: 3}
       propertyPath: m_LocalPosition.y
@@ -3793,7 +3793,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4829125637571551536, guid: 3e8e4112945e6274981ec58390aa4270, type: 3}
       propertyPath: m_LocalPosition.z
-      value: 0
+      value: -2.64
       objectReference: {fileID: 0}
     - target: {fileID: 4829125637571551536, guid: 3e8e4112945e6274981ec58390aa4270, type: 3}
       propertyPath: m_LocalRotation.w
@@ -6670,7 +6670,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4829125637571551536, guid: 3e8e4112945e6274981ec58390aa4270, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 7.34
+      value: 11.71
       objectReference: {fileID: 0}
     - target: {fileID: 4829125637571551536, guid: 3e8e4112945e6274981ec58390aa4270, type: 3}
       propertyPath: m_LocalPosition.y
@@ -6720,6 +6720,10 @@ PrefabInstance:
       propertyPath: animator
       value: 
       objectReference: {fileID: 916915770}
+    - target: {fileID: 7093942547492779254, guid: 3e8e4112945e6274981ec58390aa4270, type: 3}
+      propertyPath: hatColor
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 7093942547492779254, guid: 3e8e4112945e6274981ec58390aa4270, type: 3}
       propertyPath: wearsHat
       value: 1
@@ -10711,7 +10715,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4829125637571551536, guid: 3e8e4112945e6274981ec58390aa4270, type: 3}
       propertyPath: m_LocalPosition.x
-      value: -3.49
+      value: 15.11
       objectReference: {fileID: 0}
     - target: {fileID: 4829125637571551536, guid: 3e8e4112945e6274981ec58390aa4270, type: 3}
       propertyPath: m_LocalPosition.y
@@ -11418,7 +11422,7 @@ MonoBehaviour:
   preparedFoodCorner: {fileID: 262264544}
   meatCorner: {fileID: 1132839069}
   breadCorner: {fileID: 1304987710}
-  catchDistance: 7
+  catchDistance: 15
   arrestPolice: {fileID: 629256996}
   idlePolice: {fileID: 340699810}
   walkPolice: {fileID: 337386944}
@@ -20206,7 +20210,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4829125637571551536, guid: 3e8e4112945e6274981ec58390aa4270, type: 3}
       propertyPath: m_LocalPosition.z
-      value: -2.42
+      value: -5.31
       objectReference: {fileID: 0}
     - target: {fileID: 4829125637571551536, guid: 3e8e4112945e6274981ec58390aa4270, type: 3}
       propertyPath: m_LocalRotation.w
@@ -21113,7 +21117,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4829125637571551536, guid: 3e8e4112945e6274981ec58390aa4270, type: 3}
       propertyPath: m_LocalPosition.z
-      value: -3.67
+      value: -5.64
       objectReference: {fileID: 0}
     - target: {fileID: 4829125637571551536, guid: 3e8e4112945e6274981ec58390aa4270, type: 3}
       propertyPath: m_LocalRotation.w
@@ -21155,6 +21159,10 @@ PrefabInstance:
       propertyPath: animator
       value: 
       objectReference: {fileID: 1708992215}
+    - target: {fileID: 7093942547492779254, guid: 3e8e4112945e6274981ec58390aa4270, type: 3}
+      propertyPath: hatColor
+      value: 3
+      objectReference: {fileID: 0}
     - target: {fileID: 7093942547492779254, guid: 3e8e4112945e6274981ec58390aa4270, type: 3}
       propertyPath: wearsHat
       value: 1
@@ -26104,7 +26112,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4829125637571551536, guid: 3e8e4112945e6274981ec58390aa4270, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 0
+      value: 16.78
       objectReference: {fileID: 0}
     - target: {fileID: 4829125637571551536, guid: 3e8e4112945e6274981ec58390aa4270, type: 3}
       propertyPath: m_LocalPosition.y
@@ -26154,6 +26162,14 @@ PrefabInstance:
       propertyPath: animator
       value: 
       objectReference: {fileID: 1043162310}
+    - target: {fileID: 7093942547492779254, guid: 3e8e4112945e6274981ec58390aa4270, type: 3}
+      propertyPath: hatColor
+      value: 6
+      objectReference: {fileID: 0}
+    - target: {fileID: 7093942547492779254, guid: 3e8e4112945e6274981ec58390aa4270, type: 3}
+      propertyPath: wearsHat
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 7093942547492779254, guid: 3e8e4112945e6274981ec58390aa4270, type: 3}
       propertyPath: fishCorner
       value: 
@@ -28146,7 +28162,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4829125637571551536, guid: 3e8e4112945e6274981ec58390aa4270, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 0
+      value: 3.88
       objectReference: {fileID: 0}
     - target: {fileID: 4829125637571551536, guid: 3e8e4112945e6274981ec58390aa4270, type: 3}
       propertyPath: m_LocalPosition.y
@@ -28196,6 +28212,10 @@ PrefabInstance:
       propertyPath: animator
       value: 
       objectReference: {fileID: 1355588141}
+    - target: {fileID: 7093942547492779254, guid: 3e8e4112945e6274981ec58390aa4270, type: 3}
+      propertyPath: hatColor
+      value: 7
+      objectReference: {fileID: 0}
     - target: {fileID: 7093942547492779254, guid: 3e8e4112945e6274981ec58390aa4270, type: 3}
       propertyPath: wearsHat
       value: 1
@@ -30005,7 +30025,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4829125637571551536, guid: 3e8e4112945e6274981ec58390aa4270, type: 3}
       propertyPath: m_LocalPosition.x
-      value: -1.83
+      value: 10.13
       objectReference: {fileID: 0}
     - target: {fileID: 4829125637571551536, guid: 3e8e4112945e6274981ec58390aa4270, type: 3}
       propertyPath: m_LocalPosition.y
@@ -31761,7 +31781,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4829125637571551536, guid: 3e8e4112945e6274981ec58390aa4270, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 5.03
+      value: 18.57
       objectReference: {fileID: 0}
     - target: {fileID: 4829125637571551536, guid: 3e8e4112945e6274981ec58390aa4270, type: 3}
       propertyPath: m_LocalPosition.y
@@ -32210,6 +32230,10 @@ PrefabInstance:
       propertyPath: animator
       value: 
       objectReference: {fileID: 1427407342}
+    - target: {fileID: 7093942547492779254, guid: 3e8e4112945e6274981ec58390aa4270, type: 3}
+      propertyPath: hatColor
+      value: 2
+      objectReference: {fileID: 0}
     - target: {fileID: 7093942547492779254, guid: 3e8e4112945e6274981ec58390aa4270, type: 3}
       propertyPath: wearsHat
       value: 1
@@ -34914,7 +34938,7 @@ Transform:
   m_GameObject: {fileID: 1085160860}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 4.93, y: 0, z: -2.52}
+  m_LocalPosition: {x: 4.93, y: 0, z: -0.55}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -41482,15 +41506,15 @@ RectTransform:
   m_GameObject: {fileID: 1301027149}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 10.9, y: 5, z: 1}
+  m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 150186088}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0.5, y: 0.5}
-  m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 3, y: 4}
-  m_SizeDelta: {x: 100, y: 100}
+  m_AnchorMin: {x: 0, y: 0}
+  m_AnchorMax: {x: 1, y: 1}
+  m_AnchoredPosition: {x: 0, y: 0}
+  m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1301027151
 MonoBehaviour:
@@ -44054,6 +44078,10 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 1923094345}
     - target: {fileID: 7093942547492779254, guid: 3e8e4112945e6274981ec58390aa4270, type: 3}
+      propertyPath: hatColor
+      value: 8
+      objectReference: {fileID: 0}
+    - target: {fileID: 7093942547492779254, guid: 3e8e4112945e6274981ec58390aa4270, type: 3}
       propertyPath: fishCorner
       value: 
       objectReference: {fileID: 58864305}
@@ -45952,7 +45980,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4829125637571551536, guid: 3e8e4112945e6274981ec58390aa4270, type: 3}
       propertyPath: m_LocalPosition.z
-      value: -2.41
+      value: -0.64
       objectReference: {fileID: 0}
     - target: {fileID: 4829125637571551536, guid: 3e8e4112945e6274981ec58390aa4270, type: 3}
       propertyPath: m_LocalRotation.w
@@ -47600,7 +47628,7 @@ Transform:
   m_GameObject: {fileID: 1484640629}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 1.34, y: 0, z: 12.34}
+  m_LocalPosition: {x: 2.55, y: 0, z: 7.13}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -52789,7 +52817,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: c1cac22bc93d2324fb9eb0d1af3500ed, type: 3}
       propertyPath: m_LocalPosition.z
-      value: 10.08
+      value: 9.77
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: c1cac22bc93d2324fb9eb0d1af3500ed, type: 3}
       propertyPath: m_LocalRotation.w
@@ -56527,6 +56555,10 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 1418613556}
     - target: {fileID: 7093942547492779254, guid: 3e8e4112945e6274981ec58390aa4270, type: 3}
+      propertyPath: hatColor
+      value: 4
+      objectReference: {fileID: 0}
+    - target: {fileID: 7093942547492779254, guid: 3e8e4112945e6274981ec58390aa4270, type: 3}
       propertyPath: wearsHat
       value: 1
       objectReference: {fileID: 0}
@@ -58930,7 +58962,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4829125637571551536, guid: 3e8e4112945e6274981ec58390aa4270, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 1.87
+      value: 14.25
       objectReference: {fileID: 0}
     - target: {fileID: 4829125637571551536, guid: 3e8e4112945e6274981ec58390aa4270, type: 3}
       propertyPath: m_LocalPosition.y
@@ -58980,6 +59012,10 @@ PrefabInstance:
       propertyPath: animator
       value: 
       objectReference: {fileID: 1639729592}
+    - target: {fileID: 7093942547492779254, guid: 3e8e4112945e6274981ec58390aa4270, type: 3}
+      propertyPath: hatColor
+      value: 5
+      objectReference: {fileID: 0}
     - target: {fileID: 7093942547492779254, guid: 3e8e4112945e6274981ec58390aa4270, type: 3}
       propertyPath: wearsHat
       value: 1
@@ -59763,7 +59799,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4829125637571551536, guid: 3e8e4112945e6274981ec58390aa4270, type: 3}
       propertyPath: m_LocalPosition.x
-      value: -0.59
+      value: -6.28
       objectReference: {fileID: 0}
     - target: {fileID: 4829125637571551536, guid: 3e8e4112945e6274981ec58390aa4270, type: 3}
       propertyPath: m_LocalPosition.y
@@ -60532,7 +60568,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: c1cac22bc93d2324fb9eb0d1af3500ed, type: 3}
       propertyPath: m_LocalPosition.z
-      value: 10.08
+      value: 9.8
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: c1cac22bc93d2324fb9eb0d1af3500ed, type: 3}
       propertyPath: m_LocalRotation.w

@@ -593,7 +593,7 @@ public class PlaySceneManager : MonoBehaviour
         {
             return;
         }
-
+        escapedThiefCount = CustomerManager.GetThiefCount() - caughtThiefCount;
         isGameFinished = true;
 
         StartCoroutine(

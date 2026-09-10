@@ -28,6 +28,9 @@ public class VoiceCommand
 {
     public CornerType corner = CornerType.None;
     public CustomerColor clothesColor = CustomerColor.None;
+    public CustomerColor hatColor =
+       CustomerColor.None;
+
     public bool isStopCommand;
     public bool requiresHat;
     public bool requiresGlasses;
@@ -39,6 +42,7 @@ public class VoiceCommand
     public bool HasNoFeature()
     {
         return clothesColor == CustomerColor.None &&
+               hatColor == CustomerColor.None &&
                !requiresHat &&
                !requiresGlasses &&
                !requiresBag;
