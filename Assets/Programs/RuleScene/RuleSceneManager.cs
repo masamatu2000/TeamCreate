@@ -52,6 +52,8 @@ public class RuleSceneManager : MonoBehaviour
     // 確認画面を表示しているか
     private bool isConfirming = false;
 
+    // シーン開始時の押しっぱなしガード用
+    private bool isReadyForInput = false;
 
     private void Start()
     {
@@ -72,6 +74,19 @@ public class RuleSceneManager : MonoBehaviour
         {
             confirmPanel.SetActive(false);
         }
+
+        // ============================
+        // シーン遷移直後の入力誤作動防止
+        // ============================
+        isSpacePressed = false;
+        spacePressTimer = 0.0f;
+        longPressExecuted = false;
+
+        // もしシーン切り替え時にボタンが押しっぱなし（または押されている最中）なら
+        // 一度すべてのボタンが離されるまで入力を受け付けないフラグを立てるのも有効です
+
+        // 開始直後は入力受付をオフにする
+        isReadyForInput = false;
     }
 
 
@@ -94,6 +109,16 @@ public class RuleSceneManager : MonoBehaviour
             keyboard.aKey.isPressed ||
             keyboard.bKey.isPressed ||
             keyboard.cKey.isPressed;
+
+        // シーン開始時、一度すべてのボタンが「離された状態」になるのを待つ
+        if (!isReadyForInput)
+        {
+            if (!isAnyButtonPressed)
+            {
+                isReadyForInput = true; // ボタンが離されたら入力受付を開始
+            }
+            return; // 離されるまでは入力処理を行わない
+        }
 
 
         // ========================================
@@ -310,6 +335,11 @@ public class RuleSceneManager : MonoBehaviour
         {
             ruleImage.gameObject.SetActive(true);
         }
+
+        // ========================================
+        // 最初のページ（インデックス0）にリセット
+        // ========================================
+        currentPage = 0;
 
         // 念のため現在ページを再表示
         ShowCurrentPage();
