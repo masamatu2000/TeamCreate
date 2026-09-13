@@ -16,11 +16,14 @@ public class ResultSceneManager : MonoBehaviour
 
     [Header("タイトルへ戻る設定")]
     [SerializeField] private float returnTime = 10.0f;
-    
+
     [Header("誤認逮捕ペナルティ")]
     [SerializeField]
     private float wrongArrestTimePenalty = 10.0f;
     private float timer;
+
+    // ★追加：前のシーンからの押しっぱなしを防ぐためのフラグ
+    private bool hasReleasedAllKeys = false;
 
     private void Start()
     {
@@ -37,6 +40,9 @@ public class ResultSceneManager : MonoBehaviour
         );
 
         timer = returnTime;
+
+        // 初期状態は「キーが離されていない」判定にする
+        hasReleasedAllKeys = false;
     }
 
     private void Update()
@@ -49,14 +55,36 @@ public class ResultSceneManager : MonoBehaviour
         }
 
         // ========================================
-        // どれかのボタンが押されているか
+        // 1. まず、プレイシーンからの押しっぱなしが離されたかチェック
         // ========================================
+        if (!hasReleasedAllKeys)
+        {
+            bool isAnyKeyPressed =
+                keyboard.spaceKey.isPressed ||
+                keyboard.aKey.isPressed ||
+                keyboard.bKey.isPressed ||
+                keyboard.cKey.isPressed;
 
+            // まだどれか押しっぱなしなら、ここで処理を止めてキーが離されるのを待つ
+            if (isAnyKeyPressed)
+            {
+                return;
+            }
+            else
+            {
+                // すべてのキーが離された！ここから入力を有効化する
+                hasReleasedAllKeys = true;
+            }
+        }
+
+        // ========================================
+        // 2. キーが離されたあとの通常のボタン判定
+        // ========================================
         bool isAnyButtonPressed =
-            keyboard.spaceKey.isPressed ||
-            keyboard.aKey.isPressed ||
-            keyboard.bKey.isPressed ||
-            keyboard.cKey.isPressed;
+            keyboard.spaceKey.wasPressedThisFrame || // wasPressedThisFrameに変更するとより安全です
+            keyboard.aKey.wasPressedThisFrame ||
+            keyboard.bKey.wasPressedThisFrame ||
+            keyboard.cKey.wasPressedThisFrame;
 
         if (isAnyButtonPressed)
         {
@@ -69,12 +97,11 @@ public class ResultSceneManager : MonoBehaviour
     /// </summary>
     private void ShowResult()
     {
-        // ↓ここは既存のGameResultDataに合わせて変更
         capturedText.text =
             "捕まえた人数：" + GameResultData.caughtCount;
 
         escapedText.text =
-            "逃がした泥棒の数：" + GameResultData.escapedThiefCount ;
+            "逃がした泥棒の数：" + GameResultData.escapedThiefCount;
 
         complaintText.text =
             "間違えた数：" + GameResultData.complaintCount;
@@ -82,7 +109,6 @@ public class ResultSceneManager : MonoBehaviour
         moneyText.text =
             "売上金：" + GameResultData.sales.ToString("N0");
     }
-
 
     /// <summary>
     /// タイトルへ戻る
