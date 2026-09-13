@@ -285,9 +285,7 @@ public class PlaySceneManager : MonoBehaviour
     private void UpdateCustomerCount()
     {
         Customer[] customers =
-            FindObjectsByType<Customer>(
-                FindObjectsSortMode.None
-            );
+           FindObjectsByType<Customer>(FindObjectsInactive.Exclude);
 
         currentCustomerCount =
             customers.Length;

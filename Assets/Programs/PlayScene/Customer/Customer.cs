@@ -265,7 +265,7 @@ public class Customer : MonoBehaviour
         if (playSceneManager == null)
         {
             playSceneManager =
-                FindFirstObjectByType<PlaySceneManager>();
+                FindAnyObjectByType<PlaySceneManager>();
         }
 
 

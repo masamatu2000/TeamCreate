@@ -12,7 +12,6 @@ GameObject:
   - component: {fileID: 1606684157424982597}
   - component: {fileID: 7093942547492779254}
   - component: {fileID: 1646355385413285228}
-  - component: {fileID: 7413008005010039343}
   m_Layer: 0
   m_Name: Customer1
   m_TagString: Untagged
@@ -77,6 +76,11 @@ MonoBehaviour:
   positionSearchCount: 30
   normalSpeed: 2
   thiefSpeed: 3.5
+  suspiciousFastWalkSpeed: 3.2
+  suspiciousFastWalkTime: 2.5
+  stayInLargeCornerRate: 0.6
+  normalCustomerSuspiciousRate: 0.1
+  thiefSuspiciousRate: 0.3
   fishCorner: {fileID: 0}
   vegetableCorner: {fileID: 0}
   snackCorner: {fileID: 0}
@@ -90,11 +94,11 @@ MonoBehaviour:
   thiefMoveRadius: 2
   clothesColor: 7
   wearsHat: 0
+  hatColor: 0
   wearsGlasses: 0
   hasBag: 0
   isThief: 1
   animator: {fileID: 0}
-  actionAnimationChance: 0.6
   playSceneManager: {fileID: 0}
 --- !u!136 &1646355385413285228
 CapsuleCollider:
@@ -119,33 +123,6 @@ CapsuleCollider:
   m_Height: 1
   m_Direction: 1
   m_Center: {x: 0, y: 0, z: 0}
---- !u!54 &7413008005010039343
-Rigidbody:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3096504954572421431}
-  serializedVersion: 5
-  m_Mass: 1
-  m_LinearDamping: 0
-  m_AngularDamping: 0.05
-  m_CenterOfMass: {x: 0, y: 0, z: 0}
-  m_InertiaTensor: {x: 1, y: 1, z: 1}
-  m_InertiaRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_IncludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_ExcludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_ImplicitCom: 1
-  m_ImplicitTensor: 1
-  m_UseGravity: 0
-  m_IsKinematic: 0
-  m_Interpolate: 0
-  m_Constraints: 0
-  m_CollisionDetection: 0
 --- !u!1001 &8616555370322380676
 PrefabInstance:
   m_ObjectHideFlags: 0
