@@ -1,11 +1,11 @@
-
+ï»¿
 using UnityEngine;
 using UnityEngine.AI;
 using System.Collections;
 using System.Collections.Generic;
 
 // ========================================
-// ƒAƒjƒ[ƒVƒ‡ƒ“ó‘Ô
+// ï¿½Aï¿½jï¿½ï¿½ï¿½[ï¿½Vï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 // ========================================
 public enum CustomerAnimationState
 {
@@ -19,16 +19,16 @@ public enum CustomerAnimationState
 }
 
 /// <summary>
-/// ‚¨‹q‚³‚ñ1l•ª‚Ìˆ—
+/// ï¿½ï¿½ï¿½qï¿½ï¿½ï¿½ï¿½1ï¿½lï¿½ï¿½ï¿½Ìï¿½ï¿½ï¿½
 /// </summary>
 [RequireComponent(typeof(NavMeshAgent))]
 public class Customer : MonoBehaviour
 {
     // ========================================
-    // ˆÚ“®İ’è
+    // ï¿½Ú“ï¿½ï¿½İ’ï¿½
     // ========================================
 
-    [Header("ˆÚ“®İ’è")]
+    [Header("ï¿½Ú“ï¿½ï¿½İ’ï¿½")]
 
     [SerializeField]
     private float moveRadius = 5.0f;
@@ -43,10 +43,10 @@ public class Customer : MonoBehaviour
 
 
     // ========================================
-    // NavMeshŒŸõİ’è
+    // NavMeshï¿½ï¿½ï¿½ï¿½ï¿½İ’ï¿½
     // ========================================
 
-    [Header("NavMeshŒŸõİ’è")]
+    [Header("NavMeshï¿½ï¿½ï¿½ï¿½ï¿½İ’ï¿½")]
 
     [SerializeField]
     private float navMeshSampleDistance = 1.0f;
@@ -56,10 +56,10 @@ public class Customer : MonoBehaviour
 
 
     // ========================================
-    // ˆÚ“®‘¬“x
+    // ï¿½Ú“ï¿½ï¿½ï¿½ï¿½x
     // ========================================
 
-    [Header("ˆÚ“®‘¬“x")]
+    [Header("ï¿½Ú“ï¿½ï¿½ï¿½ï¿½x")]
 
     [SerializeField]
     private float normalSpeed = 2.0f;
@@ -73,20 +73,20 @@ public class Customer : MonoBehaviour
     [SerializeField]
     private float suspiciousFastWalkTime = 2.5f;
 
-    [Header("’I‚ª‘½‚¢ƒR[ƒi[İ’è")]
+    [Header("ï¿½Iï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Rï¿½[ï¿½iï¿½[ï¿½İ’ï¿½")]
 
-    [Tooltip("‚¨‰ÙqEˆù—¿ƒR[ƒi[‚ÅAs“®Œã‚É“¯‚¶ƒR[ƒi[“à‚Ì•Ê’I‚ÖˆÚ“®‚·‚éŠm—¦")]
+    [Tooltip("ï¿½ï¿½ï¿½Ùqï¿½Eï¿½ï¿½ï¿½ï¿½ï¿½Rï¿½[ï¿½iï¿½[ï¿½ÅAï¿½sï¿½ï¿½ï¿½ï¿½É“ï¿½ï¿½ï¿½ï¿½Rï¿½[ï¿½iï¿½[ï¿½ï¿½ï¿½Ì•Ê’Iï¿½ÖˆÚ“ï¿½ï¿½ï¿½ï¿½ï¿½mï¿½ï¿½")]
     [Range(0.0f, 1.0f)]
     [SerializeField]
     private float stayInLargeCornerRate = 0.6f;
 
-    // Œ»İŒü‚©‚Á‚Ä‚¢‚éActionPoint
+    // ï¿½ï¿½ï¿½İŒï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ä‚ï¿½ï¿½ï¿½ActionPoint
     private Transform currentActionPoint;
     // ========================================
-    // •sRs“®Šm—¦
+    // ï¿½sï¿½Rï¿½sï¿½ï¿½ï¿½mï¿½ï¿½
     // ========================================
 
-    [Header("•sRs“®Šm—¦")]
+    [Header("ï¿½sï¿½Rï¿½sï¿½ï¿½ï¿½mï¿½ï¿½")]
 
     [Range(0.0f, 1.0f)]
     [SerializeField]
@@ -98,10 +98,10 @@ public class Customer : MonoBehaviour
 
 
     // ========================================
-    // ŠeƒR[ƒi[
+    // ï¿½eï¿½Rï¿½[ï¿½iï¿½[
     // ========================================
 
-    [Header("ŠeƒR[ƒi[")]
+    [Header("ï¿½eï¿½Rï¿½[ï¿½iï¿½[")]
 
     [SerializeField]
     private Transform fishCorner;
@@ -129,10 +129,10 @@ public class Customer : MonoBehaviour
 
 
     // ========================================
-    // “D–_İ’è
+    // ï¿½Dï¿½_ï¿½İ’ï¿½
     // ========================================
 
-    [Header("“D–_İ’è")]
+    [Header("ï¿½Dï¿½_ï¿½İ’ï¿½")]
 
     [SerializeField]
     private Transform police;
@@ -140,16 +140,16 @@ public class Customer : MonoBehaviour
     [SerializeField]
     private float escapeDistance = 8.0f;
 
-    [Tooltip("“D–_‚ª“¦‚°‚½ŒãA‚»‚ÌƒR[ƒi[“à‚Å“®‚­”ÍˆÍ")]
+    [Tooltip("ï¿½Dï¿½_ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Aï¿½ï¿½ï¿½ÌƒRï¿½[ï¿½iï¿½[ï¿½ï¿½ï¿½Å“ï¿½ï¿½ï¿½ï¿½Íˆï¿½")]
     [SerializeField]
     private float thiefMoveRadius = 2.0f;
 
 
     // ========================================
-    // ‚¨‹q‚³‚ñî•ñ
+    // ï¿½ï¿½ï¿½qï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
     // ========================================
 
-    [Header("‚¨‹q‚³‚ñî•ñ")]
+    [Header("ï¿½ï¿½ï¿½qï¿½ï¿½ï¿½ï¿½ï¿½ï¿½")]
 
     [SerializeField]
     private CustomerColor clothesColor;
@@ -169,17 +169,23 @@ public class Customer : MonoBehaviour
 
 
     // ========================================
-    // ƒAƒjƒ[ƒVƒ‡ƒ“
+    // ï¿½Aï¿½jï¿½ï¿½ï¿½[ï¿½Vï¿½ï¿½ï¿½ï¿½
     // ========================================
 
-    [Header("ƒAƒjƒ[ƒVƒ‡ƒ“")]
+    [Header("ï¿½Aï¿½jï¿½ï¿½ï¿½[ï¿½Vï¿½ï¿½ï¿½ï¿½")]
 
     [SerializeField]
     private Animator animator;
 
+    [SerializeField]
+    private float idleBeforeActionTime = 0.15f;
+
+    [SerializeField]
+    private float maxCornerActionTime = 10.0f;
+
 
     // ========================================
-    // ‚»‚Ì‘¼
+    // ï¿½ï¿½ï¿½Ì‘ï¿½
     // ========================================
 
     [SerializeField]
@@ -187,7 +193,7 @@ public class Customer : MonoBehaviour
 
 
     // ========================================
-    // ŒöŠJî•ñ
+    // ï¿½ï¿½ï¿½Jï¿½ï¿½ï¿½
     // ========================================
 
     public bool IsThief => isThief;
@@ -196,7 +202,7 @@ public class Customer : MonoBehaviour
 
 
     // ========================================
-    // “à•”•Ï”
+    // ï¿½ï¿½ï¿½ï¿½ï¿½Ïï¿½
     // ========================================
 
     private NavMeshAgent agent;
@@ -261,7 +267,7 @@ public class Customer : MonoBehaviour
 
     private void Start()
     {
-       
+
         if (playSceneManager == null)
         {
             playSceneManager =
@@ -276,7 +282,7 @@ public class Customer : MonoBehaviour
 
 
         // ========================================
-        // Å‰‚Ì–Ú“I’n
+        // ï¿½Åï¿½ï¿½Ì–Ú“Iï¿½n
         // ========================================
 
         if (isThief)
@@ -293,7 +299,7 @@ public class Customer : MonoBehaviour
 
 
         // ========================================
-        // ƒJƒEƒ“ƒgƒ_ƒEƒ“’†‚È‚ç’â~
+        // ï¿½Jï¿½Eï¿½ï¿½ï¿½gï¿½_ï¿½Eï¿½ï¿½ï¿½ï¿½ï¿½È‚ï¿½ï¿½~
         // ========================================
 
         if (playSceneManager != null &&
@@ -315,7 +321,7 @@ public class Customer : MonoBehaviour
 
 
     // ========================================
-    // RigidbodyŒÅ’è
+    // Rigidbodyï¿½Å’ï¿½
     // ========================================
 
     private void FreezeCustomer()
@@ -331,11 +337,7 @@ public class Customer : MonoBehaviour
             RigidbodyConstraints.FreezeRotation;
 
 
-        rb.linearVelocity =
-            Vector3.zero;
-
-        rb.angularVelocity =
-            Vector3.zero;
+        
     }
 
 
@@ -370,7 +372,7 @@ public class Customer : MonoBehaviour
 
 
         // ========================================
-        // ƒQ[ƒ€ŠJn‘O
+        // ï¿½Qï¿½[ï¿½ï¿½ï¿½Jï¿½nï¿½O
         // ========================================
 
         if (!isGameStarted)
@@ -389,7 +391,7 @@ public class Customer : MonoBehaviour
 
 
         // ========================================
-        // ƒQ[ƒ€ŠJnuŠÔ
+        // ï¿½Qï¿½[ï¿½ï¿½ï¿½Jï¿½nï¿½uï¿½ï¿½
         // ========================================
 
         if (!wasGameStarted)
@@ -411,7 +413,7 @@ public class Customer : MonoBehaviour
 
 
         // ========================================
-        // •ßŠlÏ‚İ
+        // ï¿½ßŠlï¿½Ï‚ï¿½
         // ========================================
 
         if (IsCaught)
@@ -423,7 +425,7 @@ public class Customer : MonoBehaviour
 
 
         // ========================================
-        // ƒLƒ‡ƒƒLƒ‡ƒ’†
+        // ï¿½Lï¿½ï¿½ï¿½ï¿½ï¿½Lï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
         // ========================================
 
         if (isLookingAround)
@@ -437,14 +439,12 @@ public class Customer : MonoBehaviour
 
 
         // ========================================
-        // ¤•i‚ğŒ©‚éEæ‚é
+        // ï¿½ï¿½ï¿½iï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Eï¿½ï¿½ï¿½
         // ========================================
 
         if (isWaiting)
         {
             StopAgent();
-
-            Wait();
 
             UpdateAnimation();
 
@@ -453,14 +453,14 @@ public class Customer : MonoBehaviour
 
 
         // ========================================
-        // ’ÊíˆÚ“®
+        // ï¿½Êï¿½Ú“ï¿½
         // ========================================
 
         ResumeAgent();
 
 
         // ========================================
-        // “D–_‚ªŒx”õˆõ‚©‚ç“¦‚°‚é
+        // ï¿½Dï¿½_ï¿½ï¿½ï¿½xï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ç“¦ï¿½ï¿½ï¿½ï¿½
         // ========================================
 
         if (isThief &&
@@ -471,7 +471,7 @@ public class Customer : MonoBehaviour
 
 
         // ========================================
-        // Œo˜HŒvZ’†
+        // ï¿½oï¿½Hï¿½vï¿½Zï¿½ï¿½
         // ========================================
 
         if (agent.pathPending)
@@ -483,7 +483,7 @@ public class Customer : MonoBehaviour
 
 
         // ========================================
-        // –Ú“I’n“’…”»’è
+        // ï¿½Ú“Iï¿½nï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
         // ========================================
 
         if (agent.hasPath &&
@@ -503,7 +503,7 @@ public class Customer : MonoBehaviour
 
 
     // ========================================
-    // NavMeshAgent’â~
+    // NavMeshAgentï¿½ï¿½~
     // ========================================
 
     private void StopAgent()
@@ -524,7 +524,7 @@ public class Customer : MonoBehaviour
 
 
     // ========================================
-    // NavMeshAgentÄŠJ
+    // NavMeshAgentï¿½ÄŠJ
     // ========================================
 
     private void ResumeAgent()
@@ -542,7 +542,7 @@ public class Customer : MonoBehaviour
 
 
     // ========================================
-    // ƒAƒjƒ[ƒVƒ‡ƒ“XV
+    // ï¿½Aï¿½jï¿½ï¿½ï¿½[ï¿½Vï¿½ï¿½ï¿½ï¿½ï¿½Xï¿½V
     // ========================================
 
     private void UpdateAnimation()
@@ -555,7 +555,7 @@ public class Customer : MonoBehaviour
 
 
         // ========================================
-        // •ßŠlÏ‚İ
+        // ï¿½ßŠlï¿½Ï‚ï¿½
         // ========================================
 
         if (IsCaught)
@@ -575,7 +575,7 @@ public class Customer : MonoBehaviour
 
 
         // ========================================
-        // ƒQ[ƒ€ŠJn‘O
+        // ï¿½Qï¿½[ï¿½ï¿½ï¿½Jï¿½nï¿½O
         // ========================================
 
         if (playSceneManager != null &&
@@ -591,7 +591,7 @@ public class Customer : MonoBehaviour
 
 
         // ========================================
-        // ¤•iæ“¾’†
+        // ï¿½ï¿½ï¿½iï¿½æ“¾ï¿½ï¿½
         // ========================================
 
         if (isWaiting)
@@ -606,7 +606,7 @@ public class Customer : MonoBehaviour
 
 
         // ========================================
-        // ƒLƒ‡ƒƒLƒ‡ƒ’†
+        // ï¿½Lï¿½ï¿½ï¿½ï¿½ï¿½Lï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
         // ========================================
 
         if (isLookingAround)
@@ -621,13 +621,8 @@ public class Customer : MonoBehaviour
 
 
         // ========================================
-        // ’Êíó‘Ô
+        // ï¿½Êï¿½ï¿½ï¿½
         // ========================================
-
-        SetAnimation(
-            CustomerAnimationState.Idle
-        );
-
 
         float speed =
             0.0f;
@@ -645,11 +640,25 @@ public class Customer : MonoBehaviour
             "Speed",
             speed
         );
+
+
+        if (speed > 0.05f)
+        {
+            SetAnimation(
+                CustomerAnimationState.Walk
+            );
+        }
+        else
+        {
+            SetAnimation(
+                CustomerAnimationState.Idle
+            );
+        }
     }
 
 
     // ========================================
-    // “ÁêƒAƒjƒ[ƒVƒ‡ƒ“Ø‚è‘Ö‚¦
+    // ï¿½ï¿½ï¿½ï¿½Aï¿½jï¿½ï¿½ï¿½[ï¿½Vï¿½ï¿½ï¿½ï¿½ï¿½Ø‚ï¿½Ö‚ï¿½
     // ========================================
 
     private void SetAnimation(
@@ -673,14 +682,14 @@ public class Customer : MonoBehaviour
 
 
         animator.SetInteger(
-            "AnimationState",
-            (int)state
-        );
+     "AnimationState",
+     (int)state
+ );
     }
 
 
     // ========================================
-    // ’Êí‘¬“xİ’è
+    // ï¿½Êí‘¬ï¿½xï¿½İ’ï¿½
     // ========================================
 
     private void SetMoveSpeed()
@@ -715,7 +724,7 @@ public class Customer : MonoBehaviour
 
 
     // ========================================
-    // –Ú“I’n“’…
+    // ï¿½Ú“Iï¿½nï¿½ï¿½ï¿½ï¿½
     // ========================================
 
     private void StartWaiting()
@@ -731,10 +740,28 @@ public class Customer : MonoBehaviour
 
         StopAgent();
 
+        isWaiting =
+            true;
+
+        isLookingAround =
+            false;
+
+        SetAnimation(
+            CustomerAnimationState.Idle
+        );
+
+        if (animator != null)
+        {
+            animator.SetFloat(
+                "Speed",
+                0.0f
+            );
+        }
+
 
         // ========================================
-        // ˆê”Ê‹q 10%
-        // “D–_   30%
+        // ï¿½ï¿½Ê‹q 10%
+        // ï¿½Dï¿½_   30%
         // ========================================
 
         float suspiciousRate =
@@ -749,27 +776,135 @@ public class Customer : MonoBehaviour
 
 
         // ========================================
-        // ’Êís“®
+        // ï¿½Êï¿½sï¿½ï¿½
         // ========================================
 
-        if (!doSuspiciousAction)
-        {
-            StartNormalAction();
+        CustomerAnimationState actionState =
+            CustomerAnimationState.TakeItem;
 
-            return;
+        if (doSuspiciousAction)
+        {
+            actionState =
+                Random.value < 0.5f
+                    ? CustomerAnimationState.CrouchPick
+                    : CustomerAnimationState.LookAround;
         }
 
-
-        // ========================================
-        // •sRs“®
-        // ========================================
-
-        StartSuspiciousAction();
+        StartCoroutine(
+            PlayCornerAction(actionState)
+        );
     }
 
 
     // ========================================
-    // ’Êís“®
+    // Idleã‹ã‚‰ã‚³ãƒ¼ãƒŠãƒ¼è¡Œå‹•ã‚’å†ç”Ÿã—ã€
+    // ãƒ¢ãƒ¼ã‚·ãƒ§ãƒ³ãŒçµ‚ã‚ã£ã¦ã‹ã‚‰æ¬¡ã®ç§»å‹•ã‚’å§‹ã‚ã‚‹
+    // ========================================
+
+    private IEnumerator PlayCornerAction(
+        CustomerAnimationState actionState)
+    {
+        yield return new WaitForSeconds(
+            idleBeforeActionTime
+        );
+
+        if (IsCaught)
+        {
+            yield break;
+        }
+
+        int idleStateHash =
+            animator != null
+                ? animator.GetCurrentAnimatorStateInfo(0).fullPathHash
+                : 0;
+
+        SetAnimation(actionState);
+
+        bool actionStarted =
+            false;
+
+        int actionStateHash =
+            0;
+
+        float elapsedTime =
+            0.0f;
+
+        // AnimatorãŒIdleã‹ã‚‰é¸æŠã—ãŸãƒ¢ãƒ¼ã‚·ãƒ§ãƒ³ã¸
+        // åˆ‡ã‚Šæ›¿ã‚ã‚‹ã¾ã§å¾…ã¤ã€‚
+        while (animator != null &&
+               elapsedTime < 1.0f)
+        {
+            AnimatorStateInfo stateInfo =
+                animator.GetCurrentAnimatorStateInfo(0);
+
+            if (!animator.IsInTransition(0) &&
+                stateInfo.fullPathHash != idleStateHash)
+            {
+                actionStarted =
+                    true;
+
+                actionStateHash =
+                    stateInfo.fullPathHash;
+
+                break;
+            }
+
+            elapsedTime +=
+                Time.deltaTime;
+
+            yield return null;
+        }
+
+        elapsedTime =
+            0.0f;
+
+        if (actionStarted)
+        {
+            // é¸æŠã—ãŸãƒ¢ãƒ¼ã‚·ãƒ§ãƒ³ãŒ1å‘¨çµ‚ã‚ã‚‹ã¾ã§å¾…ã¤ã€‚
+            while (animator != null &&
+                   elapsedTime < maxCornerActionTime)
+            {
+                AnimatorStateInfo stateInfo =
+                    animator.GetCurrentAnimatorStateInfo(0);
+
+                bool animationFinished =
+                    !animator.IsInTransition(0) &&
+                    stateInfo.fullPathHash == actionStateHash &&
+                    stateInfo.normalizedTime >= 1.0f;
+
+                if (animationFinished)
+                {
+                    break;
+                }
+
+                elapsedTime +=
+                    Time.deltaTime;
+
+                yield return null;
+            }
+        }
+        else
+        {
+            // é·ç§»è¨­å®šã«å•é¡ŒãŒã‚ã£ã¦ã‚‚æ°¸ä¹…åœæ­¢ã—ãªã„ãŸã‚ã®äºˆå‚™å¾…æ©Ÿã€‚
+            yield return new WaitForSeconds(
+                Mathf.Max(0.5f, minWaitTime)
+            );
+        }
+
+        if (IsCaught)
+        {
+            yield break;
+        }
+
+        isWaiting =
+            false;
+
+        MoveAfterWaiting();
+    }
+
+
+    // ========================================
+    // ï¿½Êï¿½sï¿½ï¿½
     // ========================================
 
     private void StartNormalAction()
@@ -791,14 +926,14 @@ public class Customer : MonoBehaviour
 
 
         //Debug.Log(
-        //    $"{gameObject.name}F" +
-        //    "’Êís“® ¨ ¤•i‚ğŒ©‚é"
+        //    $"{gameObject.name}ï¿½F" +
+        //    "ï¿½Êï¿½sï¿½ï¿½ ï¿½ï¿½ ï¿½ï¿½ï¿½iï¿½ï¿½ï¿½ï¿½ï¿½ï¿½"
         //);
     }
 
 
     // ========================================
-    // •sRs“®
+    // ï¿½sï¿½Rï¿½sï¿½ï¿½
     // ========================================
 
     private void StartSuspiciousAction()
@@ -813,7 +948,7 @@ public class Customer : MonoBehaviour
         switch (randomAction)
         {
             // ========================================
-            // ‚µ‚á‚ª‚ñ‚Å‹™‚é
+            // ï¿½ï¿½ï¿½á‚ªï¿½ï¿½Å‹ï¿½ï¿½ï¿½
             // ========================================
 
             case 0:
@@ -835,15 +970,15 @@ public class Customer : MonoBehaviour
 
 
                 //Debug.Log(
-                //    $"{gameObject.name}F" +
-                //    "•sRs“® ¨ ‚µ‚á‚ª‚ñ‚Å‹™‚é"
+                //    $"{gameObject.name}ï¿½F" +
+                //    "ï¿½sï¿½Rï¿½sï¿½ï¿½ ï¿½ï¿½ ï¿½ï¿½ï¿½á‚ªï¿½ï¿½Å‹ï¿½ï¿½ï¿½"
                 //);
 
                 break;
 
 
             // ========================================
-            // ƒLƒ‡ƒƒLƒ‡ƒ
+            // ï¿½Lï¿½ï¿½ï¿½ï¿½ï¿½Lï¿½ï¿½ï¿½ï¿½
             // ========================================
 
             case 1:
@@ -858,15 +993,15 @@ public class Customer : MonoBehaviour
 
 
                 //Debug.Log(
-                //    $"{gameObject.name}F" +
-                //    "•sRs“® ¨ ƒLƒ‡ƒƒLƒ‡ƒ"
+                //    $"{gameObject.name}ï¿½F" +
+                //    "ï¿½sï¿½Rï¿½sï¿½ï¿½ ï¿½ï¿½ ï¿½Lï¿½ï¿½ï¿½ï¿½ï¿½Lï¿½ï¿½ï¿½ï¿½"
                 //);
 
                 break;
 
 
             // ========================================
-            // ‘•à‚«
+            // ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
             // ========================================
 
             case 2:
@@ -877,8 +1012,8 @@ public class Customer : MonoBehaviour
 
 
                 //Debug.Log(
-                //    $"{gameObject.name}F" +
-                //    "•sRs“® ¨ ‘•à‚«"
+                //    $"{gameObject.name}ï¿½F" +
+                //    "ï¿½sï¿½Rï¿½sï¿½ï¿½ ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½"
                 //);
 
                 break;
@@ -887,7 +1022,7 @@ public class Customer : MonoBehaviour
 
 
     // ========================================
-    // ¤•iæ“¾’†
+    // ï¿½ï¿½ï¿½iï¿½æ“¾ï¿½ï¿½
     // ========================================
 
     private void Wait()
@@ -912,7 +1047,7 @@ public class Customer : MonoBehaviour
 
 
     // ========================================
-    // ƒLƒ‡ƒƒLƒ‡ƒ
+    // ï¿½Lï¿½ï¿½ï¿½ï¿½ï¿½Lï¿½ï¿½ï¿½ï¿½
     // ========================================
 
     private IEnumerator LookAroundBeforeMove()
@@ -949,7 +1084,7 @@ public class Customer : MonoBehaviour
 
 
     // ========================================
-    // •sR‚È‘•à‚«
+    // ï¿½sï¿½Rï¿½È‘ï¿½ï¿½ï¿½ï¿½ï¿½
     // ========================================
 
     private IEnumerator SuspiciousFastWalk()
@@ -970,7 +1105,7 @@ public class Customer : MonoBehaviour
 
 
         // ========================================
-        // Ÿ‚ÌêŠ‚ğİ’è
+        // ï¿½ï¿½ï¿½ÌêŠï¿½ï¿½İ’ï¿½
         // ========================================
 
         if (isThief)
@@ -1001,11 +1136,11 @@ public class Customer : MonoBehaviour
 
 
     // ========================================
-    // s“®I—¹Œã
+    // ï¿½sï¿½ï¿½ï¿½Iï¿½ï¿½ï¿½ï¿½
     // ========================================
 
     // ========================================
-    // s“®I—¹Œã
+    // ï¿½sï¿½ï¿½ï¿½Iï¿½ï¿½ï¿½ï¿½
     // ========================================
 
     private void MoveAfterWaiting()
@@ -1019,12 +1154,20 @@ public class Customer : MonoBehaviour
         isLookingAround = false;
 
         SetAnimation(
-            CustomerAnimationState.Idle
+            CustomerAnimationState.Walk
         );
+
+        if (animator != null)
+        {
+            animator.SetFloat(
+                "Speed",
+                1.0f
+            );
+        }
 
 
         // ========================================
-        // “D–_
+        // ï¿½Dï¿½_
         // ========================================
 
         if (isThief)
@@ -1038,9 +1181,9 @@ public class Customer : MonoBehaviour
 
 
         // ========================================
-        // ’I‚ª‘½‚¢ƒR[ƒi[‚Ìê‡
+        // ï¿½Iï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Rï¿½[ï¿½iï¿½[ï¿½Ìê‡
         //
-        // ‚¨‰Ùq / ˆù—¿
+        // ï¿½ï¿½ï¿½Ùq / ï¿½ï¿½ï¿½ï¿½
         // ========================================
 
         bool isLargeCorner =
@@ -1051,8 +1194,8 @@ public class Customer : MonoBehaviour
         if (isLargeCorner)
         {
             // ========================================
-            // ˆê’èŠm—¦‚Å
-            // “¯‚¶ƒR[ƒi[‚Ì•Ê’I‚ğŒ©‚é
+            // ï¿½ï¿½ï¿½mï¿½ï¿½ï¿½ï¿½
+            // ï¿½ï¿½ï¿½ï¿½ï¿½Rï¿½[ï¿½iï¿½[ï¿½Ì•Ê’Iï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
             // ========================================
 
             if (Random.value <
@@ -1071,7 +1214,7 @@ public class Customer : MonoBehaviour
 
 
         // ========================================
-        // •Ê‚ÌƒR[ƒi[‚ÖˆÚ“®
+        // ï¿½Ê‚ÌƒRï¿½[ï¿½iï¿½[ï¿½ÖˆÚ“ï¿½
         // ========================================
 
         MoveToRandomCorner();
@@ -1081,7 +1224,7 @@ public class Customer : MonoBehaviour
 
 
     // ========================================
-    // ƒQ[ƒ€ŠJn‚Ì‰Šú”z’u
+    // ï¿½Qï¿½[ï¿½ï¿½ï¿½Jï¿½nï¿½ï¿½ï¿½Ìï¿½ï¿½ï¿½ï¿½zï¿½u
     // ========================================
 
     private void PlaceAtRandomCorner()
@@ -1090,8 +1233,8 @@ public class Customer : MonoBehaviour
             corners.Length == 0)
         {
             Debug.LogWarning(
-                $"{gameObject.name}F" +
-                "ƒR[ƒi[‚ªİ’è‚³‚ê‚Ä‚¢‚Ü‚¹‚ñ"
+                $"{gameObject.name}ï¿½F" +
+                "ï¿½Rï¿½[ï¿½iï¿½[ï¿½ï¿½ï¿½İ’è‚³ï¿½ï¿½Ä‚ï¿½ï¿½Ü‚ï¿½ï¿½ï¿½"
             );
 
             return;
@@ -1198,15 +1341,15 @@ public class Customer : MonoBehaviour
 
 
         Debug.LogError(
-            $"{gameObject.name}F" +
-            "‚·‚×‚Ä‚ÌƒR[ƒi[‚Å”z’u‚É¸”s‚µ‚Ü‚µ‚½"
+            $"{gameObject.name}ï¿½F" +
+            "ï¿½ï¿½ï¿½×‚Ä‚ÌƒRï¿½[ï¿½iï¿½[ï¿½Å”zï¿½uï¿½Éï¿½ï¿½sï¿½ï¿½ï¿½Ü‚ï¿½ï¿½ï¿½"
         );
     }
 
 
     // ========================================
-    // ˆê”Ê‹q
-    // •ÊƒR[ƒi[‚Ö
+    // ï¿½ï¿½Ê‹q
+    // ï¿½ÊƒRï¿½[ï¿½iï¿½[ï¿½ï¿½
     // ========================================
 
     private void MoveToRandomCorner()
@@ -1240,7 +1383,7 @@ public class Customer : MonoBehaviour
 
 
     // ========================================
-    // Œ»İ‚Æ‚Íˆá‚¤ƒR[ƒi[
+    // ï¿½ï¿½ï¿½İ‚Æ‚Íˆá‚¤ï¿½Rï¿½[ï¿½iï¿½[
     // ========================================
 
     private Transform GetRandomDifferentCorner()
@@ -1317,14 +1460,14 @@ public class Customer : MonoBehaviour
 
 
     // ========================================
-    // w’èƒR[ƒi[‚ÖˆÚ“®
+    // ï¿½wï¿½ï¿½Rï¿½[ï¿½iï¿½[ï¿½ÖˆÚ“ï¿½
     // ========================================
 
     private void SetDestinationAroundCorner(
         Transform corner,
         float radius)
     {
-        
+
         if (corner == null ||
             agent == null)
         {
@@ -1335,14 +1478,14 @@ public class Customer : MonoBehaviour
         if (!agent.isOnNavMesh)
         {
             Debug.LogWarning(
-                $"{gameObject.name} ‚ªNavMeshã‚É‚¢‚Ü‚¹‚ñ"
+                $"{gameObject.name} ï¿½ï¿½NavMeshï¿½ï¿½É‚ï¿½ï¿½Ü‚ï¿½ï¿½ï¿½"
             );
 
             return;
         }
 
         // ========================================
-        // ActionPoint‚ğ—Dæ
+        // ActionPointï¿½ï¿½Dï¿½ï¿½
         // ========================================
 
         Transform actionPoint =
@@ -1352,7 +1495,7 @@ public class Customer : MonoBehaviour
 
         if (actionPoint != null)
         {
-           
+
 
 
             NavMeshHit actionHit;
@@ -1364,7 +1507,7 @@ public class Customer : MonoBehaviour
                 3.0f,
                 NavMesh.AllAreas))
             {
-                
+
 
 
                 NavMeshPath actionPath =
@@ -1378,7 +1521,7 @@ public class Customer : MonoBehaviour
                     if (actionPath.status ==
                         NavMeshPathStatus.PathComplete)
                     {
-                        
+
 
 
                         agent.SetDestination(
@@ -1390,7 +1533,7 @@ public class Customer : MonoBehaviour
                     else
                     {
                         Debug.LogWarning(
-                            $"{actionPoint.name} ‚Ü‚Å‚ÌŒo˜H‚ª•sŠ®‘S‚Å‚·"
+                            $"{actionPoint.name} ï¿½Ü‚Å‚ÌŒoï¿½Hï¿½ï¿½ï¿½sï¿½ï¿½ï¿½Sï¿½Å‚ï¿½"
                         );
                     }
                 }
@@ -1398,20 +1541,20 @@ public class Customer : MonoBehaviour
             else
             {
                 Debug.LogWarning(
-                    $"{actionPoint.name} ‚Ì‹ß‚­‚ÉNavMesh‚ª‚ ‚è‚Ü‚¹‚ñ"
+                    $"{actionPoint.name} ï¿½Ì‹ß‚ï¿½ï¿½ï¿½NavMeshï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ü‚ï¿½ï¿½ï¿½"
                 );
             }
         }
         //else
         //{
         //    //Debug.LogWarning(
-        //    //    $"{corner.name} ‚ÉActionPoint‚ªŒ©‚Â‚©‚è‚Ü‚¹‚ñ"
+        //    //    $"{corner.name} ï¿½ï¿½ActionPointï¿½ï¿½ï¿½ï¿½ï¿½Â‚ï¿½ï¿½ï¿½Ü‚ï¿½ï¿½ï¿½"
         //    //);
         //}
 
 
         // ========================================
-        // ActionPoint‚ª‚È‚¢ê‡‚Í]—ˆ•û®
+        // ActionPointï¿½ï¿½ï¿½È‚ï¿½ï¿½ê‡ï¿½Í]ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
         // ========================================
 
         for (int i = 0;
@@ -1467,25 +1610,25 @@ public class Customer : MonoBehaviour
 
 
         Debug.LogWarning(
-            $"{gameObject.name}F" +
-            $"{corner.name}ü•Ó‚ÉˆÚ“®æ‚ªŒ©‚Â‚©‚è‚Ü‚¹‚ñ‚Å‚µ‚½"
+            $"{gameObject.name}ï¿½F" +
+            $"{corner.name}ï¿½ï¿½ï¿½Ó‚ÉˆÚ“ï¿½ï¿½æ‚ªï¿½ï¿½ï¿½Â‚ï¿½ï¿½ï¿½Ü‚ï¿½ï¿½ï¿½Å‚ï¿½ï¿½ï¿½"
         );
     }
 
 
     // ========================================
-    // ActionPointæ“¾
+    // ActionPointï¿½æ“¾
     // ========================================
 
     // ========================================
-    // ƒR[ƒi[“à‚Ì’â~ƒ|ƒCƒ“ƒg‚ğæ“¾
-    // ‘O‰ñ‚Æˆá‚¤ActionPoint‚ğ—Dæ‚·‚é
+    // ï¿½Rï¿½[ï¿½iï¿½[ï¿½ï¿½ï¿½Ì’ï¿½~ï¿½|ï¿½Cï¿½ï¿½ï¿½gï¿½ï¿½ï¿½æ“¾
+    // ï¿½Oï¿½ï¿½Æˆá‚¤ActionPointï¿½ï¿½Dï¿½æ‚·ï¿½ï¿½
     // ========================================
 
     private Transform GetRandomActionPoint(
         Transform corner)
     {
-       
+
         if (corner == null)
         {
             return null;
@@ -1509,18 +1652,18 @@ public class Customer : MonoBehaviour
                 continue;
             }
 
-            // ActionPoint‚ª•¡”‚ ‚éê‡‚Í
-            // ‘O‰ñ‚Æ“¯‚¶êŠ‚ğœŠO
+            // ActionPointï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ê‡ï¿½ï¿½
+            // ï¿½Oï¿½ï¿½Æ“ï¿½ï¿½ï¿½ï¿½êŠï¿½ï¿½ï¿½ï¿½ï¿½O
             if (child == currentActionPoint)
             {
                 continue;
             }
-          
+
             actionPoints.Add(child);
         }
 
-        // ‘O‰ñ‚Æˆá‚¤êŠ‚ª‚È‚©‚Á‚½ê‡
-        // “¯‚¶êŠ‚Å‚à‚¢‚¢‚Ì‚ÅÄæ“¾
+        // ï¿½Oï¿½ï¿½Æˆá‚¤ï¿½êŠï¿½ï¿½ï¿½È‚ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ê‡
+        // ï¿½ï¿½ï¿½ï¿½ï¿½êŠï¿½Å‚ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ì‚ÅÄæ“¾
         if (actionPoints.Count == 0)
         {
             foreach (Transform child in children)
@@ -1556,8 +1699,8 @@ public class Customer : MonoBehaviour
 
 
     // ========================================
-    // “D–_
-    // Œ»İƒR[ƒi[“à
+    // ï¿½Dï¿½_
+    // ï¿½ï¿½ï¿½İƒRï¿½[ï¿½iï¿½[ï¿½ï¿½
     // ========================================
 
     private void SetDestinationAroundCurrentCorner()
@@ -1582,7 +1725,7 @@ public class Customer : MonoBehaviour
 
 
     // ========================================
-    // Œx”õˆõ‚Æ‚Ì‹——£
+    // ï¿½xï¿½ï¿½ï¿½ï¿½ï¿½Æ‚Ì‹ï¿½ï¿½ï¿½
     // ========================================
 
     private void CheckPoliceDistance()
@@ -1609,7 +1752,7 @@ public class Customer : MonoBehaviour
 
 
     // ========================================
-    // “D–_“¦‘–
+    // ï¿½Dï¿½_ï¿½ï¿½ï¿½ï¿½
     // ========================================
 
     private void EscapeFromPolice()
@@ -1670,7 +1813,7 @@ public class Customer : MonoBehaviour
 
 
     // ========================================
-    // Œx”õˆõ‚©‚çÅ‚à‰“‚¢ƒR[ƒi[
+    // ï¿½xï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Å‚ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Rï¿½[ï¿½iï¿½[
     // ========================================
 
     private Transform GetFarthestCornerFromPolice()
@@ -1730,7 +1873,7 @@ public class Customer : MonoBehaviour
 
 
     // ========================================
-    // ÅŠñ‚èƒR[ƒi[
+    // ï¿½ÅŠï¿½ï¿½Rï¿½[ï¿½iï¿½[
     // ========================================
 
     private Transform FindNearestCorner()
@@ -1776,7 +1919,7 @@ public class Customer : MonoBehaviour
 
 
     // ========================================
-    // “D–_İ’è
+    // ï¿½Dï¿½_ï¿½İ’ï¿½
     // ========================================
 
     public void SetThief(
@@ -1793,20 +1936,20 @@ public class Customer : MonoBehaviour
 
 
         Debug.Log(
-            $"{gameObject.name} “D–_İ’èF{isThief}"
+            $"{gameObject.name} ï¿½Dï¿½_ï¿½İ’ï¿½F{isThief}"
         );
     }
 
 
     // ========================================
-    // “Á’¥ˆê’v
+    // ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½v
     // ========================================
 
     public bool Matches(
      VoiceCommand command)
     {
         // ========================================
-        // •‚ÌF
+        // ï¿½ï¿½ï¿½ÌF
         // ========================================
 
         if (command.clothesColor !=
@@ -1819,18 +1962,18 @@ public class Customer : MonoBehaviour
 
 
         // ========================================
-        // –Xq
+        // ï¿½Xï¿½q
         // ========================================
 
         if (command.requiresHat)
         {
-            // –Xq‚ğ‚©‚Ô‚Á‚Ä‚¢‚È‚¢
+            // ï¿½Xï¿½qï¿½ï¿½ï¿½ï¿½ï¿½Ô‚ï¿½ï¿½Ä‚ï¿½ï¿½È‚ï¿½
             if (!wearsHat)
             {
                 return false;
             }
 
-            // –Xq‚ÌF‚Ü‚Åw’è‚³‚ê‚Ä‚¢‚é
+            // ï¿½Xï¿½qï¿½ÌFï¿½Ü‚Åwï¿½è‚³ï¿½ï¿½Ä‚ï¿½ï¿½ï¿½
             if (command.hatColor !=
                     CustomerColor.None &&
                 hatColor !=
@@ -1842,7 +1985,7 @@ public class Customer : MonoBehaviour
 
 
         // ========================================
-        // ƒƒKƒl
+        // ï¿½ï¿½ï¿½Kï¿½l
         // ========================================
 
         if (command.requiresGlasses &&
@@ -1853,7 +1996,7 @@ public class Customer : MonoBehaviour
 
 
         // ========================================
-        // ƒoƒbƒO
+        // ï¿½oï¿½bï¿½O
         // ========================================
 
         if (command.requiresBag &&
@@ -1868,7 +2011,7 @@ public class Customer : MonoBehaviour
 
 
     // ========================================
-    // •ßŠl
+    // ï¿½ßŠl
     // ========================================
 
     public void Catch()
@@ -1880,7 +2023,7 @@ public class Customer : MonoBehaviour
 
 
         // ========================================
-        // “D–_
+        // ï¿½Dï¿½_
         // ========================================
 
         if (IsThief)
@@ -1911,7 +2054,7 @@ public class Customer : MonoBehaviour
 
 
             Debug.Log(
-                $"{gameObject.name} ‚Í“D–_‚Å‚µ‚½IŠm•Û¬Œ÷I"
+                $"{gameObject.name} ï¿½Í“Dï¿½_ï¿½Å‚ï¿½ï¿½ï¿½ï¿½Iï¿½mï¿½Ûï¿½ï¿½ï¿½ï¿½I"
             );
 
 
@@ -1928,11 +2071,11 @@ public class Customer : MonoBehaviour
 
 
         // ========================================
-        // ˆê”Ê‹q
+        // ï¿½ï¿½Ê‹q
         // ========================================
 
         Debug.Log(
-            $"{gameObject.name} ‚Íˆê”Ê‹q‚Å‚·IŒë”F‘ß•ßI"
+            $"{gameObject.name} ï¿½Íˆï¿½Ê‹qï¿½Å‚ï¿½ï¿½Iï¿½ï¿½Fï¿½ß•ßI"
         );
 
 
@@ -1990,4 +2133,3 @@ public class Customer : MonoBehaviour
         return CornerType.None;
     }
 }
-
