@@ -73,6 +73,19 @@ public class Customer : MonoBehaviour
     [SerializeField]
     private float suspiciousFastWalkTime = 2.5f;
 
+    [Header("お客さん同士の重なり防止")]
+
+    [SerializeField]
+    private float minimumAgentRadius = 0.4f;
+
+    [SerializeField]
+    [Range(0, 99)]
+    private int avoidancePriorityMin = 20;
+
+    [SerializeField]
+    [Range(0, 99)]
+    private int avoidancePriorityMax = 80;
+
     [Header("�I�������R�[�i�[�ݒ�")]
 
     [Tooltip("���َq�E�����R�[�i�[�ŁA�s����ɓ����R�[�i�[���̕ʒI�ֈړ�����m��")]
@@ -82,6 +95,11 @@ public class Customer : MonoBehaviour
 
     // ���݌������Ă���ActionPoint
     private Transform currentActionPoint;
+
+    private Transform reservedActionPoint;
+
+    private static readonly HashSet<Transform> reservedActionPoints =
+        new HashSet<Transform>();
     // ========================================
     // �s�R�s���m��
     // ========================================
@@ -183,6 +201,14 @@ public class Customer : MonoBehaviour
     [SerializeField]
     private float maxCornerActionTime = 10.0f;
 
+    [Header("移動停止からの復旧")]
+
+    [SerializeField]
+    private float stuckTimeLimit = 3.0f;
+
+    [SerializeField]
+    private float stuckMoveThreshold = 0.03f;
+
 
     // ========================================
     // ���̑�
@@ -223,6 +249,14 @@ public class Customer : MonoBehaviour
 
     private bool wasGameStarted;
 
+    private bool hasMoveDestination;
+
+    private Vector3 moveDestination;
+
+    private Vector3 lastMoveCheckPosition;
+
+    private float stuckTimer;
+
     private CustomerAnimationState currentAnimationState =
         (CustomerAnimationState)(-1);
 
@@ -235,6 +269,33 @@ public class Customer : MonoBehaviour
     {
         agent =
             GetComponent<NavMeshAgent>();
+
+        agent.radius =
+            Mathf.Max(
+                agent.radius,
+                minimumAgentRadius
+            );
+
+        agent.obstacleAvoidanceType =
+            ObstacleAvoidanceType.HighQualityObstacleAvoidance;
+
+        int minimumPriority =
+            Mathf.Min(
+                avoidancePriorityMin,
+                avoidancePriorityMax
+            );
+
+        int maximumPriority =
+            Mathf.Max(
+                avoidancePriorityMin,
+                avoidancePriorityMax
+            );
+
+        agent.avoidancePriority =
+            Random.Range(
+                minimumPriority,
+                maximumPriority + 1
+            );
 
         rb =
             GetComponent<Rigidbody>();
@@ -276,6 +337,9 @@ public class Customer : MonoBehaviour
 
 
         PlaceAtRandomCorner();
+
+        lastMoveCheckPosition =
+            transform.position;
 
 
         SetMoveSpeed();
@@ -337,7 +401,7 @@ public class Customer : MonoBehaviour
             RigidbodyConstraints.FreezeRotation;
 
 
-        
+
     }
 
 
@@ -483,13 +547,39 @@ public class Customer : MonoBehaviour
 
 
         // ========================================
+        // 棚や他のお客さんに引っかかった場合の復旧
+        // ========================================
+
+        if (CheckAndRecoverFromStuck())
+        {
+            UpdateAnimation();
+
+            return;
+        }
+
+
+        // ========================================
         // �ړI�n��������
         // ========================================
 
-        if (agent.hasPath &&
-            agent.remainingDistance <=
-            agent.stoppingDistance + 0.3f)
+        Vector3 destinationOffset =
+            moveDestination - transform.position;
+
+        destinationOffset.y =
+            0.0f;
+
+        float arrivalDistance =
+            agent.stoppingDistance + 0.3f;
+
+        if (hasMoveDestination &&
+            destinationOffset.sqrMagnitude <=
+                arrivalDistance * arrivalDistance &&
+            (!agent.hasPath ||
+             agent.velocity.sqrMagnitude <= 0.01f))
         {
+            hasMoveDestination =
+                false;
+
             StartWaiting();
 
             UpdateAnimation();
@@ -499,6 +589,106 @@ public class Customer : MonoBehaviour
 
 
         UpdateAnimation();
+    }
+
+
+    // ========================================
+    // 移動中に一定時間ほとんど進まなかった場合、
+    // 別の目的地を設定して復旧する
+    // ========================================
+
+    private bool CheckAndRecoverFromStuck()
+    {
+        if (agent == null ||
+            !agent.isOnNavMesh ||
+            agent.isStopped ||
+            agent.pathPending)
+        {
+            stuckTimer = 0.0f;
+            lastMoveCheckPosition = transform.position;
+
+            return false;
+        }
+
+        // 目的地の設定自体に失敗した場合も、
+        // 少し待ってから別の目的地を探し直す。
+        if (!hasMoveDestination)
+        {
+            stuckTimer += Time.deltaTime;
+
+            if (stuckTimer < stuckTimeLimit)
+            {
+                return false;
+            }
+
+            stuckTimer = 0.0f;
+
+            if (isThief)
+            {
+                SetDestinationAroundCurrentCorner();
+            }
+            else
+            {
+                MoveToRandomCorner();
+            }
+
+            SetAnimation(
+                CustomerAnimationState.Walk
+            );
+
+            ResumeAgent();
+
+            return true;
+        }
+
+        Vector3 movedOffset =
+            transform.position - lastMoveCheckPosition;
+
+        movedOffset.y =
+            0.0f;
+
+        float moveThresholdSqr =
+            stuckMoveThreshold * stuckMoveThreshold;
+
+        if (movedOffset.sqrMagnitude <= moveThresholdSqr &&
+            agent.velocity.sqrMagnitude <= 0.01f)
+        {
+            stuckTimer += Time.deltaTime;
+        }
+        else
+        {
+            stuckTimer = 0.0f;
+        }
+
+        lastMoveCheckPosition =
+            transform.position;
+
+        if (stuckTimer < stuckTimeLimit)
+        {
+            return false;
+        }
+
+        stuckTimer = 0.0f;
+        hasMoveDestination = false;
+
+        agent.ResetPath();
+
+        if (isThief)
+        {
+            SetDestinationAroundCurrentCorner();
+        }
+        else
+        {
+            MoveToRandomCorner();
+        }
+
+        SetAnimation(
+            CustomerAnimationState.Walk
+        );
+
+        ResumeAgent();
+
+        return true;
     }
 
 
@@ -624,36 +814,16 @@ public class Customer : MonoBehaviour
         // �ʏ���
         // ========================================
 
-        float speed =
-            0.0f;
-
-
-        if (agent.isOnNavMesh &&
-            !agent.isStopped)
-        {
-            speed =
-                agent.velocity.magnitude;
-        }
-
-
+        // ゲーム開始後、行動中でなければ必ずWalk。
+        // NavMeshAgentの速度が一瞬0になってもIdleへ戻さない。
         animator.SetFloat(
             "Speed",
-            speed
+            1.0f
         );
 
-
-        if (speed > 0.05f)
-        {
-            SetAnimation(
-                CustomerAnimationState.Walk
-            );
-        }
-        else
-        {
-            SetAnimation(
-                CustomerAnimationState.Idle
-            );
-        }
+        SetAnimation(
+            CustomerAnimationState.Walk
+        );
     }
 
 
@@ -740,15 +910,17 @@ public class Customer : MonoBehaviour
 
         StopAgent();
 
+        if (agent != null &&
+            agent.isOnNavMesh)
+        {
+            agent.ResetPath();
+        }
+
         isWaiting =
             true;
 
         isLookingAround =
             false;
-
-        SetAnimation(
-            CustomerAnimationState.Idle
-        );
 
         if (animator != null)
         {
@@ -764,34 +936,34 @@ public class Customer : MonoBehaviour
         // �D�_   30%
         // ========================================
 
-        float suspiciousRate =
-            isThief
-                ? thiefSuspiciousRate
-                : normalCustomerSuspiciousRate;
-
-
-        bool doSuspiciousAction =
-            Random.value <
-            suspiciousRate;
-
-
-        // ========================================
-        // �ʏ�s��
-        // ========================================
-
         CustomerAnimationState actionState =
             CustomerAnimationState.TakeItem;
 
-        if (doSuspiciousAction)
+        bool playIdleFirst =
+            isThief;
+
+        // 一般客はWalkとPickだけを使用する。
+        // 泥棒だけは従来の不審行動を残す。
+        if (isThief)
         {
-            actionState =
-                Random.value < 0.5f
-                    ? CustomerAnimationState.CrouchPick
-                    : CustomerAnimationState.LookAround;
+            SetAnimation(
+                CustomerAnimationState.Idle
+            );
+
+            if (Random.value < thiefSuspiciousRate)
+            {
+                actionState =
+                    Random.value < 0.5f
+                        ? CustomerAnimationState.CrouchPick
+                        : CustomerAnimationState.LookAround;
+            }
         }
 
         StartCoroutine(
-            PlayCornerAction(actionState)
+            PlayCornerAction(
+                actionState,
+                playIdleFirst
+            )
         );
     }
 
@@ -802,11 +974,19 @@ public class Customer : MonoBehaviour
     // ========================================
 
     private IEnumerator PlayCornerAction(
-        CustomerAnimationState actionState)
+        CustomerAnimationState actionState,
+        bool playIdleFirst)
     {
-        yield return new WaitForSeconds(
-            idleBeforeActionTime
-        );
+        if (playIdleFirst)
+        {
+            yield return new WaitForSeconds(
+                idleBeforeActionTime
+            );
+        }
+        else
+        {
+            yield return null;
+        }
 
         if (IsCaught)
         {
@@ -894,6 +1074,48 @@ public class Customer : MonoBehaviour
         if (IsCaught)
         {
             yield break;
+        }
+
+        // Pickの姿勢のまま移動しないように、
+        // 先にAnimatorをWalkへ切り替える。
+        SetAnimation(
+            CustomerAnimationState.Walk
+        );
+
+        if (animator != null)
+        {
+            animator.SetFloat(
+                "Speed",
+                1.0f
+            );
+
+            animator.CrossFade(
+                "Base Layer.Walk",
+                0.1f,
+                0
+            );
+
+            float walkTransitionTimer =
+                0.0f;
+
+            // Animatorが実際にWalkへ入るまで、
+            // NavMeshAgentは停止したまま待つ。
+            while (walkTransitionTimer < 1.0f)
+            {
+                AnimatorStateInfo stateInfo =
+                    animator.GetCurrentAnimatorStateInfo(0);
+
+                if (!animator.IsInTransition(0) &&
+                    stateInfo.IsName("Base Layer.Walk"))
+                {
+                    break;
+                }
+
+                walkTransitionTimer +=
+                    Time.deltaTime;
+
+                yield return null;
+            }
         }
 
         isWaiting =
@@ -1468,6 +1690,11 @@ public class Customer : MonoBehaviour
         float radius)
     {
 
+        ReleaseActionPointReservation();
+
+        hasMoveDestination =
+            false;
+
         if (corner == null ||
             agent == null)
         {
@@ -1528,6 +1755,18 @@ public class Customer : MonoBehaviour
                             actionHit.position
                         );
 
+                        moveDestination =
+                            actionHit.position;
+
+                        hasMoveDestination =
+                            true;
+
+                        stuckTimer =
+                            0.0f;
+
+                        lastMoveCheckPosition =
+                            transform.position;
+
                         return;
                     }
                     else
@@ -1545,6 +1784,10 @@ public class Customer : MonoBehaviour
                 );
             }
         }
+
+        // ActionPointまでの経路が作れなかった場合は予約を解放し、
+        // コーナー周辺のランダム地点を探す。
+        ReleaseActionPointReservation();
         //else
         //{
         //    //Debug.LogWarning(
@@ -1603,6 +1846,18 @@ public class Customer : MonoBehaviour
                         hit.position
                     );
 
+                    moveDestination =
+                        hit.position;
+
+                    hasMoveDestination =
+                        true;
+
+                    stuckTimer =
+                        0.0f;
+
+                    lastMoveCheckPosition =
+                        transform.position;
+
                     return;
                 }
             }
@@ -1634,6 +1889,10 @@ public class Customer : MonoBehaviour
             return null;
         }
 
+        reservedActionPoints.RemoveWhere(
+            point => point == null
+        );
+
         Transform[] children =
             corner.GetComponentsInChildren<Transform>();
 
@@ -1659,6 +1918,12 @@ public class Customer : MonoBehaviour
                 continue;
             }
 
+            // ほかのお客さんが使用中の場所は選ばない。
+            if (reservedActionPoints.Contains(child))
+            {
+                continue;
+            }
+
             actionPoints.Add(child);
         }
 
@@ -1673,7 +1938,8 @@ public class Customer : MonoBehaviour
                     continue;
                 }
 
-                if (child.name.Contains("ActionPoint"))
+                if (child.name.Contains("ActionPoint") &&
+                    !reservedActionPoints.Contains(child))
                 {
                     actionPoints.Add(child);
                 }
@@ -1694,7 +1960,40 @@ public class Customer : MonoBehaviour
         currentActionPoint =
             actionPoints[randomIndex];
 
+        reservedActionPoint =
+            currentActionPoint;
+
+        reservedActionPoints.Add(
+            reservedActionPoint
+        );
+
         return currentActionPoint;
+    }
+
+
+    // ========================================
+    // 使用中のActionPoint予約を解放
+    // ========================================
+
+    private void ReleaseActionPointReservation()
+    {
+        if (reservedActionPoint == null)
+        {
+            return;
+        }
+
+        reservedActionPoints.Remove(
+            reservedActionPoint
+        );
+
+        reservedActionPoint =
+            null;
+    }
+
+
+    private void OnDisable()
+    {
+        ReleaseActionPointReservation();
     }
 
 
@@ -2030,6 +2329,8 @@ public class Customer : MonoBehaviour
         {
             IsCaught =
                 true;
+
+            ReleaseActionPointReservation();
 
 
             isWaiting =
