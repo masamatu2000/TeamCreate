@@ -9,7 +9,6 @@ public class PoliceController : MonoBehaviour
 {
     [SerializeField] private VoiceRecognizer voiceRecognizer;
     [SerializeField] private NavMeshAgent agent;
-    [SerializeField] private CaptureConfirmUI confirmUI;
 
     [Header("各コーナーの移動先")]
     [SerializeField] private Transform fishCorner;
@@ -42,12 +41,6 @@ public class PoliceController : MonoBehaviour
     // コーナーへ移動中かどうか
     private bool isMovingToCorner;
 
-    // 確認中のお客さん
-    private Customer confirmCustomer;
-
-    // 「はい」「いいえ」の返事を待っているか
-    private bool isWaitingForConfirmation;
-
     [SerializeField]
     private PlaySceneManager playSceneManager;
 
@@ -57,9 +50,6 @@ public class PoliceController : MonoBehaviour
         if (voiceRecognizer != null)
         {
             voiceRecognizer.OnCommandRecognized += ExecuteCommand;
-
-            // 「はい」「いいえ」の認識結果を受け取る
-            voiceRecognizer.OnConfirmationRecognized += ConfirmCapture;
         }
         else
         {
@@ -134,16 +124,6 @@ public class PoliceController : MonoBehaviour
             StopPolice();
             return;
         }
-        // 捕獲確認中は新しい通常命令を受け付けない
-        if (isWaitingForConfirmation)
-        {
-            Debug.Log(
-                "現在捕獲確認中です。「はい」か「いいえ」と話してください"
-            );
-
-            return;
-        }
-
         if (!command.isCaptureCommand)
         {
             Debug.Log(
@@ -403,94 +383,8 @@ public class PoliceController : MonoBehaviour
         }
 
 
-        // ========================================
-        // 確認UI
-        // ========================================
-
-        if (confirmUI == null)
-        {
-            Debug.LogError(
-                "CaptureConfirmUIが設定されていません"
-            );
-
-            return;
-        }
-
-
-        confirmCustomer =
-            nearestCustomer;
-
-        isWaitingForConfirmation =
-            true;
-
-
-        confirmUI.Show(
-            confirmCustomer
-        );
-
-
-        Debug.Log(
-            confirmCustomer.name +
-            "を捕獲候補にしました"
-        );
-    }
-
-    /// <summary>
-    /// 「はい」「いいえ」の音声認識結果を受け取る
-    /// </summary>
-    private void ConfirmCapture(
-        bool isYes)
-    {
-        // 確認待ち状態ではない場合
-        if (!isWaitingForConfirmation)
-        {
-            return;
-        }
-
-        // お客さんが存在しない場合
-        if (confirmCustomer == null)
-        {
-            Debug.LogWarning(
-                "確認対象のお客さんが存在しません"
-            );
-
-            isWaitingForConfirmation =
-                false;
-
-            confirmUI?.Hide();
-
-            return;
-        }
-
-        if (isYes)
-        {
-            Debug.Log(
-                "捕獲を決定しました"
-            );
-
-            CatchCustomer(
-                confirmCustomer
-            );
-        }
-        else
-        {
-            Debug.Log(
-                confirmCustomer.name +
-                "の捕獲をキャンセルしました"
-            );
-        }
-
-        // 確認画面を閉じる
-        if (confirmUI != null)
-        {
-            confirmUI.Hide();
-        }
-
-        // 確認状態を解除
-        confirmCustomer = null;
-
-        isWaitingForConfirmation =
-            false;
+        Debug.Log(nearestCustomer.name + "を捕獲します");
+        CatchCustomer(nearestCustomer);
     }
 
     /// <summary>
@@ -516,7 +410,7 @@ public class PoliceController : MonoBehaviour
             customer.Catch();
         }
     }
-    
+
     private void OnDestroy()
     {
         if (voiceRecognizer != null)
@@ -524,8 +418,6 @@ public class PoliceController : MonoBehaviour
             voiceRecognizer.OnCommandRecognized
                 -= ExecuteCommand;
 
-            voiceRecognizer.OnConfirmationRecognized
-                -= ConfirmCapture;
         }
     }
 

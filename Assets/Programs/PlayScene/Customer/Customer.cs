@@ -5,7 +5,7 @@ using System.Collections;
 using System.Collections.Generic;
 
 // ========================================
-// �A�j���[�V�������
+// アニメーション状態
 // ========================================
 public enum CustomerAnimationState
 {
@@ -19,16 +19,16 @@ public enum CustomerAnimationState
 }
 
 /// <summary>
-/// ���q����1�l���̏���
+/// お客さん1人分の動作を管理する
 /// </summary>
 [RequireComponent(typeof(NavMeshAgent))]
 public class Customer : MonoBehaviour
 {
     // ========================================
-    // �ړ��ݒ�
+    // 移動設定
     // ========================================
 
-    [Header("�ړ��ݒ�")]
+    [Header("移動設定")]
 
     [SerializeField]
     private float moveRadius = 5.0f;
@@ -43,10 +43,10 @@ public class Customer : MonoBehaviour
 
 
     // ========================================
-    // NavMesh�����ݒ�
+    // NavMesh検索設定
     // ========================================
 
-    [Header("NavMesh�����ݒ�")]
+    [Header("NavMesh検索設定")]
 
     [SerializeField]
     private float navMeshSampleDistance = 1.0f;
@@ -56,10 +56,10 @@ public class Customer : MonoBehaviour
 
 
     // ========================================
-    // �ړ����x
+    // 移動速度
     // ========================================
 
-    [Header("�ړ����x")]
+    [Header("移動速度")]
 
     [SerializeField]
     private float normalSpeed = 2.0f;
@@ -86,14 +86,14 @@ public class Customer : MonoBehaviour
     [Range(0, 99)]
     private int avoidancePriorityMax = 80;
 
-    [Header("�I�������R�[�i�[�ݒ�")]
+    [Header("大きなコーナーの移動設定")]
 
-    [Tooltip("���َq�E�����R�[�i�[�ŁA�s����ɓ����R�[�i�[���̕ʒI�ֈړ�����m��")]
+    [Tooltip("お菓子・飲料コーナーで、同じコーナー内の別の場所へ移動する確率")]
     [Range(0.0f, 1.0f)]
     [SerializeField]
     private float stayInLargeCornerRate = 0.6f;
 
-    // ���݌������Ă���ActionPoint
+    // 現在使用しているActionPoint
     private Transform currentActionPoint;
 
     private Transform reservedActionPoint;
@@ -101,10 +101,10 @@ public class Customer : MonoBehaviour
     private static readonly HashSet<Transform> reservedActionPoints =
         new HashSet<Transform>();
     // ========================================
-    // �s�R�s���m��
+    // 不審行動の確率
     // ========================================
 
-    [Header("�s�R�s���m��")]
+    [Header("不審行動の確率")]
 
     [Range(0.0f, 1.0f)]
     [SerializeField]
@@ -116,10 +116,10 @@ public class Customer : MonoBehaviour
 
 
     // ========================================
-    // �e�R�[�i�[
+    // 各コーナー
     // ========================================
 
-    [Header("�e�R�[�i�[")]
+    [Header("各コーナー")]
 
     [SerializeField]
     private Transform fishCorner;
@@ -147,10 +147,10 @@ public class Customer : MonoBehaviour
 
 
     // ========================================
-    // �D�_�ݒ�
+    // 泥棒設定
     // ========================================
 
-    [Header("�D�_�ݒ�")]
+    [Header("泥棒設定")]
 
     [SerializeField]
     private Transform police;
@@ -158,16 +158,16 @@ public class Customer : MonoBehaviour
     [SerializeField]
     private float escapeDistance = 8.0f;
 
-    [Tooltip("�D�_����������A���̃R�[�i�[���œ����͈�")]
+    [Tooltip("警備員が近づいたら、現在のコーナーから逃げる距離")]
     [SerializeField]
     private float thiefMoveRadius = 2.0f;
 
 
     // ========================================
-    // ���q������
+    // お客さんの特徴
     // ========================================
 
-    [Header("���q������")]
+    [Header("お客さんの特徴")]
 
     [SerializeField]
     private CustomerColor clothesColor;
@@ -187,10 +187,10 @@ public class Customer : MonoBehaviour
 
 
     // ========================================
-    // �A�j���[�V����
+    // アニメーション
     // ========================================
 
-    [Header("�A�j���[�V����")]
+    [Header("アニメーション")]
 
     [SerializeField]
     private Animator animator;
@@ -211,7 +211,7 @@ public class Customer : MonoBehaviour
 
 
     // ========================================
-    // ���̑�
+    // その他
     // ========================================
 
     [SerializeField]
@@ -219,7 +219,7 @@ public class Customer : MonoBehaviour
 
 
     // ========================================
-    // ���J���
+    // 公開プロパティ
     // ========================================
 
     public bool IsThief => isThief;
@@ -228,7 +228,7 @@ public class Customer : MonoBehaviour
 
 
     // ========================================
-    // �����ϐ�
+    // 内部変数
     // ========================================
 
     private NavMeshAgent agent;
@@ -346,7 +346,7 @@ public class Customer : MonoBehaviour
 
 
         // ========================================
-        // �ŏ��̖ړI�n
+        // 最初の目的地
         // ========================================
 
         if (isThief)
@@ -363,7 +363,7 @@ public class Customer : MonoBehaviour
 
 
         // ========================================
-        // �J�E���g�_�E�����Ȃ��~
+        // ゲーム開始前は動かさない
         // ========================================
 
         if (playSceneManager != null &&
@@ -385,7 +385,7 @@ public class Customer : MonoBehaviour
 
 
     // ========================================
-    // Rigidbody�Œ�
+    // Rigidbody固定
     // ========================================
 
     private void FreezeCustomer()
@@ -436,7 +436,7 @@ public class Customer : MonoBehaviour
 
 
         // ========================================
-        // �Q�[���J�n�O
+        // ゲーム開始前
         // ========================================
 
         if (!isGameStarted)
@@ -455,7 +455,7 @@ public class Customer : MonoBehaviour
 
 
         // ========================================
-        // �Q�[���J�n�u��
+        // ゲーム開始直後
         // ========================================
 
         if (!wasGameStarted)
@@ -477,7 +477,7 @@ public class Customer : MonoBehaviour
 
 
         // ========================================
-        // �ߊl�ς�
+        // 捕獲済み
         // ========================================
 
         if (IsCaught)
@@ -489,7 +489,7 @@ public class Customer : MonoBehaviour
 
 
         // ========================================
-        // �L�����L������
+        // 見回し中
         // ========================================
 
         if (isLookingAround)
@@ -503,7 +503,7 @@ public class Customer : MonoBehaviour
 
 
         // ========================================
-        // ���i������E���
+        // 商品を取る・待機中
         // ========================================
 
         if (isWaiting)
@@ -517,14 +517,14 @@ public class Customer : MonoBehaviour
 
 
         // ========================================
-        // �ʏ�ړ�
+        // 通常移動
         // ========================================
 
         ResumeAgent();
 
 
         // ========================================
-        // �D�_���x�������瓦����
+        // 泥棒は警備員との距離を確認
         // ========================================
 
         if (isThief &&
@@ -535,7 +535,7 @@ public class Customer : MonoBehaviour
 
 
         // ========================================
-        // �o�H�v�Z��
+        // 経路の計算中
         // ========================================
 
         if (agent.pathPending)
@@ -559,7 +559,7 @@ public class Customer : MonoBehaviour
 
 
         // ========================================
-        // �ړI�n��������
+        // 目的地への到着確認
         // ========================================
 
         Vector3 destinationOffset =
@@ -693,7 +693,7 @@ public class Customer : MonoBehaviour
 
 
     // ========================================
-    // NavMeshAgent��~
+    // NavMeshAgent停止
     // ========================================
 
     private void StopAgent()
@@ -714,7 +714,7 @@ public class Customer : MonoBehaviour
 
 
     // ========================================
-    // NavMeshAgent�ĊJ
+    // NavMeshAgent再開
     // ========================================
 
     private void ResumeAgent()
@@ -732,7 +732,7 @@ public class Customer : MonoBehaviour
 
 
     // ========================================
-    // �A�j���[�V�����X�V
+    // アニメーション更新
     // ========================================
 
     private void UpdateAnimation()
@@ -745,7 +745,7 @@ public class Customer : MonoBehaviour
 
 
         // ========================================
-        // �ߊl�ς�
+        // 捕獲済み
         // ========================================
 
         if (IsCaught)
@@ -765,7 +765,7 @@ public class Customer : MonoBehaviour
 
 
         // ========================================
-        // �Q�[���J�n�O
+        // ゲーム開始前
         // ========================================
 
         if (playSceneManager != null &&
@@ -781,7 +781,7 @@ public class Customer : MonoBehaviour
 
 
         // ========================================
-        // ���i�擾��
+        // 商品を取る動作
         // ========================================
 
         if (isWaiting)
@@ -796,7 +796,7 @@ public class Customer : MonoBehaviour
 
 
         // ========================================
-        // �L�����L������
+        // 見回し中
         // ========================================
 
         if (isLookingAround)
@@ -811,7 +811,7 @@ public class Customer : MonoBehaviour
 
 
         // ========================================
-        // �ʏ���
+        // 通常移動
         // ========================================
 
         // ゲーム開始後、行動中でなければ必ずWalk。
@@ -828,7 +828,7 @@ public class Customer : MonoBehaviour
 
 
     // ========================================
-    // ����A�j���[�V�����؂�ւ�
+    // 状態に応じたアニメーション切り替え
     // ========================================
 
     private void SetAnimation(
@@ -859,7 +859,7 @@ public class Customer : MonoBehaviour
 
 
     // ========================================
-    // �ʏ푬�x�ݒ�
+    // 通常の移動速度設定
     // ========================================
 
     private void SetMoveSpeed()
@@ -894,7 +894,7 @@ public class Customer : MonoBehaviour
 
 
     // ========================================
-    // �ړI�n����
+    // 目的地の設定
     // ========================================
 
     private void StartWaiting()
@@ -932,8 +932,8 @@ public class Customer : MonoBehaviour
 
 
         // ========================================
-        // ��ʋq 10%
-        // �D�_   30%
+        // 一般客 10%
+        // 泥棒 30%
         // ========================================
 
         CustomerAnimationState actionState =
@@ -1126,7 +1126,7 @@ public class Customer : MonoBehaviour
 
 
     // ========================================
-    // �ʏ�s��
+    // 通常行動
     // ========================================
 
     private void StartNormalAction()
@@ -1148,14 +1148,14 @@ public class Customer : MonoBehaviour
 
 
         //Debug.Log(
-        //    $"{gameObject.name}�F" +
-        //    "�ʏ�s�� �� ���i������"
+        //    "{gameObject.name}：" +
+        //    "通常行動：商品を取る"
         //);
     }
 
 
     // ========================================
-    // �s�R�s��
+    // 不審行動
     // ========================================
 
     private void StartSuspiciousAction()
@@ -1170,7 +1170,7 @@ public class Customer : MonoBehaviour
         switch (randomAction)
         {
             // ========================================
-            // ���Ⴊ��ŋ���
+            // しゃがんで商品を取る
             // ========================================
 
             case 0:
@@ -1192,15 +1192,15 @@ public class Customer : MonoBehaviour
 
 
                 //Debug.Log(
-                //    $"{gameObject.name}�F" +
-                //    "�s�R�s�� �� ���Ⴊ��ŋ���"
+                //    "{gameObject.name}：" +
+                //    "不審行動：しゃがんで商品を取る"
                 //);
 
                 break;
 
 
             // ========================================
-            // �L�����L����
+            // 周囲を見回す
             // ========================================
 
             case 1:
@@ -1215,15 +1215,15 @@ public class Customer : MonoBehaviour
 
 
                 //Debug.Log(
-                //    $"{gameObject.name}�F" +
-                //    "�s�R�s�� �� �L�����L����"
+                //    "{gameObject.name}：" +
+                //    "不審行動：周囲を見回す"
                 //);
 
                 break;
 
 
             // ========================================
-            // ������
+            // 早歩き
             // ========================================
 
             case 2:
@@ -1234,8 +1234,8 @@ public class Customer : MonoBehaviour
 
 
                 //Debug.Log(
-                //    $"{gameObject.name}�F" +
-                //    "�s�R�s�� �� ������"
+                //    "{gameObject.name}：" +
+                //    "不審行動：早歩き"
                 //);
 
                 break;
@@ -1244,7 +1244,7 @@ public class Customer : MonoBehaviour
 
 
     // ========================================
-    // ���i�擾��
+    // 商品を取る動作中
     // ========================================
 
     private void Wait()
@@ -1269,7 +1269,7 @@ public class Customer : MonoBehaviour
 
 
     // ========================================
-    // �L�����L����
+    // 周囲を見回す
     // ========================================
 
     private IEnumerator LookAroundBeforeMove()
@@ -1306,7 +1306,7 @@ public class Customer : MonoBehaviour
 
 
     // ========================================
-    // �s�R�ȑ�����
+    // 不審な早歩き
     // ========================================
 
     private IEnumerator SuspiciousFastWalk()
@@ -1327,7 +1327,7 @@ public class Customer : MonoBehaviour
 
 
         // ========================================
-        // ���̏ꏊ��ݒ�
+        // 次の行き先を設定
         // ========================================
 
         if (isThief)
@@ -1358,11 +1358,11 @@ public class Customer : MonoBehaviour
 
 
     // ========================================
-    // �s���I����
+    // 行動終了後
     // ========================================
 
     // ========================================
-    // �s���I����
+    // 行動終了後
     // ========================================
 
     private void MoveAfterWaiting()
@@ -1389,7 +1389,7 @@ public class Customer : MonoBehaviour
 
 
         // ========================================
-        // �D�_
+        // 泥棒
         // ========================================
 
         if (isThief)
@@ -1403,9 +1403,9 @@ public class Customer : MonoBehaviour
 
 
         // ========================================
-        // �I�������R�[�i�[�̏ꍇ
+        // 大きなコーナーの場合
         //
-        // ���َq / ����
+        // お菓子・飲料
         // ========================================
 
         bool isLargeCorner =
@@ -1416,8 +1416,8 @@ public class Customer : MonoBehaviour
         if (isLargeCorner)
         {
             // ========================================
-            // ���m����
-            // �����R�[�i�[�̕ʒI������
+            // 一定の確率で
+            // 同じコーナーの別の場所に移動
             // ========================================
 
             if (Random.value <
@@ -1436,7 +1436,7 @@ public class Customer : MonoBehaviour
 
 
         // ========================================
-        // �ʂ̃R�[�i�[�ֈړ�
+        // 別のコーナーへ移動
         // ========================================
 
         MoveToRandomCorner();
@@ -1446,7 +1446,7 @@ public class Customer : MonoBehaviour
 
 
     // ========================================
-    // �Q�[���J�n���̏����z�u
+    // ゲーム開始時の初期配置
     // ========================================
 
     private void PlaceAtRandomCorner()
@@ -1455,8 +1455,8 @@ public class Customer : MonoBehaviour
             corners.Length == 0)
         {
             Debug.LogWarning(
-                $"{gameObject.name}�F" +
-                "�R�[�i�[���ݒ肳��Ă��܂���"
+                $"{gameObject.name}：" +
+                "コーナーが設定されていません"
             );
 
             return;
@@ -1563,15 +1563,15 @@ public class Customer : MonoBehaviour
 
 
         Debug.LogError(
-            $"{gameObject.name}�F" +
-            "���ׂẴR�[�i�[�Ŕz�u�Ɏ��s���܂���"
+            $"{gameObject.name}：" +
+            "すべてのコーナーで配置に失敗しました"
         );
     }
 
 
     // ========================================
-    // ��ʋq
-    // �ʃR�[�i�[��
+    // 一般客
+    // 別のコーナーへ
     // ========================================
 
     private void MoveToRandomCorner()
@@ -1605,7 +1605,7 @@ public class Customer : MonoBehaviour
 
 
     // ========================================
-    // ���݂Ƃ͈Ⴄ�R�[�i�[
+    // 現在とは異なるコーナー
     // ========================================
 
     private Transform GetRandomDifferentCorner()
@@ -1682,7 +1682,7 @@ public class Customer : MonoBehaviour
 
 
     // ========================================
-    // �w��R�[�i�[�ֈړ�
+    // 指定コーナーへ移動
     // ========================================
 
     private void SetDestinationAroundCorner(
@@ -1705,14 +1705,14 @@ public class Customer : MonoBehaviour
         if (!agent.isOnNavMesh)
         {
             Debug.LogWarning(
-                $"{gameObject.name} ��NavMesh��ɂ��܂���"
+                $"{gameObject.name} はNavMesh上にいません"
             );
 
             return;
         }
 
         // ========================================
-        // ActionPoint��D��
+        // ActionPointを優先
         // ========================================
 
         Transform actionPoint =
@@ -1772,7 +1772,7 @@ public class Customer : MonoBehaviour
                     else
                     {
                         Debug.LogWarning(
-                            $"{actionPoint.name} �܂ł̌o�H���s���S�ł�"
+                            $"{actionPoint.name} までの経路が不完全です"
                         );
                     }
                 }
@@ -1780,7 +1780,7 @@ public class Customer : MonoBehaviour
             else
             {
                 Debug.LogWarning(
-                    $"{actionPoint.name} �̋߂���NavMesh������܂���"
+                    $"{actionPoint.name} の近くにNavMeshがありません"
                 );
             }
         }
@@ -1791,13 +1791,13 @@ public class Customer : MonoBehaviour
         //else
         //{
         //    //Debug.LogWarning(
-        //    //    $"{corner.name} ��ActionPoint��������܂���"
+        //    "{corner.name} にActionPointが見つかりません"
         //    //);
         //}
 
 
         // ========================================
-        // ActionPoint���Ȃ��ꍇ�͏]������
+        // ActionPointに行けない場合は周辺へ移動
         // ========================================
 
         for (int i = 0;
@@ -1865,19 +1865,19 @@ public class Customer : MonoBehaviour
 
 
         Debug.LogWarning(
-            $"{gameObject.name}�F" +
-            $"{corner.name}���ӂɈړ��悪������܂���ł���"
+            $"{gameObject.name}：" +
+            $"{corner.name}周辺に移動先が見つかりませんでした"
         );
     }
 
 
     // ========================================
-    // ActionPoint�擾
+    // ActionPoint取得
     // ========================================
 
     // ========================================
-    // �R�[�i�[���̒�~�|�C���g���擾
-    // �O��ƈႤActionPoint��D�悷��
+    // コーナー内の移動先を取得
+    // 前回と異なるActionPointを優先
     // ========================================
 
     private Transform GetRandomActionPoint(
@@ -1911,8 +1911,8 @@ public class Customer : MonoBehaviour
                 continue;
             }
 
-            // ActionPoint����������ꍇ��
-            // �O��Ɠ����ꏊ�����O
+            // ActionPointが設定されている場合は
+            // 前回と同じ場所を除外
             if (child == currentActionPoint)
             {
                 continue;
@@ -1927,8 +1927,8 @@ public class Customer : MonoBehaviour
             actionPoints.Add(child);
         }
 
-        // �O��ƈႤ�ꏊ���Ȃ������ꍇ
-        // �����ꏊ�ł������̂ōĎ擾
+        // 前回と異なる場所がない場合は
+        // 同じ場所も候補にして再取得
         if (actionPoints.Count == 0)
         {
             foreach (Transform child in children)
@@ -1998,8 +1998,8 @@ public class Customer : MonoBehaviour
 
 
     // ========================================
-    // �D�_
-    // ���݃R�[�i�[��
+    // 泥棒
+    // 現在のコーナー周辺へ移動
     // ========================================
 
     private void SetDestinationAroundCurrentCorner()
@@ -2024,7 +2024,7 @@ public class Customer : MonoBehaviour
 
 
     // ========================================
-    // �x�����Ƃ̋���
+    // 警備員との距離
     // ========================================
 
     private void CheckPoliceDistance()
@@ -2051,7 +2051,7 @@ public class Customer : MonoBehaviour
 
 
     // ========================================
-    // �D�_����
+    // 泥棒の逃走
     // ========================================
 
     private void EscapeFromPolice()
@@ -2112,7 +2112,7 @@ public class Customer : MonoBehaviour
 
 
     // ========================================
-    // �x��������ł������R�[�i�[
+    // 警備員から最も遠いコーナー
     // ========================================
 
     private Transform GetFarthestCornerFromPolice()
@@ -2172,7 +2172,7 @@ public class Customer : MonoBehaviour
 
 
     // ========================================
-    // �Ŋ��R�[�i�[
+    // 最も近いコーナー
     // ========================================
 
     private Transform FindNearestCorner()
@@ -2218,7 +2218,7 @@ public class Customer : MonoBehaviour
 
 
     // ========================================
-    // �D�_�ݒ�
+    // 泥棒設定
     // ========================================
 
     public void SetThief(
@@ -2235,20 +2235,20 @@ public class Customer : MonoBehaviour
 
 
         Debug.Log(
-            $"{gameObject.name} �D�_�ݒ�F{isThief}"
+            $"{gameObject.name} 泥棒設定：{isThief}"
         );
     }
 
 
     // ========================================
-    // ������v
+    // 音声命令との特徴照合
     // ========================================
 
     public bool Matches(
      VoiceCommand command)
     {
         // ========================================
-        // ���̐F
+        // 服の色
         // ========================================
 
         if (command.clothesColor !=
@@ -2261,18 +2261,18 @@ public class Customer : MonoBehaviour
 
 
         // ========================================
-        // �X�q
+        // 帽子
         // ========================================
 
         if (command.requiresHat)
         {
-            // �X�q�����Ԃ��Ă��Ȃ�
+            // 帽子をかぶっていない
             if (!wearsHat)
             {
                 return false;
             }
 
-            // �X�q�̐F�܂Ŏw�肳��Ă���
+            // 帽子の色まで指定されている
             if (command.hatColor !=
                     CustomerColor.None &&
                 hatColor !=
@@ -2284,7 +2284,7 @@ public class Customer : MonoBehaviour
 
 
         // ========================================
-        // ���K�l
+        // 眼鏡
         // ========================================
 
         if (command.requiresGlasses &&
@@ -2295,7 +2295,7 @@ public class Customer : MonoBehaviour
 
 
         // ========================================
-        // �o�b�O
+        // バッグ
         // ========================================
 
         if (command.requiresBag &&
@@ -2310,7 +2310,7 @@ public class Customer : MonoBehaviour
 
 
     // ========================================
-    // �ߊl
+    // 捕獲
     // ========================================
 
     public void Catch()
@@ -2322,7 +2322,7 @@ public class Customer : MonoBehaviour
 
 
         // ========================================
-        // �D�_
+        // 泥棒
         // ========================================
 
         if (IsThief)
@@ -2355,7 +2355,7 @@ public class Customer : MonoBehaviour
 
 
             Debug.Log(
-                $"{gameObject.name} �͓D�_�ł����I�m�ې����I"
+                $"{gameObject.name} は泥棒でした！確保成功！"
             );
 
 
@@ -2372,11 +2372,11 @@ public class Customer : MonoBehaviour
 
 
         // ========================================
-        // ��ʋq
+        // 一般客
         // ========================================
 
         Debug.Log(
-            $"{gameObject.name} �͈�ʋq�ł��I��F�ߕ߁I"
+            $"{gameObject.name} は一般客です！誤認逮捕！"
         );
 
 
