@@ -186,7 +186,7 @@ public class TutorialCustomer : MonoBehaviour
         // ------------------------------------------
 
         animator.SetTrigger(
-            "CrouchPick"
+            "Pick Row"
         );
 
         yield return new WaitForSeconds(
