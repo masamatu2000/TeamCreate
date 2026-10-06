@@ -1,33 +1,118 @@
+using System.Collections;
+using TMPro;
 using UnityEngine;
 using UnityEngine.AI;
 
 /// <summary>
-/// 捕獲対象のお客さんを確認画面用に表示する
+/// 捕獲したお客さんを一時的に表示する
 /// </summary>
 public class CustomerPreview : MonoBehaviour
 {
+    [Header("Preview")]
     [SerializeField]
     private Transform previewPoint;
 
+    [SerializeField]
+    private GameObject previewPanel;
+
+    [SerializeField]
+    private TMP_Text resultText;
+
+    [SerializeField]
+    private float displayTime = 2.5f;
+    [SerializeField]
+    private RenderTexture previewTexture;
+
     private GameObject previewObject;
 
-    /// <summary>
-    /// 指定したお客さんを確認画面に表示する
-    /// </summary>
-    public void Show(Customer customer)
+    private Coroutine previewCoroutine;
+    private void Start()
     {
+        if (previewPanel != null)
+        {
+            previewPanel.SetActive(false);
+        }
+    }
+
+    /// <summary>
+    /// 指定したお客さんを表示
+    /// </summary>
+    public void Show(
+     Customer customer,
+     bool isThief
+ )
+    {
+        Debug.Log("CustomerPreview.Show が呼ばれました！");
+
+        if (customer == null)
+        {
+            Debug.LogError("customer が null です！");
+            return;
+        }
+
+        if (previewPanel == null)
+        {
+            Debug.LogError("previewPanel が設定されていません！");
+            return;
+        }
+
         if (customer == null)
         {
             return;
         }
 
+        if (previewCoroutine != null)
+        {
+            StopCoroutine(
+                previewCoroutine
+            );
+
+            Clear();
+
+            if (previewPanel != null)
+            {
+                previewPanel.SetActive(false);
+            }
+        }
+
+        previewCoroutine =
+            StartCoroutine(
+                ShowRoutine(
+                    customer,
+                    isThief
+                )
+            );
+    }
+
+
+    private IEnumerator ShowRoutine(
+     Customer customer,
+     bool isThief
+         )
+    {
+
         Clear();
 
-        previewObject = Instantiate(
-            customer.gameObject,
-            previewPoint.position,
-            previewPoint.rotation
-        );
+        // 捕まえた時だけ表示
+        if (previewPanel != null)
+        {
+            previewPanel.SetActive(true);
+        }
+
+        if (resultText != null)
+        {
+            resultText.text =
+                isThief
+                ? "泥棒だった！"
+                : "お客さんだった…";
+        }
+
+        previewObject =
+            Instantiate(
+                customer.gameObject,
+                previewPoint.position,
+                previewPoint.rotation
+            );
 
         previewObject.transform.SetParent(
             previewPoint
@@ -39,7 +124,7 @@ public class CustomerPreview : MonoBehaviour
         previewObject.transform.localRotation =
             Quaternion.identity;
 
-        // Customer停止
+
         Customer previewCustomer =
             previewObject.GetComponent<Customer>();
 
@@ -48,7 +133,7 @@ public class CustomerPreview : MonoBehaviour
             previewCustomer.enabled = false;
         }
 
-        // NavMeshAgent停止
+
         NavMeshAgent previewAgent =
             previewObject.GetComponent<NavMeshAgent>();
 
@@ -57,7 +142,7 @@ public class CustomerPreview : MonoBehaviour
             previewAgent.enabled = false;
         }
 
-        // Rigidbody停止
+
         Rigidbody previewRigidbody =
             previewObject.GetComponent<Rigidbody>();
 
@@ -75,25 +160,52 @@ public class CustomerPreview : MonoBehaviour
             previewRigidbody.isKinematic =
                 true;
         }
+
+
         Animator[] animators =
-    previewObject.GetComponentsInChildren<Animator>(true);
+            previewObject.GetComponentsInChildren<Animator>(
+                true
+            );
 
         foreach (Animator animator in animators)
         {
             animator.applyRootMotion = false;
-            //animator.enabled = false;
         }
-    }
+
+
+        // 数秒待つ
+        yield return new WaitForSeconds(
+            displayTime
+        );
+
+
+        // Customerコピー削除
+        Clear();
+
+
+        // UIも消す
+        if (previewPanel != null)
+        {
+            previewPanel.SetActive(false);
+        }
+
+        previewCoroutine = null;
+    } 
+
 
     /// <summary>
-    /// 確認用のお客さんを削除する
+    /// 確認用Customer削除
     /// </summary>
     public void Clear()
     {
         if (previewObject != null)
         {
-            Destroy(previewObject);
-            previewObject = null;
+            Destroy(
+                previewObject
+            );
+
+            previewObject =
+                null;
         }
     }
 }

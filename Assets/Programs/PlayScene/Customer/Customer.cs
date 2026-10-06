@@ -416,7 +416,7 @@ public class Customer : MonoBehaviour
         rb.constraints =
             RigidbodyConstraints.FreezeRotation;
     }
-
+  
 
     // ========================================
     // Update

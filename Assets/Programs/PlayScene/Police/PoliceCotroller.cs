@@ -31,6 +31,9 @@ public class PoliceController : MonoBehaviour
     [SerializeField]
     private GameObject idlePolice;
 
+    [Header("捕獲結果UI")]
+    [SerializeField]
+    private CustomerPreview customerPreview;
     [SerializeField]
     private GameObject walkPolice;
     // 移動後に使う命令
@@ -395,6 +398,15 @@ public class PoliceController : MonoBehaviour
         if (customer == null)
         {
             return;
+        }
+
+        // 捕獲結果を表示
+        if (customerPreview != null)
+        {
+            customerPreview.Show(
+                customer,
+                customer.IsThief
+            );
         }
 
         if (customer.IsThief)

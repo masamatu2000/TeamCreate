@@ -307,7 +307,7 @@ public class TutorialSceneManager : MonoBehaviour
 
         missionDescriptionText.text =
             "どちらかが泥棒！\n" +
-            "きょろきょろしている、\n\n" +
+            "きょろきょろしている、\n" +
             "しゃがみこんでいる人は怪しいぞ！";
 
         // 一般客と泥棒の2人が見える位置へ移動
@@ -483,7 +483,7 @@ public class TutorialSceneManager : MonoBehaviour
             );
 
         missionDescriptionText.text =
-            "ボタンを押しながら\n" +
+            "スペースキーを押しながら\n" +
             $"「{cornerName}」\n" +
             "と言ってみよう！";
 
@@ -797,7 +797,7 @@ public class TutorialSceneManager : MonoBehaviour
 
 
         missionDescriptionText.text =
-            "確保成功！\n\n" +
+            "確保成功！\n" +
             "これでチュートリアルは完了！\n" +
             "本番でも泥棒を見逃さないようにしよう！";
 

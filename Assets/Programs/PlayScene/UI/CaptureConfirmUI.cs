@@ -30,7 +30,10 @@ public class CaptureConfirmUI : MonoBehaviour
         // お客さんの3Dプレビューを表示
         if (customerPreview != null)
         {
-            customerPreview.Show(customer);
+            customerPreview.Show(
+      customer,
+      customer.IsThief
+  );
         }
 
         // 確認画面を表示
