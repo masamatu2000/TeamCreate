@@ -3,6 +3,7 @@ using TMPro;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.UI;
+using UnityEngine.SceneManagement;
 
 public class TutorialSceneManager : MonoBehaviour
 {
@@ -92,7 +93,9 @@ public class TutorialSceneManager : MonoBehaviour
     // =========================================================
     // その他
     // =========================================================
-
+    [Header("Scene")]
+    [SerializeField]
+    private string playSceneName = "PlayScene";
     private bool isCameraMoving = false;
 
     private Transform thiefCorner;
@@ -243,6 +246,9 @@ public class TutorialSceneManager : MonoBehaviour
                 normalCornerIndex
             ]
         );
+        Debug.Log(
+    $"一般客の行き先: {corners[normalCornerIndex].name}"
+);
     }
 
 
@@ -490,7 +496,9 @@ public class TutorialSceneManager : MonoBehaviour
     // 音声認識成功
     // =========================================================
 
-    public void OnCornerVoiceRecognized()
+    public void OnCornerVoiceRecognized(
+    string recognizedText
+)
     {
         if (currentState !=
             TutorialState.CornerMove)
@@ -499,21 +507,37 @@ public class TutorialSceneManager : MonoBehaviour
         }
 
 
+        string correctCorner =
+            GetCurrentThiefCornerName();
+
+
+        // =====================================================
+        // 間違ったコーナー名なら失敗
+        // =====================================================
+
+        if (recognizedText != correctCorner)
+        {
+            missionDescriptionText.text =
+                "そこじゃないぞ！\n" +
+                $"「{correctCorner}」と言ってみよう！";
+
+            return;
+        }
+
+
+        // =====================================================
+        // 正解
+        // =====================================================
+
         currentState =
             TutorialState.Arrest;
 
-
-     
 
         missionDescriptionText.text =
             "警備員が移動を開始した！\n" +
             "泥棒に近づいたら\n" +
             "「捕まえろ！」と言ってみよう！";
 
-
-        // ================================================
-        // 警備員を泥棒のコーナーへ
-        // ================================================
 
         TutorialPoliceController
             policeController =
@@ -707,16 +731,78 @@ public class TutorialSceneManager : MonoBehaviour
         switch (currentState)
         {
             case TutorialState.PoliceIntroduction:
+
                 StartCoroutine(
                     MoveToCustomerIntroduction()
                 );
+
                 break;
 
+
             case TutorialState.CustomerIntroduction:
+
                 StartCoroutine(
                     MoveToVoiceTutorial()
                 );
+
+                break;
+
+
+            case TutorialState.Clear:
+
+                SceneManager.LoadScene(
+                    playSceneName
+                );
+
                 break;
         }
+    }
+    private string GetCurrentThiefCornerName()
+    {
+        return GetCornerDisplayName(
+            thiefCorner
+        );
+    }
+    public void OnArrestVoiceRecognized()
+    {
+        if (currentState != TutorialState.Arrest)
+        {
+            return;
+        }
+
+        float distance =
+            Vector3.Distance(
+                police.transform.position,
+                thiefCustomer.transform.position
+            );
+
+        if (distance > 4.0f)
+        {
+            missionDescriptionText.text =
+                "まだ遠いぞ！\n" +
+                "泥棒の近くまで警備員を移動させよう！";
+
+            return;
+        }
+
+
+        // ==========================================
+        // 捕獲成功
+        // ==========================================
+
+        thiefCustomer.Arrest();
+
+        currentState =
+            TutorialState.Clear;
+
+
+        missionDescriptionText.text =
+            "確保成功！\n\n" +
+            "これでチュートリアルは完了！\n" +
+            "本番でも泥棒を見逃さないようにしよう！";
+
+
+        operationGuideText.text =
+            "Aボタンでゲームスタート！";
     }
 }
