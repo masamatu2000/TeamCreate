@@ -1455,8 +1455,8 @@ MonoBehaviour:
   policeCloseUpPosition: {fileID: 1641565476}
   customerCloseUpPosition: {fileID: 1233538514}
   cameraMoveTime: 1
-  customerCameraHeight: 5
-  customerCameraDistance: 10
+  customerCameraHeight: 8
+  customerCameraDistance: 12
   police: {fileID: 1739514263}
   normalCustomer: {fileID: 1356632424}
   thiefCustomer: {fileID: 642645911}
@@ -1924,7 +1924,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4829125637571551536, guid: 3e8e4112945e6274981ec58390aa4270, type: 3}
       propertyPath: m_LocalPosition.z
-      value: 2.98
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 4829125637571551536, guid: 3e8e4112945e6274981ec58390aa4270, type: 3}
       propertyPath: m_LocalRotation.w
