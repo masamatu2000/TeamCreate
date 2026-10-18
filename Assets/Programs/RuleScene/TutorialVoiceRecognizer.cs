@@ -1,7 +1,10 @@
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
+using System.Runtime.InteropServices;
+
+#if UNITY_STANDALONE_WIN || UNITY_EDITOR_WIN
 using UnityEngine.Windows.Speech;
+#endif
 
 public class TutorialVoiceRecognizer : MonoBehaviour
 {
@@ -9,13 +12,12 @@ public class TutorialVoiceRecognizer : MonoBehaviour
     [SerializeField]
     private TutorialSceneManager tutorialSceneManager;
 
+    [Header("スペースを離した後も結果を受け付ける秒数")]
+    [SerializeField]
+    private float releaseGraceTime = 3.0f;
 
-    private KeywordRecognizer keywordRecognizer;
-
-
-    // =========================================================
-    // チュートリアルで使用する言葉
-    // =========================================================
+    private bool isRadioPressed;
+    private float radioReleasedTime = -999f;
 
     private readonly string[] keywords =
     {
@@ -26,170 +28,194 @@ public class TutorialVoiceRecognizer : MonoBehaviour
         "捕まえろ"
     };
 
+#if UNITY_STANDALONE_WIN || UNITY_EDITOR_WIN
+    private KeywordRecognizer keywordRecognizer;
+#endif
+
+#if UNITY_WEBGL && !UNITY_EDITOR
+    [DllImport("__Internal")]
+    private static extern void WebVoice_Init(string objectName);
+
+    [DllImport("__Internal")]
+    private static extern void WebVoice_Dispose();
+#endif
 
     private void Start()
     {
-        keywordRecognizer =
-            new KeywordRecognizer(
-                keywords,
-                ConfidenceLevel.Medium
+        if (tutorialSceneManager == null)
+        {
+            Debug.LogError(
+                "TutorialSceneManagerが設定されていません。"
             );
+
+            enabled = false;
+            return;
+        }
+
+#if UNITY_STANDALONE_WIN || UNITY_EDITOR_WIN
+        keywordRecognizer = new KeywordRecognizer(
+            keywords,
+            ConfidenceLevel.Medium
+        );
 
         keywordRecognizer.OnPhraseRecognized +=
             OnPhraseRecognized;
-    }
+#endif
 
+#if UNITY_WEBGL && !UNITY_EDITOR
+        WebVoice_Init(gameObject.name);
+#endif
+    }
 
     private void Update()
     {
-        Keyboard keyboard =
-            Keyboard.current;
+        Keyboard keyboard = Keyboard.current;
 
         if (keyboard == null)
         {
             return;
         }
 
-
-        // =====================================================
-        // スペースを押した瞬間
-        // =====================================================
-
         if (keyboard.spaceKey.wasPressedThisFrame)
         {
-            StartRecognition();
+            isRadioPressed = true;
+
+#if UNITY_STANDALONE_WIN || UNITY_EDITOR_WIN
+            if (keywordRecognizer != null &&
+                !keywordRecognizer.IsRunning)
+            {
+                keywordRecognizer.Start();
+            }
+#endif
         }
-
-
-        // =====================================================
-        // スペースを離した瞬間
-        // =====================================================
 
         if (keyboard.spaceKey.wasReleasedThisFrame)
         {
-            StopRecognition();
+            isRadioPressed = false;
+            radioReleasedTime = Time.unscaledTime;
+
+#if UNITY_STANDALONE_WIN || UNITY_EDITOR_WIN
+            if (keywordRecognizer != null &&
+                keywordRecognizer.IsRunning)
+            {
+                keywordRecognizer.Stop();
+            }
+#endif
         }
     }
 
-
-    // =========================================================
-    // 音声認識開始
-    // =========================================================
-
-    private void StartRecognition()
-    {
-        if (keywordRecognizer == null)
-        {
-            return;
-        }
-
-        if (!keywordRecognizer.IsRunning)
-        {
-            keywordRecognizer.Start();
-
-            Debug.Log(
-                "チュートリアル音声認識開始"
-            );
-        }
-    }
-
-
-    // =========================================================
-    // 音声認識停止
-    // =========================================================
-
-    private void StopRecognition()
-    {
-        if (keywordRecognizer == null)
-        {
-            return;
-        }
-
-        if (keywordRecognizer.IsRunning)
-        {
-            keywordRecognizer.Stop();
-
-            Debug.Log(
-                "チュートリアル音声認識停止"
-            );
-        }
-    }
-
-
-    // =========================================================
-    // 認識成功
-    // =========================================================
-
+#if UNITY_STANDALONE_WIN || UNITY_EDITOR_WIN
     private void OnPhraseRecognized(
-        PhraseRecognizedEventArgs args
-    )
+        PhraseRecognizedEventArgs args)
     {
-        string recognizedText =
-            args.text;
+        ProcessRecognizedText(args.text);
+    }
+#endif
 
-        Debug.Log(
-            $"認識成功 : {recognizedText}"
-        );
-
-
-        // =====================================================
-        // 捕まえろ
-        // =====================================================
-
-        if (recognizedText == "捕まえろ")
+    // WebVoice.jslibから呼び出される
+    public void OnWebVoiceResult(string text)
+    {
+        if (!isActiveAndEnabled)
         {
-            // 後で捕獲処理を接続
-            tutorialSceneManager
-                .OnArrestVoiceRecognized();
-
             return;
         }
 
+        bool canAccept =
+            isRadioPressed ||
+            Time.unscaledTime - radioReleasedTime
+                <= releaseGraceTime;
 
-        // =====================================================
-        // コーナー名
-        // =====================================================
-
-        switch (recognizedText)
+        if (!canAccept)
         {
-            case "鮮魚コーナー":
-            case "飲料コーナー":
-            case "お菓子コーナー":
-            case "惣菜コーナー":
+            return;
+        }
 
-                tutorialSceneManager
-                    .OnCornerVoiceRecognized(
-                        recognizedText
-                    );
+        ProcessRecognizedText(text);
+    }
 
-                break;
+    // WebVoice.jslibから呼び出される
+    public void OnWebVoiceError(string message)
+    {
+        Debug.LogWarning(
+            "チュートリアル音声認識：" + message
+        );
+    }
+
+    // Windows版・Web版で共通の命令処理
+    private void ProcessRecognizedText(string text)
+    {
+        if (string.IsNullOrWhiteSpace(text) ||
+            tutorialSceneManager == null)
+        {
+            return;
+        }
+
+        Debug.Log("チュートリアル認識成功：" + text);
+
+        // ブラウザでは句読点や「に行って」などが
+        // 付くことがあるため、含まれているかで判定する
+        if (text.Contains("捕まえろ"))
+        {
+            tutorialSceneManager.OnArrestVoiceRecognized();
+            return;
+        }
+
+        foreach (string keyword in keywords)
+        {
+            if (keyword == "捕まえろ")
+            {
+                continue;
+            }
+
+            if (text.Contains(keyword))
+            {
+                // SceneManagerには正式なコーナー名を渡す
+                tutorialSceneManager.OnCornerVoiceRecognized(
+                    keyword
+                );
+
+                return;
+            }
         }
     }
 
+    private void OnApplicationFocus(bool hasFocus)
+    {
+        if (!hasFocus)
+        {
+            isRadioPressed = false;
+            radioReleasedTime = -999f;
 
-    // =========================================================
-    // 終了処理
-    // =========================================================
+#if UNITY_STANDALONE_WIN || UNITY_EDITOR_WIN
+            if (keywordRecognizer != null &&
+                keywordRecognizer.IsRunning)
+            {
+                keywordRecognizer.Stop();
+            }
+#endif
+        }
+    }
 
     private void OnDestroy()
     {
-        if (keywordRecognizer == null)
+#if UNITY_WEBGL && !UNITY_EDITOR
+        WebVoice_Dispose();
+#endif
+
+#if UNITY_STANDALONE_WIN || UNITY_EDITOR_WIN
+        if (keywordRecognizer != null)
         {
-            return;
-        }
-
-
-        if (keywordRecognizer.IsRunning)
-        {
-            keywordRecognizer.Stop();
-        }
-
-
-        keywordRecognizer
-            .OnPhraseRecognized -=
+            keywordRecognizer.OnPhraseRecognized -=
                 OnPhraseRecognized;
 
+            if (keywordRecognizer.IsRunning)
+            {
+                keywordRecognizer.Stop();
+            }
 
-        keywordRecognizer.Dispose();
+            keywordRecognizer.Dispose();
+            keywordRecognizer = null;
+        }
+#endif
     }
 }

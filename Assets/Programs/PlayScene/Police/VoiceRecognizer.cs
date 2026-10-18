@@ -3,9 +3,11 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
+#if UNITY_STANDALONE_WIN || UNITY_EDITOR_WIN
 using UnityEngine.Windows.Speech;
+#endif
 using TMPro;
-
+using System.Runtime.InteropServices;
 /// <summary>
 /// 音声を認識し、警備員への命令や
 /// 捕獲確認の「はい」「いいえ」を通知するクラス。
@@ -46,8 +48,10 @@ public class VoiceRecognizer : MonoBehaviour
     private float recognizedTextDisplayTime = 2.0f;
 
     private Coroutine recognizedTextCoroutine;
+#if UNITY_STANDALONE_WIN || UNITY_EDITOR_WIN
     private DictationRecognizer dictationRecognizer;
     private KeywordRecognizer keywordRecognizer;
+#endif
 
     private bool isRadioPressed;
     private float radioReleasedTime = -999f;
@@ -149,23 +153,25 @@ public class VoiceRecognizer : MonoBehaviour
 
             return;
         }
-
+#if UNITY_STANDALONE_WIN || UNITY_EDITOR_WIN
         if (forceKeywordRecognizer)
         {
-            Debug.Log(
-                "KeywordRecognizer固定モードで開始します"
-            );
-
+            Debug.Log("KeywordRecognizer固定モードで開始します");
             SwitchToKeywordRecognizer();
         }
         else
         {
-            Debug.Log(
-                "DictationRecognizerを試します"
-            );
-
+            Debug.Log("DictationRecognizerを試します");
             StartDictationRecognizer();
         }
+#else
+        Debug.LogWarning(
+            "この環境ではWindows用の音声認識は使えません。"
+        );
+#endif
+#if UNITY_WEBGL && !UNITY_EDITOR
+        WebVoice_Init(gameObject.name);
+#endif
     }
 
 
@@ -647,7 +653,7 @@ public class VoiceRecognizer : MonoBehaviour
         }
     }
 
-
+#if UNITY_STANDALONE_WIN || UNITY_EDITOR_WIN
     // =========================================================
     // DictationRecognizer
     // =========================================================
@@ -852,6 +858,7 @@ public class VoiceRecognizer : MonoBehaviour
     }
 
 
+#endif
     // =========================================================
     // 共通処理
     // =========================================================
@@ -1247,7 +1254,10 @@ public class VoiceRecognizer : MonoBehaviour
         // ========================================
         // DictationRecognizer
         // ========================================
-
+#if UNITY_WEBGL && !UNITY_EDITOR
+        WebVoice_Dispose();
+#endif
+#if UNITY_STANDALONE_WIN || UNITY_EDITOR_WIN
         if (dictationRecognizer != null)
         {
             dictationRecognizer.DictationResult
@@ -1290,6 +1300,49 @@ public class VoiceRecognizer : MonoBehaviour
             keywordRecognizer.Dispose();
 
             keywordRecognizer = null;
+        }
+#endif
+    }
+#if UNITY_WEBGL && !UNITY_EDITOR
+    [DllImport("__Internal")]
+    private static extern void WebVoice_Init(string objectName);
+
+    [DllImport("__Internal")]
+    private static extern void WebVoice_Dispose();
+#endif
+
+    // JavaScriptから呼び出される
+    public void OnWebVoiceResult(string text)
+    {
+        if (!isActiveAndEnabled)
+        {
+            return;
+        }
+
+        if (playSceneManager != null &&
+            !playSceneManager.IsGameStarted())
+        {
+            return;
+        }
+
+        // 既存のスペース押下・離した後の猶予時間を使う
+        if (!CanAcceptVoiceResult())
+        {
+            return;
+        }
+
+        Debug.Log("Web音声認識結果：" + text);
+
+        ProcessRecognizedText(text);
+    }
+
+    public void OnWebVoiceError(string message)
+    {
+        Debug.LogWarning(message);
+
+        if (BottonText != null)
+        {
+            BottonText.text = message;
         }
     }
 }

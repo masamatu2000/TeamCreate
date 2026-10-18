@@ -39,7 +39,25 @@ public class PlaySceneManager : MonoBehaviour
     [Header("ゲーム時間")]
     [SerializeField]
     private float gameTime = 180.0f;
+    [Header("残り時間の演出")]
+    [SerializeField]
+    private float warningTime = 30.0f;
 
+    [SerializeField]
+    private Color normalTimeColor = Color.white;
+
+    [SerializeField]
+    private Color warningTimeColor = Color.red;
+
+    [SerializeField]
+    private float finalCountdownTime = 5.0f;
+
+    [Header("終了演出")]
+    [SerializeField]
+    private float zeroDisplayTime = 0.3f;
+
+    [SerializeField]
+    private float finishDisplayTime = 2.0f;
 
     [Header("誤認逮捕ペナルティ")]
     [SerializeField]
@@ -111,6 +129,7 @@ public class PlaySceneManager : MonoBehaviour
 
     private void Start()
     {
+
         // 売上タイマー初期化
         salesTimer = salesIncreaseInterval;
 
@@ -127,9 +146,8 @@ public class PlaySceneManager : MonoBehaviour
         if (countdownText != null)
         {
             countdownText.gameObject.SetActive(true);
-
-            countdownText.text =
-                "Push Space To Start";
+            countdownText.color = normalTimeColor;
+            countdownText.text = "Push Space To Start";
         }
 
 
@@ -264,17 +282,54 @@ public class PlaySceneManager : MonoBehaviour
     /// </summary>
     private void UpdateGameTimer()
     {
-        gameTime -= Time.deltaTime;
+        gameTime = Mathf.Max(0.0f, gameTime - Time.deltaTime);
+
+        UpdateTimeDisplay();
 
         if (gameTime <= 0.0f)
         {
-            gameTime = 0.0f;
-
             FinishGame();
         }
     }
 
+    /// <summary>
+    /// 右上の残り時間と、中央のカウントダウンを更新
+    /// </summary>
+    private void UpdateTimeDisplay()
+    {
+        int totalSeconds =
+            Mathf.CeilToInt(Mathf.Max(0.0f, gameTime));
 
+        // 右上の残り時間
+        if (timeText != null)
+        {
+            int minutes = totalSeconds / 60;
+            int seconds = totalSeconds % 60;
+
+            timeText.text =
+                $"残り時間 {minutes:00}:{seconds:00}";
+
+            timeText.color = gameTime <= warningTime
+                ? warningTimeColor
+                : normalTimeColor;
+        }
+
+        // 開始演出中・終了演出中は中央の文字を書き換えない
+        if (!isGameStarted || isGameFinished || countdownText == null)
+        {
+            return;
+        }
+
+        bool showCountdown = gameTime <= finalCountdownTime;
+
+        countdownText.gameObject.SetActive(showCountdown);
+
+        if (showCountdown)
+        {
+            countdownText.text = totalSeconds.ToString();
+            countdownText.color = warningTimeColor;
+        }
+    }
     // ==========================================================
     // お客さん人数
     // ==========================================================
@@ -337,20 +392,7 @@ public class PlaySceneManager : MonoBehaviour
         // 時間
         // -------------------------
 
-        if (timeText != null)
-        {
-            int totalSeconds =
-                Mathf.CeilToInt(gameTime);
-
-            int minutes =
-                totalSeconds / 60;
-
-            int seconds =
-                totalSeconds % 60;
-
-            timeText.text = "●REC " +
-                $"{minutes:00}:{seconds:00}";
-        }
+        UpdateTimeDisplay();
 
 
         // -------------------------
@@ -391,6 +433,10 @@ public class PlaySceneManager : MonoBehaviour
     /// </summary>
     public void CustomerEntered()
     {
+        if (isGameFinished)
+        {
+            return;
+        }
         currentCustomerCount++;
 
         Debug.Log(
@@ -408,6 +454,10 @@ public class PlaySceneManager : MonoBehaviour
     /// </summary>
     public void CustomerExited()
     {
+        if (isGameFinished)
+        {
+            return;
+        }
         currentCustomerCount--;
 
         if (currentCustomerCount < 0)
@@ -434,6 +484,10 @@ public class PlaySceneManager : MonoBehaviour
     /// </summary>
     public void Caught()
     {
+        if (isGameFinished)
+        {
+            return;
+        }
         caughtCount++;
 
         Debug.Log(
@@ -448,6 +502,10 @@ public class PlaySceneManager : MonoBehaviour
     /// </summary>
     public void ThiefCaught()
     {
+        if (isGameFinished)
+        {
+            return;
+        }
         caughtThiefCount++;
 
         CustomerExited();
@@ -475,6 +533,11 @@ public class PlaySceneManager : MonoBehaviour
     /// </summary>
     public void ThiefEscaped()
     {
+        if (isGameFinished)
+        {
+            return;
+        }
+
         escapedThiefCount++;
 
         CustomerExited();
@@ -509,6 +572,10 @@ public class PlaySceneManager : MonoBehaviour
     /// </summary>
     public void AddComplaint()
     {
+        if (isGameFinished)
+        {
+            return;
+        }
         complaintCount++;
 
         // 売上金を減らす
@@ -541,6 +608,10 @@ public class PlaySceneManager : MonoBehaviour
     /// </summary>
     public void AddSales(int amount)
     {
+        if (isGameFinished)
+        {
+            return;
+        }
         if (amount <= 0)
         {
             return;
@@ -561,6 +632,10 @@ public class PlaySceneManager : MonoBehaviour
     /// </summary>
     public void AddTimePenalty()
     {
+        if (isGameFinished)
+        {
+            return;
+        }
         gameTime -= wrongArrestTimePenalty;
 
         if (gameTime < 0.0f)
@@ -597,69 +672,72 @@ public class PlaySceneManager : MonoBehaviour
         {
             return;
         }
-        escapedThiefCount = CustomerManager.GetThiefCount() - caughtThiefCount;
-        isGameFinished = true;
 
-        StartCoroutine(
-            FinishGameCoroutine()
-        );
+        // 終了フラグを先に立てて、重複実行を防ぐ
+        isGameFinished = true;
+        isGameStarted = false;
+
+        escapedThiefCount =
+            CustomerManager.GetThiefCount() - caughtThiefCount;
+
+        // 終了時点の表示に更新
+        UpdateUI();
+
+        StartCoroutine(FinishGameCoroutine());
     }
 
     private IEnumerator FinishGameCoroutine()
     {
-        Debug.Log(
-            "★ FinishGame開始 " +
-            Time.realtimeSinceStartup
+        // 終了時点の結果を保存
+        GameResultData.caughtCount = caughtCount;
+        GameResultData.escapedThiefCount = escapedThiefCount;
+        GameResultData.complaintCount = complaintCount;
+        GameResultData.sales = sales;
+
+        // ゲーム内の移動・アニメーションなどを停止
+        Time.timeScale = 0.0f;
+
+        // 音声入力を停止
+        if (voiceRecognizer != null)
+        {
+            voiceRecognizer.enabled = false;
+        }
+
+        // 捕獲結果の文字を隠す
+        if (captureResultText != null)
+        {
+            captureResultText.gameObject.SetActive(false);
+        }
+
+        if (countdownText != null)
+        {
+            countdownText.gameObject.SetActive(true);
+            countdownText.transform.SetAsLastSibling();
+
+            // 時間切れの場合だけ「0」を表示
+            if (gameTime <= 0.0f)
+            {
+                countdownText.color = warningTimeColor;
+                countdownText.text = "0";
+
+                yield return new WaitForSecondsRealtime(
+                    zeroDisplayTime
+                );
+            }
+
+            countdownText.color = normalTimeColor;
+            countdownText.text = "終了！";
+        }
+
+        // timeScaleが0でも待機できる
+        yield return new WaitForSecondsRealtime(
+            finishDisplayTime
         );
 
-        Debug.Log(
-            "ゲーム終了！" +
-            "\n捕まえた泥棒：" +
-            caughtCount +
-            "\n逃がした泥棒：" +
-            escapedThiefCount +
-            "\nクレーム：" +
-            complaintCount +
-            "\n売上：" +
-            sales
-        );
+        // 次のシーンに向けて時間を戻す
+        Time.timeScale = 1.0f;
 
-        // ==========================================
-        // リザルト画面へ渡すデータを保存
-        // ==========================================
-
-        GameResultData.caughtCount =
-            caughtCount;
-
-        GameResultData.escapedThiefCount =
-            escapedThiefCount;
-
-        GameResultData.complaintCount =
-            complaintCount;
-
-        GameResultData.sales =
-            sales;
-
-
-      
-
-
-        // ==========================================
-        // 1フレーム待つ
-        // ==========================================
-
-        yield return null;
-
-
-        Debug.Log(
-            "★ ResultScene読み込み直前 " +
-            Time.realtimeSinceStartup
-        );
-
-
-        SceneManager.LoadScene(
-            resultSceneName
-        );
+        SceneManager.LoadScene(resultSceneName);
     }
 
     // ==========================================================
