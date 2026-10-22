@@ -1455,8 +1455,8 @@ MonoBehaviour:
   policeCloseUpPosition: {fileID: 1641565476}
   customerCloseUpPosition: {fileID: 1233538514}
   cameraMoveTime: 1
-  customerCameraHeight: 8
-  customerCameraDistance: 12
+  customerCameraHeight: 15
+  customerCameraDistance: 15
   police: {fileID: 1739514263}
   normalCustomer: {fileID: 1356632424}
   thiefCustomer: {fileID: 642645911}
@@ -1480,6 +1480,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::TutorialVoiceRecognizer
   tutorialSceneManager: {fileID: 560117117}
+  releaseGraceTime: 3
 --- !u!1 &620961986
 GameObject:
   m_ObjectHideFlags: 0
@@ -3169,7 +3170,7 @@ Transform:
   m_GameObject: {fileID: 961739749}
   serializedVersion: 2
   m_LocalRotation: {x: 0.3639054, y: -0, z: -0, w: 0.9314359}
-  m_LocalPosition: {x: 0, y: 13.5, z: -14.1}
+  m_LocalPosition: {x: 0, y: 14.5, z: -15.47}
   m_LocalScale: {x: 1.388722, y: 1.0823003, z: 1.1466471}
   m_ConstrainProportionsScale: 0
   m_Children: []
