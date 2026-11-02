@@ -72,8 +72,7 @@ public class PlaySceneManager : MonoBehaviour
     [SerializeField]
     private TextMeshProUGUI customerCountText;
 
-    [SerializeField]
-    private TextMeshProUGUI salesText;
+
 
     [Header("泥棒残り人数UI")]
     [SerializeField]
@@ -411,16 +410,6 @@ public class PlaySceneManager : MonoBehaviour
                "泥棒 残り：" + (CustomerManager.GetThiefCount()-caughtThiefCount) + "人";
         }
 
-        // -------------------------
-        // 売上
-        // -------------------------
-
-        if (salesText != null)
-        {
-            salesText.text =
-                "￥売上金:" +
-                sales.ToString("N0");
-        }
     }
 
 
@@ -692,7 +681,7 @@ public class PlaySceneManager : MonoBehaviour
         GameResultData.caughtCount = caughtCount;
         GameResultData.escapedThiefCount = escapedThiefCount;
         GameResultData.complaintCount = complaintCount;
-        GameResultData.sales = sales;
+   
 
         // ゲーム内の移動・アニメーションなどを停止
         Time.timeScale = 0.0f;
@@ -802,5 +791,5 @@ public static class GameResultData
 
     public static int complaintCount;
 
-    public static int sales;
+   
 }

@@ -12,7 +12,7 @@ public class ResultSceneManager : MonoBehaviour
     [SerializeField] private TMP_Text capturedText;
     [SerializeField] private TMP_Text escapedText;
     [SerializeField] private TMP_Text complaintText;
-    [SerializeField] private TMP_Text moneyText;
+
 
     [Header("タイトルへ戻る設定")]
     [SerializeField] private float returnTime = 10.0f;
@@ -106,8 +106,7 @@ public class ResultSceneManager : MonoBehaviour
         complaintText.text =
             "間違えた数：" + GameResultData.complaintCount;
 
-        moneyText.text =
-            "売上金：" + GameResultData.sales.ToString("N0");
+       
     }
 
     /// <summary>
