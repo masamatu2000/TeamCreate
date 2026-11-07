@@ -36,6 +36,15 @@ public class PoliceController : MonoBehaviour
     private CustomerPreview customerPreview;
     [SerializeField]
     private GameObject walkPolice;
+    [Header("捕獲対象マーカー")]
+    [SerializeField]
+    private Transform targetMarker;
+
+    [SerializeField]
+    private float markerHeight = 2.0f;
+
+    [SerializeField]
+    private Camera markerCamera;
     // 移動後に使う命令
     private VoiceCommand pendingCommand;
     // 現在警備員がいるコーナー
@@ -283,108 +292,25 @@ public class PoliceController : MonoBehaviour
     }
 
     /// <summary>
-    /// 警備員の近くにいるお客さんから
-    /// 条件に合う一番近い人を探す
+    /// 捕獲範囲内から、条件に合う一番近いお客さんを捕まえる
     /// </summary>
-    private void TryCatchCustomer(
-        VoiceCommand command)
+    private void TryCatchCustomer(VoiceCommand command)
     {
-        Collider[] hitColliders =
-            Physics.OverlapSphere(
-                transform.position,
-                catchDistance
-            );
-
-        Customer nearestCustomer =
-            null;
-
-        float nearestDistance =
-            float.MaxValue;
-
-        HashSet<Customer> checkedCustomers =
-            new HashSet<Customer>();
-
-
-        foreach (Collider hitCollider
-                 in hitColliders)
-        {
-            Customer customer =
-                hitCollider.GetComponentInParent<Customer>();
-
-            if (customer == null)
-            {
-                continue;
-            }
-
-            if (customer.IsCaught)
-            {
-                continue;
-            }
-
-            if (checkedCustomers.Contains(customer))
-            {
-                continue;
-            }
-
-            checkedCustomers.Add(
-                customer
-            );
-
-
-            // ========================================
-            // 特徴が一致するか
-            // ========================================
-
-            if (!customer.Matches(command))
-            {
-                continue;
-            }
-
-
-            float distance =
-                Vector3.Distance(
-                    transform.position,
-                    customer.transform.position
-                );
-
-
-            // ========================================
-            // 一番近い客を保存
-            // ========================================
-
-            if (distance < nearestDistance)
-            {
-                nearestDistance =
-                    distance;
-
-                nearestCustomer =
-                    customer;
-            }
-        }
-
-
-        // ========================================
-        // 該当者なし
-        // ========================================
+        Customer nearestCustomer = FindNearestCustomer(command);
 
         if (nearestCustomer == null)
         {
             if (command.HasNoFeature())
             {
-                Debug.Log(
-                    "近くに捕まえられるお客さんがいません"
-                );
+                Debug.Log("近くに捕まえられるお客さんがいません");
             }
             else
             {
-                Debug.Log(
-                    "近くに指定された特徴のお客さんがいません"
-                );
+                Debug.Log("近くに指定された特徴のお客さんがいません");
             }
 
             return;
         }
-
 
         Debug.Log(nearestCustomer.name + "を捕獲します");
         CatchCustomer(nearestCustomer);
@@ -442,5 +368,116 @@ public class PoliceController : MonoBehaviour
             transform.position,
             catchDistance
         );
+    }
+    /// <summary>
+    /// 捕獲範囲内にいる、一番近いお客さんを取得する。
+    /// 命令が指定されていれば、特徴も確認する。
+    /// </summary>
+    private Customer FindNearestCustomer(VoiceCommand command = null)
+    {
+        Collider[] hitColliders = Physics.OverlapSphere(
+            transform.position,
+            catchDistance
+        );
+
+        Customer nearestCustomer = null;
+
+        float nearestDistanceSquared = float.PositiveInfinity;
+        float catchDistanceSquared = catchDistance * catchDistance;
+
+        HashSet<Customer> checkedCustomers = new HashSet<Customer>();
+
+        foreach (Collider hitCollider in hitColliders)
+        {
+            Customer customer =
+                hitCollider.GetComponentInParent<Customer>();
+
+            if (customer == null ||
+                !customer.isActiveAndEnabled ||
+                customer.IsCaught)
+            {
+                continue;
+            }
+
+            // 同じお客さんに複数のColliderがあっても、一度だけ調べる
+            if (!checkedCustomers.Add(customer))
+            {
+                continue;
+            }
+
+            // 捕獲命令がある場合は、指定された特徴も確認する
+            if (command != null && !customer.Matches(command))
+            {
+                continue;
+            }
+
+            float distanceSquared =
+                (customer.transform.position - transform.position).sqrMagnitude;
+
+            // Colliderだけが範囲に入っている場合もあるため、
+            // お客さんの座標でも距離を確認する
+            if (distanceSquared > catchDistanceSquared)
+            {
+                continue;
+            }
+
+            if (distanceSquared < nearestDistanceSquared)
+            {
+                nearestDistanceSquared = distanceSquared;
+                nearestCustomer = customer;
+            }
+        }
+
+        return nearestCustomer;
+    }
+
+    /// <summary>
+    /// 一番近いお客さんの頭上にマーカーを表示する
+    /// </summary>
+    private void LateUpdate()
+    {
+        if (targetMarker == null)
+        {
+            return;
+        }
+
+        // ゲーム開始前は非表示
+        if (playSceneManager != null &&
+            !playSceneManager.IsGameStarted())
+        {
+            targetMarker.gameObject.SetActive(false);
+            return;
+        }
+
+        Customer target = FindNearestCustomer();
+
+        // 捕獲できるお客さんがいなければ非表示
+        if (target == null)
+        {
+            targetMarker.gameObject.SetActive(false);
+            return;
+        }
+
+        targetMarker.position =
+            target.transform.position + Vector3.up * markerHeight;
+
+        // 三角形をカメラの方向に向ける
+        Camera viewCamera =
+            markerCamera != null ? markerCamera : Camera.main;
+
+        if (viewCamera != null)
+        {
+            targetMarker.rotation = viewCamera.transform.rotation;
+        }
+
+        targetMarker.gameObject.SetActive(true);
+    }
+
+    private void OnDisable()
+    {
+        if (targetMarker != null)
+        {
+            targetMarker.gameObject.SetActive(false);
+        }
     }
 }
